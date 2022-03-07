@@ -2,6 +2,6 @@
 <resources>
 
     <style name="Theme.PlayBridge" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/background_color</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>
