@@ -1,6 +1,7 @@
 package com.example.presentation.start
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import com.example.presentation.R
 import com.example.presentation.ui.theme.Background
 import com.example.presentation.ui.theme.notosanskr
@@ -32,13 +34,13 @@ class StartActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
-            val window: Window = this.window
-            window.navigationBarColor = Background.toArgb()
             StartScreen()
         }
     }
-
 
 }
 
@@ -52,30 +54,27 @@ fun StartScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Row() {
+        Text(
+            text = "Play",
+            fontSize = 75.sp,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            //textAlign = TextAlign.Left,
+            modifier = Modifier.height(160.dp)
+        )
+        Box(modifier = Modifier.fillMaxSize(), Alignment.TopEnd) {
             Text(
-                text = "Play",
+                text = "bridge",
                 fontSize = 75.sp,
                 fontFamily = notosanskr,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                textAlign = TextAlign.Left,
-                modifier = Modifier.wrapContentHeight(Alignment.Bottom)
+                //textAlign = TextAlign.Right,
+                //modifier = Modifier.height(300.dp)
             )
         }
-        Image(
-            painter =
-                painterResource(
-                    id = R.drawable.ic_baseline_square_foot_24),
-                    contentDescription = ""
-        )
-        Text(
-            text = "bridge",
-            fontSize = 75.sp,
-            fontFamily = notosanskr,
-            fontWeight = FontWeight.Bold,
-            //modifier = Modifier.padding(bottom = 200.dp),
-            color = Color.White
-        )
+        //Spacer(modifier = Modifier.height(50.dp))
+
     }
 }
