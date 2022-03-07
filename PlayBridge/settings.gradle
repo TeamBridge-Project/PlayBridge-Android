@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "PlayBridge"
-include ':app'
 include ':data'
 include ':presentation'
 include ':domain'
+include ':app'
