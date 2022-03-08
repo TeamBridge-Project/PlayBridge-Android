@@ -13,6 +13,7 @@ import com.example.presentation.R
 // Set of Material typography styles to start with
 val notosanskr = FontFamily(
     Font(R.font.notosanskr_bold, FontWeight.Bold, FontStyle.Normal),
+    Font(R.font.notosanskr_demilight, FontWeight.ExtraLight, FontStyle.Normal),
     Font(R.font.notosanskr_black, FontWeight.Black, FontStyle.Normal),
     Font(R.font.notosanskr_medium, FontWeight.Medium, FontStyle.Normal),
     Font(R.font.notosanskr_light, FontWeight.Light, FontStyle.Normal),
