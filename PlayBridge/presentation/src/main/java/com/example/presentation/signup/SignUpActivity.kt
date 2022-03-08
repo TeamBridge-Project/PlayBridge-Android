@@ -46,10 +46,8 @@ fun Screen() {
 @Composable
 fun SignUpScreen() {
     val (id, setId) = remember { mutableStateOf("") }
-    val (passWord,setPassWord) = remember { mutableStateOf("") }
-    val (nickName,setNickName) = remember { mutableStateOf("") }
-    val sex = remember { mutableStateOf("") }
-    val birthDay = remember { mutableStateOf("") }
+    val (passWord, setPassWord) = remember { mutableStateOf("") }
+    val (nickName, setNickName) = remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
