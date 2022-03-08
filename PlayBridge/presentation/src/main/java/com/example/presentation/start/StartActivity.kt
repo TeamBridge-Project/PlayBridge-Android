@@ -77,9 +77,11 @@ fun StartScreen() {
         ) {
             Text(
                 text = "로그인",
+                color = Color.White,
+                fontFamily = notosanskr,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+
             )
         }
 
@@ -100,10 +102,10 @@ fun StartScreen() {
         ) {
             Text(
                 text = "회원가입",
+                fontFamily = notosanskr,
                 fontSize = 17.sp,
-                fontWeight = FontWeight.Bold,
                 color = Color.White,
-                modifier = Modifier.padding(bottom = 0.dp)
+                fontWeight = FontWeight.Bold,
             )
         }
     }
