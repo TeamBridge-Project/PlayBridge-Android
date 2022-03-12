@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">presentation</string>
+    <string name="login_page_id">ID</string>
+    <string name="login_page_password">Password</string>
+    <string name="login_page_login">Login</string>
+    <string name="login_page_sign_up">sign up</string>
 </resources>
