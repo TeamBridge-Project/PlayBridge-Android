@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.shadow
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import com.example.presentation.R
 import com.example.presentation.ui.theme.*
 
 class SignUpActivity : ComponentActivity() {
@@ -32,7 +34,7 @@ class SignUpActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            SignUpScreen()
+            Screen()
         }
     }
 }
@@ -45,7 +47,7 @@ fun Screen() {
 @Composable
 fun SignUpScreen() {
     val (id, setId) = remember { mutableStateOf("") }
-    val (passWord, setPassWord) = remember { mutableStateOf("") }
+    val (password, setPassword) = remember { mutableStateOf("") }
     val (nickName, setNickName) = remember { mutableStateOf("") }
     val (sex, setSex) = remember { mutableStateOf("") }
     val (birthday, setBirthday) = remember { mutableStateOf("") }
@@ -61,7 +63,7 @@ fun SignUpScreen() {
 
     ) {
         Text(
-            text = "회원가입",
+            text = stringResource(id = R.string.sign_up),
             textAlign = TextAlign.Center,
             fontFamily = notosanskr,
             fontSize = 40.sp,
@@ -73,7 +75,7 @@ fun SignUpScreen() {
 
         InputComponent(
             textValue = id,
-            textHint = "아이디",
+            textHint = stringResource(id = R.string.id),
             onValueChange = setId,
             keyBordType = KeyboardType.Text
         )
@@ -81,9 +83,9 @@ fun SignUpScreen() {
         Spacer(modifier = Modifier.padding(12.dp))
 
         InputComponent(
-            textValue = passWord,
-            textHint = "비밀번호",
-            onValueChange = setPassWord,
+            textValue = password,
+            textHint = stringResource(id = R.string.password),
+            onValueChange = setPassword,
             keyBordType = KeyboardType.Password
         )
 
@@ -91,7 +93,7 @@ fun SignUpScreen() {
 
         InputComponent(
             textValue = nickName,
-            textHint = "닉네임",
+            textHint = stringResource(id = R.string.nickname),
             onValueChange = setNickName,
             keyBordType = KeyboardType.Text
         )
@@ -106,14 +108,14 @@ fun SignUpScreen() {
         ) {
             RowComponent(
                 textValue = sex,
-                textHint = "성별",
+                textHint = stringResource(id = R.string.sex),
                 onValueChange = setSex,
                 keyBordType = KeyboardType.Text,
                 ratio = 0.35f
             )
             RowComponent(
                 textValue = birthday,
-                textHint = "생일",
+                textHint = stringResource(id = R.string.birthday),
                 onValueChange = setBirthday,
                 keyBordType = KeyboardType.Text,
                 ratio = 0.9f
@@ -128,7 +130,7 @@ fun SignUpScreen() {
         ) {
             Text(
                 modifier = Modifier.padding(start = 24.dp),
-                text = "이메일/혜택 수신 여부",
+                text = stringResource(id = R.string.email_benefits_received),
                 fontFamily = notosanskr,
                 color = Color.White,
                 fontWeight = FontWeight.Bold
@@ -137,13 +139,13 @@ fun SignUpScreen() {
             CheckRecieve(
                 checked = isSmsChecked,
                 onCheckedChanged = setSmsCheck,
-                text = "SMS 수신 동의"
+                text = stringResource(id = R.string.sns_receive_agree)
             )
             Spacer(modifier = Modifier.padding(6.dp))
             CheckRecieve(
                 checked = isEmailChecked,
                 onCheckedChanged = setEmailCheck,
-                text = "E-mail 수신 동의"
+                text = stringResource(id = R.string.email_receive_agree)
             )
         }
 
@@ -160,7 +162,7 @@ fun SignUpScreen() {
             ),
         ) {
             Text(
-                text = "완료",
+                text = stringResource(id = R.string.complete),
                 fontFamily = notosanskr,
                 color = Color.White,
                 fontSize = 24.sp,
@@ -208,7 +210,8 @@ fun InputComponent(
     OutlinedTextField(
         value = textValue,
         onValueChange = onValueChange,
-        modifier = Modifier.shadow(elevation = 5.dp, shape = RoundedCornerShape(30.dp))
+        modifier = Modifier
+            .shadow(elevation = 5.dp, shape = RoundedCornerShape(30.dp))
             .height(50.dp),
         placeholder = {
             Text(
