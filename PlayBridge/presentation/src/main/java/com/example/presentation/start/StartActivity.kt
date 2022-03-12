@@ -88,7 +88,6 @@ fun TextComponent(
     )
 }
 
-@Preview(showBackground = true, widthDp = 400, heightDp = 700)
 @Composable
 fun StartScreen() {
     var (id, setId) = remember {
@@ -133,7 +132,7 @@ fun StartScreen() {
                     clip = true
                 ),
             colors = ButtonDefaults.buttonColors(backgroundColor = ComponentInnerColor),
-            shape = RoundedCornerShape(50)
+            shape = RoundedCornerShape(50),
         ) {
             Text(
                 text = "Login",
