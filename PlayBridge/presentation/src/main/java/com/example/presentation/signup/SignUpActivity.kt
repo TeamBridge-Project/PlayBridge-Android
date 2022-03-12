@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 
 import androidx.compose.ui.text.font.FontWeight
@@ -52,7 +53,7 @@ fun SignUpScreen() {
     val (isEmailChecked, setEmailCheck) = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(color = BackgroundColor)
             .padding(54.dp),
         verticalArrangement = Arrangement.Center,
@@ -68,7 +69,7 @@ fun SignUpScreen() {
             fontWeight = FontWeight.Bold,
         )
 
-        Spacer(modifier = Modifier.padding(24.dp))
+        Spacer(modifier = Modifier.padding(18.dp))
 
         InputComponent(
             textValue = id,
@@ -119,7 +120,7 @@ fun SignUpScreen() {
             )
         }
 
-        Spacer(modifier = Modifier.padding(24.dp))
+        Spacer(modifier = Modifier.padding(18.dp))
 
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -151,7 +152,7 @@ fun SignUpScreen() {
         Button(
             modifier = Modifier
                 .shadow(elevation = 3.dp, shape = RoundedCornerShape(30.dp))
-                .size(150.dp, 50.dp),
+                .size(120.dp, 50.dp),
             shape = RoundedCornerShape(30.dp),
             onClick = {},
             colors = ButtonDefaults.buttonColors(
@@ -162,6 +163,7 @@ fun SignUpScreen() {
                 text = "완료",
                 fontFamily = notosanskr,
                 color = Color.White,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -187,6 +189,7 @@ fun CheckRecieve(
         Text(
             text = text,
             fontFamily = notosanskr,
+            fontSize = 12.sp,
             color = Color.White,
             fontWeight = FontWeight.Bold
         )
@@ -205,12 +208,14 @@ fun InputComponent(
     OutlinedTextField(
         value = textValue,
         onValueChange = onValueChange,
-        modifier = Modifier.shadow(elevation = 5.dp, shape = RoundedCornerShape(30.dp)),
+        modifier = Modifier.shadow(elevation = 5.dp, shape = RoundedCornerShape(30.dp))
+            .height(50.dp),
         placeholder = {
             Text(
                 text = textHint,
                 fontFamily = notosanskr,
                 color = Color.Gray,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
         },
@@ -237,12 +242,14 @@ fun RowComponent(
         onValueChange = onValueChange,
         modifier = Modifier
             .shadow(elevation = 5.dp, shape = RoundedCornerShape(30.dp))
+            .height(50.dp)
             .fillMaxWidth(ratio),
         placeholder = {
             Text(
                 text = textHint,
                 fontFamily = notosanskr,
                 color = Color.Gray,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
         },
