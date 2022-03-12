@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -112,11 +113,11 @@ fun StartScreen() {
                 .width(350.dp)
         )
 
-        TextComponent("ID", id, setId)
+        TextComponent(stringResource(id = R.string.login_page_id), id, setId)
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        TextComponent("Password", password, setPassword)
+        TextComponent(stringResource(id = R.string.login_page_password), password, setPassword)
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -135,7 +136,7 @@ fun StartScreen() {
             shape = RoundedCornerShape(50),
         ) {
             Text(
-                text = "Login",
+                text = stringResource(id = R.string.login_page_login),
                 fontFamily = notosanskr,
                 fontSize = 17.sp,
                 color = Color.White,
@@ -157,7 +158,7 @@ fun StartScreen() {
                 .padding(top = 20.dp)
         ) {
             Text(
-                text = "sign up",
+                text = stringResource(id = R.string.login_page_sign_up),
                 fontFamily = notosanskr,
                 fontSize = 17.sp,
                 color = Color.White,
