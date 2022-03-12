@@ -102,14 +102,14 @@ fun StartScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(color = BackgroundColor),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo_image),
             contentDescription = "",
             modifier = Modifier
-                .padding(top = 70.dp)
+                .padding(top = 20.dp)
                 .width(350.dp)
         )
 
