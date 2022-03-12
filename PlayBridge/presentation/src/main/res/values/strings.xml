@@ -4,4 +4,16 @@
     <string name="login_page_password">Password</string>
     <string name="login_page_login">Login</string>
     <string name="login_page_sign_up">sign up</string>
+    <!-- Sign Up -->
+    <string name="email_benefits_received">이메일 / 혜택 수신 여부</string>
+    <string name="email_receive_agree">E-mail 수신 동의</string>
+    <string name="sns_receive_agree">SMS 수신 동의</string>
+    <string name="sign_up">회원가입</string>
+    <string name="id">아이디</string>
+    <string name="password">비밀번호</string>
+    <string name="nickname">닉네임</string>
+    <string name="sex">성별</string>
+    <string name="birthday">생일</string>
+    <string name="complete">완료</string>
+
 </resources>
