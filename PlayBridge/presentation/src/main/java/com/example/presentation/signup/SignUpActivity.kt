@@ -56,7 +56,6 @@ fun SignUpScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = BackgroundColor)
             .padding(54.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
