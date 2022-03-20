@@ -1,7 +1,6 @@
 package com.example.presentation.main
 
 import android.os.Bundle
-import android.provider.ContactsContract
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,7 +29,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
-
+import com.skydoves.landscapist.ImageLoad
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presentation.R
@@ -163,7 +162,7 @@ fun FunctionSelectBar() {
             }
         }
         HorizontalPager(
-            count = 10,
+            count = 2,
             state = pagerState,
             modifier = Modifier.weight(1f)
         ) { index ->
@@ -172,7 +171,7 @@ fun FunctionSelectBar() {
             ) {
                 when (tabData[index]) {
                     tabData[0] -> profilePage()
-                    tabData[1] -> Text("미구현")
+                    tabData[1] -> Text("언제만드냐 이건")
                 }
             }
         }
@@ -239,7 +238,8 @@ fun ProfileBody() {
             count = 6,
             state = pagerState,
             // Add 32.dp horizontal padding to 'center' the pages
-            contentPadding = PaddingValues(horizontal = 32.dp),
+
+            contentPadding = PaddingValues(horizontal = 16.dp),
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
@@ -280,9 +280,13 @@ fun ProfileCard() {
         elevation = 3.dp,
         backgroundColor = ComponentInnerColor
     ) {
-        Column() {
+        Column(
+            modifier = Modifier.padding(
+                horizontal = 12.dp,
+                vertical = 8.dp
+            ),
+        ) {
             Row(
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 drawDot(dotSize = 5, color = ConnectingDotColor)
@@ -293,21 +297,66 @@ fun ProfileCard() {
                     fontWeight = FontWeight.Medium
                 )
             }
+            Spacer(modifier = Modifier.height(8.dp))
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .fillMaxHeight(0.5f)
-                    .padding(vertical = 7.dp, horizontal = 13.dp)
             ) {
                 GlideImage(
                     modifier = Modifier
                         .height(100.dp)
-                        .clip(RoundedCornerShape(15.dp)),
+                        .clip(RoundedCornerShape(20.dp)),
+
                     imageModel = ImageBitmap.imageResource(R.drawable.nyong),
                     circularReveal = CircularReveal(duration = 250),
                     error = ImageBitmap.imageResource(id = R.drawable.nyong)
                 )
             }
-
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ProFileText(
+                    text = "최상록님",
+                    fontSize = 12,
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                UserRating(textValue = "신규")
+                Spacer(modifier = Modifier.width(3.dp))
+                Gender(textValue = "남")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    drawDot(dotSize = 3, color = Color.Green)
+                    Spacer(modifier = Modifier.width(5.dp))
+                    ProFileText(
+                        text = "오버워치 - 실버",
+                        fontSize = 8,
+                        fontWeight = FontWeight.Light
+                    )
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    drawDot(dotSize = 3, color = Color.Cyan)
+                    Spacer(modifier = Modifier.width(5.dp))
+                    ProFileText(
+                        text = "리그 오브 레전드 - 실버",
+                        fontSize = 8,
+                        fontWeight = FontWeight.Light
+                    )
+                }
+            }
         }
     }
 }
@@ -338,4 +387,53 @@ fun ProFileText(
         color = Color.White
     )
 
+}
+
+@Composable
+fun Gender(textValue: String) {
+    Button(
+        onClick = { },
+        enabled = false,
+        colors = ButtonDefaults.buttonColors(
+            disabledBackgroundColor = MaleBadgeColor,
+        ),
+        modifier = Modifier
+            .clip(shape = CircleShape)
+            .size(16.dp),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Text(
+            text = textValue,
+            color = Color.White,
+            fontSize = 8.sp,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Normal
+        )
+    }
+}
+
+@Composable
+fun UserRating(
+    textValue: String
+) {
+    Button(
+        onClick = { },
+        enabled = false,
+        colors = ButtonDefaults.buttonColors(
+            disabledBackgroundColor = NewBadgeColor,
+        ),
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(10.dp))
+            .width(32.dp)
+            .height(18.dp),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Text(
+            text = textValue,
+            fontSize = 8.sp,
+            color = Color.White,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Normal
+        )
+    }
 }
