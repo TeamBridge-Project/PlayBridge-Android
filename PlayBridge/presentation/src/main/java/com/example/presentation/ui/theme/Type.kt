@@ -22,10 +22,10 @@ val notosanskr = FontFamily(
 
 val Typography = Typography(
     body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
+        fontFamily = notosanskr,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp
+    ),
     /* Other default text styles to override
     button = TextStyle(
         fontFamily = FontFamily.Default,
