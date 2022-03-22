@@ -2,5 +2,6 @@ package com.example.presentation.ui.navigation
 
 sealed class Screens(val route: String){
     object HomeScreen : Screens("main_screen")
-    object SupportGameRegistrationScreen : Screens("registration_screen_support_game")
+    object SupportGameRegistrationScreen : Screens("support_game_registration_screen")
+    object PersonalProfileScreen : Screens("personal_profile_screen")
 }
