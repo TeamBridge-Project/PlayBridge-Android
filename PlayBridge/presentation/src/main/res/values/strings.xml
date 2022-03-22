@@ -15,5 +15,10 @@
     <string name="sex">성별</string>
     <string name="birthday">생일</string>
     <string name="complete">완료</string>
-
+    <string name="dungledungle">둥글둥글</string>
+    <string name="nim">님</string>
+    <string name="new_rating">신규</string>
+    <string name="male">남</string>
+    <string name="coin_symbol">C</string>
+    <string name="coin_quantity">3000</string>
 </resources>
