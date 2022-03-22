@@ -1,5 +1,6 @@
 package com.example.presentation.start
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -34,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.example.presentation.R
+import com.example.presentation.main.MainActivity
+import com.example.presentation.signup.SignUpActivity
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
@@ -97,7 +101,7 @@ fun StartScreen() {
     var (password, setPassword) = remember {
         mutableStateOf("")
     }
-
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -122,7 +126,7 @@ fun StartScreen() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = {},
+            onClick = { context.startActivity(Intent(context, MainActivity::class.java))},
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .width(350.dp)
@@ -152,7 +156,7 @@ fun StartScreen() {
         )
 
         TextButton(
-            onClick = {},
+            onClick = {context.startActivity(Intent(context, SignUpActivity::class.java))},
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 20.dp)
