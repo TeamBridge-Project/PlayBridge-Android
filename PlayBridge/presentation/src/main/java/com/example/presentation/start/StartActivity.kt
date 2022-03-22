@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.example.presentation.R
+import com.example.presentation.main.MainActivity
 import com.example.presentation.signup.SignUpActivity
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
@@ -125,7 +126,7 @@ fun StartScreen() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { /*context.startActivity(Intent(context, MainActivity::class.java))*/},
+            onClick = { context.startActivity(Intent(context, MainActivity::class.java))},
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .width(350.dp)

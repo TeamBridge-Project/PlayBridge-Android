@@ -1,4 +1,4 @@
-package com.example.presentation.personalprofilepage
+package com.example.presentation.personalprofile
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -19,12 +19,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.ui.theme.*
 
-@Preview
 @Composable
-fun PersonalProfileScreen() {
+fun PersonalProfileScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,7 +33,7 @@ fun PersonalProfileScreen() {
         horizontalAlignment = Alignment.Start,
     ) {
         IconButton(
-            onClick = {},
+            onClick = {navController.popBackStack()},
             modifier = Modifier.padding(top = 35.dp, start = 15.dp)
         ) {
             Image(

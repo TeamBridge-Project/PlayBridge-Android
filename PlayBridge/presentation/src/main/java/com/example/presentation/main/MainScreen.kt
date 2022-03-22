@@ -46,17 +46,18 @@ fun MainScreen(navController: NavController) {
             .background(color = BackgroundColor)
     ) {
         Spacer(modifier = Modifier.height(40.dp))
-        TopBar()
+        TopBar(navController = navController)
         Spacer(modifier = Modifier.height(30.dp))
-        FunctionSelectBar(navController)
+        FunctionSelectBar(navController = navController)
     }
 
 }
 
 @Composable
-fun TopBar() {
+fun TopBar(navController: NavController) {
     Row(
-        modifier = Modifier.padding(start = 40.dp, end = 20.dp),
+        modifier = Modifier
+            .padding(start = 40.dp, end = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         GlideImage(
@@ -64,7 +65,7 @@ fun TopBar() {
                 .width(40.dp)
                 .height(40.dp)
                 .clip(CircleShape)
-                .clickable(enabled = true, onClick = {}),
+                .clickable { navController.navigate(Screens.PersonalProfileScreen.route) },
             imageModel = ImageBitmap.imageResource(R.drawable.profile_image),
             circularReveal = CircularReveal(duration = 250),
             error = ImageBitmap.imageResource(id = R.drawable.profile_image)
@@ -180,14 +181,14 @@ fun profilePage() {
 
 @Composable
 fun ProfileArrangeBadges() {
-    val badgeList = listOf("게임","성별","비용","등급")
+    val badgeList = listOf("게임", "성별", "비용", "등급")
     LazyRow(
         modifier = Modifier
             .padding(end = 22.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
     ) {
-        items(badgeList){ badgeString->
+        items(badgeList) { badgeString ->
             Badge(badgeString)
         }
     }

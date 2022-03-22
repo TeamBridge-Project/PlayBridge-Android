@@ -5,18 +5,24 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.presentation.main.MainScreen
+import com.example.presentation.personalprofile.PersonalProfileScreen
 import com.example.presentation.registration.SupportGameScreen
 
 @Composable
-fun Navigation(){
+fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController,
-        startDestination = Screens.HomeScreen.route){
-        composable(route = Screens.HomeScreen.route){
+    NavHost(
+        navController = navController,
+        startDestination = Screens.HomeScreen.route
+    ) {
+        composable(route = Screens.HomeScreen.route) {
             MainScreen(navController = navController)
         }
-        composable(route = Screens.SupportGameRegistrationScreen.route){
+        composable(route = Screens.SupportGameRegistrationScreen.route) {
             SupportGameScreen(navController = navController)
+        }
+        composable(route = Screens.PersonalProfileScreen.route) {
+            PersonalProfileScreen(navController = navController)
         }
     }
 }
