@@ -151,6 +151,21 @@ fun Gender(textValue: String){
 }
 
 @Composable
+fun TitleText(
+    textValue: String,
+    bottomPaddingValue: Int
+) {
+    Text(
+        text = textValue,
+        color = Color.White,
+        fontSize = 20.sp,
+        fontFamily = notosanskr,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(bottom = bottomPaddingValue.dp)
+    )
+}
+
+@Composable
 fun DrawDot(
     dotSize : Int,
     color : Color
@@ -162,6 +177,28 @@ fun DrawDot(
             radius = size / 2f
         )
     })
+}
+
+@Composable
+fun SellerRegistrationGameItem(
+    bottomPaddingValue: Int,
+    textValue: String,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(bottom = bottomPaddingValue.dp)
+    ) {
+        DrawDot(dotSize = 5, color = PointColor)
+
+        Text(
+            text = textValue,
+            color = Color.White,
+            fontSize = 12.sp,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Normal,
+            modifier = Modifier.padding(start = 21.dp)
+        )
+    }
 }
 
 @Preview
@@ -240,51 +277,21 @@ fun PersonalProfileScreen() {
                     start = 50.dp,
                 )
         ) {
-            Text(
-                text = "판매자 등록 게임",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontFamily = notosanskr,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
+            TitleText(textValue = "판매자 등록 게임", bottomPaddingValue = 20)
 
             LazyColumn (
                 modifier = Modifier.padding(bottom = 25.dp)
                     ) {
-                item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(bottom = 34.dp)
-                    ) {
-                        DrawDot(dotSize = 5, color = PointColor)
-
-                        Text(
-                            text = "League of Legends - 플레티넘",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontFamily = notosanskr,
-                            fontWeight = FontWeight.Normal,
-                            modifier = Modifier.padding(start = 21.dp)
-                        )
-                    }
+                item { SellerRegistrationGameItem(
+                    bottomPaddingValue = 34,
+                    textValue = "League of Legends - 플레티넘"
+                    )
                 }
 
-                item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        DrawDot(dotSize = 5, color = PointColor)
-
-                        Text(
-                            text = "기타 게임 사전 협의",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontFamily = notosanskr,
-                            fontWeight = FontWeight.Normal,
-                            modifier = Modifier.padding(start = 21.dp)
-                        )
-                    }
+                item { SellerRegistrationGameItem(
+                    bottomPaddingValue = 0,
+                    textValue = "기타 게임 사전 협의"
+                    )
                 }
             }
         }
@@ -296,51 +303,21 @@ fun PersonalProfileScreen() {
                     start = 50.dp,
                 )
         ) {
-            Text(
-                text = "등록 게임 비용",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontFamily = notosanskr,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
+            TitleText(textValue = "등록 게임 비용", bottomPaddingValue = 20)
 
             LazyColumn (
                 modifier = Modifier.padding(bottom = 25.dp)
             ) {
-                item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(bottom = 34.dp)
-                    ) {
-                        DrawDot(dotSize = 5, color = PointColor)
-
-                        Text(
-                            text = "League of Legends - 1시간 5000원 / 1판 3000원",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontFamily = notosanskr,
-                            fontWeight = FontWeight.Normal,
-                            modifier = Modifier.padding(start = 21.dp)
-                        )
-                    }
+                item { SellerRegistrationGameItem(
+                    bottomPaddingValue = 34,
+                    textValue = "League of Legends - 1시간 5000원 / 1판 3000원"
+                    )
                 }
 
-                item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        DrawDot(dotSize = 5, color = PointColor)
-
-                        Text(
-                            text = "기타 게임 - 1시간 8000원",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontFamily = notosanskr,
-                            fontWeight = FontWeight.Normal,
-                            modifier = Modifier.padding(start = 21.dp)
-                        )
-                    }
+                item { SellerRegistrationGameItem(
+                    bottomPaddingValue = 0,
+                    textValue = "기타 게임 - 1시간 8000원",
+                    )
                 }
             }
         }
@@ -352,13 +329,7 @@ fun PersonalProfileScreen() {
                     start = 50.dp,
                 )
         ) {
-            Text(
-                text = "자기소개",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontFamily = notosanskr,
-                fontWeight = FontWeight.Normal,
-            )
+            TitleText(textValue = "자기소개", bottomPaddingValue = 0)
 
             Row(
                 modifier = Modifier.padding(top = 17.dp),
@@ -387,33 +358,35 @@ fun PersonalProfileScreen() {
                     )
                 }
             }
-
-            Row(
-                modifier = Modifier.padding(top = 40.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Button(
-                    onClick = {},
-
-                    modifier = Modifier
-                        .background(EditingColor)
-                        .clip(shape = RoundedCornerShape(15.dp))
-                        //.width(101.dp)
-                        //.height(40.dp)
-                            ,
-                    contentPadding = PaddingValues(0.dp),
-
-                    ) {
-                    Text(
-                        text = "편집",
-                        fontSize = 15.sp,
-                        color = Color.White,
-                        fontFamily = notosanskr,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
         }
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 40.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Button(
+                onClick = {},
+
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = EditingColor
+                ),
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(30.dp))
+                    .width(101.dp)
+                    .height(40.dp),
+                contentPadding = PaddingValues(0.dp),
+
+                ) {
+                Text(
+                    text = "편집",
+                    fontSize = 15.sp,
+                    color = Color.White,
+                    fontFamily = notosanskr,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
     }
 }

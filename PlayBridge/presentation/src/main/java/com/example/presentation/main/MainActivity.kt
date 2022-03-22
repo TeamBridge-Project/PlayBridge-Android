@@ -1,5 +1,5 @@
 package com.example.presentation.main
-
+/*
 import android.os.Bundle
 
 import androidx.activity.ComponentActivity
@@ -438,4 +438,4 @@ fun UserRating(
             fontWeight = FontWeight.Normal
         )
     }
-}
+}*/
