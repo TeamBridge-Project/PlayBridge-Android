@@ -34,14 +34,19 @@ class SignUpActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            Screen()
+            PlayBridgeTheme() {
+                Screen()
+            }
         }
     }
 }
 
 @Composable
 fun Screen() {
-    SignUpScreen()
+    Column(modifier = Modifier.fillMaxSize().background(BackgroundColor)
+    ) {
+        SignUpScreen()
+    }
 }
 
 @Composable
