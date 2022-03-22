@@ -300,21 +300,15 @@ fun ProfileCard() {
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Column(
+            GlideImage(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
-            ) {
-                GlideImage(
-                    modifier = Modifier
-                        .height(100.dp)
-                        .clip(RoundedCornerShape(20.dp)),
-
-                    imageModel = ImageBitmap.imageResource(R.drawable.nyong),
-                    circularReveal = CircularReveal(duration = 250),
-                    error = ImageBitmap.imageResource(id = R.drawable.nyong)
-                )
-            }
+                    .width(130.dp)
+                    .height(100.dp)
+                    .clip(RoundedCornerShape(20.dp)),
+                imageModel = ImageBitmap.imageResource(R.drawable.nyong),
+                circularReveal = CircularReveal(duration = 250),
+                error = ImageBitmap.imageResource(id = R.drawable.nyong)
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically
