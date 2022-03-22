@@ -398,9 +398,9 @@ fun PersonalProfileScreen() {
                     modifier = Modifier
                         .background(EditingColor)
                         .clip(shape = RoundedCornerShape(15.dp))
-                        .width(101.dp)
-                        .height(40.dp)
-                        .padding(top = 40.dp),
+                        //.width(101.dp)
+                        //.height(40.dp)
+                            ,
                     contentPadding = PaddingValues(0.dp),
 
                     ) {
