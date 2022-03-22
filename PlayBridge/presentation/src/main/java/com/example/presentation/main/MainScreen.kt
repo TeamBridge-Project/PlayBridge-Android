@@ -57,15 +57,15 @@ fun MainScreen(navController: NavController) {
 fun TopBar(navController: NavController) {
     Row(
         modifier = Modifier
-            .padding(start = 40.dp, end = 20.dp)
-            .clickable { navController.navigate(Screens.PersonalProfileScreen.route) },
+            .padding(start = 40.dp, end = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         GlideImage(
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .clickable { navController.navigate(Screens.PersonalProfileScreen.route) },
             imageModel = ImageBitmap.imageResource(R.drawable.profile_image),
             circularReveal = CircularReveal(duration = 250),
             error = ImageBitmap.imageResource(id = R.drawable.profile_image)

@@ -33,7 +33,7 @@ fun PersonalProfileScreen(navController: NavController) {
         horizontalAlignment = Alignment.Start,
     ) {
         IconButton(
-            onClick = {},
+            onClick = {navController.popBackStack()},
             modifier = Modifier.padding(top = 35.dp, start = 15.dp)
         ) {
             Image(
