@@ -15,6 +15,9 @@
     <string name="sex">성별</string>
     <string name="birthday">생일</string>
     <string name="complete">완료</string>
+    <!-- Main -->
+    <string name="seller_registration">판매자 등록</string>
+    <!-- PersonalProfile -->
     <string name="dungledungle">둥글둥글</string>
     <string name="nim">님</string>
     <string name="new_rating">신규</string>

@@ -1,8 +1,5 @@
 package com.example.presentation.personalprofilepage
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,191 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.WindowCompat
 import com.example.presentation.R
 import com.example.presentation.ui.theme.*
-
-
-class PersonalProfileActivity : ComponentActivity() {
-
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-
-            setContent {
-                PersonalProfileScreen()
-            }
-        }
-
-}
-
-@Composable
-fun CoinQuestionColumn(
-    coinSymbol: String,
-    textValue: String
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.End,
-    ) {
-        TextButton(
-            onClick = {},
-        ) {
-            Text(
-                text = coinSymbol,
-                color = Color.White,
-                fontSize = 20.sp,
-                fontFamily = notosanskr,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(end = 5.dp)
-            )
-            Text(
-                text = textValue,
-                color = Color.White,
-                fontSize = 20.sp,
-                fontFamily = notosanskr,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        IconButton(
-            onClick = {},
-            modifier = Modifier
-                .padding(end = 30.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_baseline_help_24),
-                contentDescription = "",
-            )
-        }
-    }
-}
-
-@Composable
-fun NicknameColumn(
-    textValue:String,
-    fontWeight:FontWeight?
-) {
-    Text(
-        text = textValue,
-        color = Color.White,
-        fontSize = 20.sp,
-        fontFamily = notosanskr,
-        fontWeight = fontWeight
-    )
-}
-
-@Composable
-fun UserRating(
-    textValue: String
-) {
-    Button(
-        onClick = { },
-        enabled = false,
-        colors = ButtonDefaults.buttonColors(
-            disabledBackgroundColor = NewBadgeColor,
-        ),
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(10.dp))
-            .width(32.dp)
-            .height(18.dp),
-        contentPadding = PaddingValues(0.dp)
-    ) {
-        Text(
-            text = textValue,
-            fontSize = 8.sp,
-            color = Color.White,
-            fontFamily = notosanskr,
-            fontWeight = FontWeight.Normal
-        )
-    }
-}
-
-@Composable
-fun Gender(textValue: String){
-    Button(
-        onClick = { },
-        enabled = false,
-        colors = ButtonDefaults.buttonColors(
-            disabledBackgroundColor = MaleBadgeColor,
-        ),
-        modifier = Modifier
-            .padding(start = 11.28.dp)
-            .clip(shape = CircleShape)
-            .size(24.dp),
-        contentPadding = PaddingValues(0.dp)
-    ) {
-        Text(
-            text = textValue,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontFamily = notosanskr,
-            fontWeight = FontWeight.Normal
-        )
-    }
-}
-
-@Composable
-fun TitleText(
-    textValue: String,
-    bottomPaddingValue: Int
-) {
-    Text(
-        text = textValue,
-        color = Color.White,
-        fontSize = 20.sp,
-        fontFamily = notosanskr,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(bottom = bottomPaddingValue.dp)
-    )
-}
-
-@Composable
-fun DrawDot(
-    dotSize : Int,
-    color : Color
-){
-    Canvas(modifier = Modifier.size(dotSize.dp), onDraw ={
-        val size = dotSize.dp.toPx()
-        drawCircle(
-            color = color,
-            radius = size / 2f
-        )
-    })
-}
-
-@Composable
-fun SellerRegistrationGameItem(
-    bottomPaddingValue: Int,
-    textValue: String,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(bottom = bottomPaddingValue.dp)
-    ) {
-        DrawDot(dotSize = 5, color = PointColor)
-
-        Text(
-            text = textValue,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontFamily = notosanskr,
-            fontWeight = FontWeight.Normal,
-            modifier = Modifier.padding(start = 21.dp)
-        )
-    }
-}
 
 @Preview
 @Composable
@@ -279,18 +100,20 @@ fun PersonalProfileScreen() {
         ) {
             TitleText(textValue = "판매자 등록 게임", bottomPaddingValue = 20)
 
-            LazyColumn (
+            LazyColumn(
                 modifier = Modifier.padding(bottom = 25.dp)
-                    ) {
-                item { SellerRegistrationGameItem(
-                    bottomPaddingValue = 34,
-                    textValue = "League of Legends - 플레티넘"
+            ) {
+                item {
+                    SellerRegistrationGameItem(
+                        bottomPaddingValue = 34,
+                        textValue = "League of Legends - 플레티넘"
                     )
                 }
 
-                item { SellerRegistrationGameItem(
-                    bottomPaddingValue = 0,
-                    textValue = "기타 게임 사전 협의"
+                item {
+                    SellerRegistrationGameItem(
+                        bottomPaddingValue = 0,
+                        textValue = "기타 게임 사전 협의"
                     )
                 }
             }
@@ -305,18 +128,20 @@ fun PersonalProfileScreen() {
         ) {
             TitleText(textValue = "등록 게임 비용", bottomPaddingValue = 20)
 
-            LazyColumn (
+            LazyColumn(
                 modifier = Modifier.padding(bottom = 25.dp)
             ) {
-                item { SellerRegistrationGameItem(
-                    bottomPaddingValue = 34,
-                    textValue = "League of Legends - 1시간 5000원 / 1판 3000원"
+                item {
+                    SellerRegistrationGameItem(
+                        bottomPaddingValue = 34,
+                        textValue = "League of Legends - 1시간 5000원 / 1판 3000원"
                     )
                 }
 
-                item { SellerRegistrationGameItem(
-                    bottomPaddingValue = 0,
-                    textValue = "기타 게임 - 1시간 8000원",
+                item {
+                    SellerRegistrationGameItem(
+                        bottomPaddingValue = 0,
+                        textValue = "기타 게임 - 1시간 8000원",
                     )
                 }
             }
@@ -370,7 +195,7 @@ fun PersonalProfileScreen() {
                 onClick = {},
 
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = EditingColor
+                    backgroundColor = ProfileEditingColor
                 ),
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(30.dp))
@@ -388,5 +213,163 @@ fun PersonalProfileScreen() {
                 )
             }
         }
+    }
+}
+
+@Composable
+fun CoinQuestionColumn(
+    coinSymbol: String,
+    textValue: String
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        TextButton(
+            onClick = {},
+        ) {
+            Text(
+                text = coinSymbol,
+                color = Color.White,
+                fontSize = 20.sp,
+                fontFamily = notosanskr,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(end = 5.dp)
+            )
+            Text(
+                text = textValue,
+                color = Color.White,
+                fontSize = 20.sp,
+                fontFamily = notosanskr,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        IconButton(
+            onClick = {},
+            modifier = Modifier
+                .padding(end = 30.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_baseline_help_24),
+                contentDescription = "",
+            )
+        }
+    }
+}
+
+@Composable
+fun NicknameColumn(
+    textValue: String,
+    fontWeight: FontWeight?
+) {
+    Text(
+        text = textValue,
+        color = Color.White,
+        fontSize = 20.sp,
+        fontFamily = notosanskr,
+        fontWeight = fontWeight
+    )
+}
+
+@Composable
+fun UserRating(
+    textValue: String
+) {
+    Button(
+        onClick = { },
+        enabled = false,
+        colors = ButtonDefaults.buttonColors(
+            disabledBackgroundColor = NewBadgeColor,
+        ),
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(10.dp))
+            .width(32.dp)
+            .height(18.dp),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Text(
+            text = textValue,
+            fontSize = 8.sp,
+            color = Color.White,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Normal
+        )
+    }
+}
+
+@Composable
+fun Gender(textValue: String) {
+    Button(
+        onClick = { },
+        enabled = false,
+        colors = ButtonDefaults.buttonColors(
+            disabledBackgroundColor = MaleBadgeColor,
+        ),
+        modifier = Modifier
+            .padding(start = 11.28.dp)
+            .clip(shape = CircleShape)
+            .size(24.dp),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Text(
+            text = textValue,
+            color = Color.White,
+            fontSize = 12.sp,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Normal
+        )
+    }
+}
+
+@Composable
+fun TitleText(
+    textValue: String,
+    bottomPaddingValue: Int
+) {
+    Text(
+        text = textValue,
+        color = Color.White,
+        fontSize = 20.sp,
+        fontFamily = notosanskr,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(bottom = bottomPaddingValue.dp)
+    )
+}
+
+@Composable
+fun DrawDot(
+    dotSize: Int,
+    color: Color
+) {
+    Canvas(modifier = Modifier.size(dotSize.dp), onDraw = {
+        val size = dotSize.dp.toPx()
+        drawCircle(
+            color = color,
+            radius = size / 2f
+        )
+    })
+}
+
+@Composable
+fun SellerRegistrationGameItem(
+    bottomPaddingValue: Int,
+    textValue: String,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(bottom = bottomPaddingValue.dp)
+    ) {
+        DrawDot(dotSize = 5, color = PointColor)
+
+        Text(
+            text = textValue,
+            color = Color.White,
+            fontSize = 12.sp,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Normal,
+            modifier = Modifier.padding(start = 21.dp)
+        )
     }
 }
