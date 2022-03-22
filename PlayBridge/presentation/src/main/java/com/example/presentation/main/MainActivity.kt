@@ -32,7 +32,9 @@ import androidx.compose.ui.text.style.TextAlign
 import com.skydoves.landscapist.ImageLoad
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.presentation.R
+import com.example.presentation.ui.navigation.Navigation
 import com.example.presentation.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -56,7 +58,7 @@ class MainActivity : ComponentActivity() {
             }
 
             PlayBridgeTheme() {
-                MainScreen()
+                Navigation()
             }
 
         }
@@ -64,7 +66,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavController) {
     Spacer(modifier = Modifier.height(60.dp))
     Column(
         modifier = Modifier

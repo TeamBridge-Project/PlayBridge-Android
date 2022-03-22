@@ -13,7 +13,7 @@ fun Navigation(){
     NavHost(navController = navController,
         startDestination = Screens.HomeScreen.route){
         composable(route = Screens.HomeScreen.route){
-            MainScreen()
+            MainScreen(navController = navController)
         }
         composable(route = Screens.SupportGameRegistrationScreen.route){
             SupportGameScreen(navController = navController)
