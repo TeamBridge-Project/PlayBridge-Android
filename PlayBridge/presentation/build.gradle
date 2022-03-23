@@ -46,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation "androidx.compose.material:material-icons-extended:$material_version"
     implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
     implementation "com.github.skydoves:landscapist-glide:$glide_version"
