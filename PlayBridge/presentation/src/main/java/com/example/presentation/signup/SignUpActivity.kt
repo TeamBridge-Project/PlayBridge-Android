@@ -1,8 +1,11 @@
 package com.example.presentation.signup
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,6 +20,8 @@ import androidx.compose.ui.draw.shadow
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 
@@ -51,6 +56,7 @@ fun Screen() {
 
 @Composable
 fun SignUpScreen() {
+    val activity = LocalContext.current as? Activity
     val (id, setId) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
     val (nickName, setNickName) = remember { mutableStateOf("") }
@@ -58,10 +64,19 @@ fun SignUpScreen() {
     val (birthday, setBirthday) = remember { mutableStateOf("") }
     val (isSmsChecked, setSmsCheck) = remember { mutableStateOf(false) }
     val (isEmailChecked, setEmailCheck) = remember { mutableStateOf(false) }
+    IconButton(
+        onClick = { activity?.finish() },
+        modifier = Modifier.padding(top = 35.dp, start = 15.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
+            contentDescription = "",
+        )
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(54.dp)
+            .padding(48.dp)
             .background(color = BackgroundColor),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -154,12 +169,13 @@ fun SignUpScreen() {
             )
         }
 
-        Spacer(modifier = Modifier.padding(16.dp))
+        Spacer(modifier = Modifier.padding(12.dp))
 
         Button(
             modifier = Modifier
                 .shadow(elevation = 3.dp, shape = RoundedCornerShape(30.dp))
-                .size(120.dp, 50.dp),
+                .size(120.dp, 50.dp)
+                .align(Alignment.CenterHorizontally),
             shape = RoundedCornerShape(30.dp),
             onClick = {},
             colors = ButtonDefaults.buttonColors(
