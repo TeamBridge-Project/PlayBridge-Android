@@ -1,18 +1,23 @@
 package com.example.presentation.personalprofile
 
+import android.graphics.Color.alpha
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,11 +25,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.presentation.R
 import com.example.presentation.ui.theme.*
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun PersonalProfileScreen(navController: NavController) {
+    val isEditing = remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -34,7 +44,7 @@ fun PersonalProfileScreen(navController: NavController) {
     ) {
         IconButton(
             onClick = {navController.popBackStack()},
-            modifier = Modifier.padding(top = 35.dp, start = 15.dp)
+            modifier = Modifier.padding(start = 25.dp),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
@@ -105,15 +115,17 @@ fun PersonalProfileScreen(navController: NavController) {
             ) {
                 item {
                     SellerRegistrationGameItem(
-                        bottomPaddingValue = 34,
-                        textValue = "League of Legends - 플레티넘"
+                        bottomPaddingValue = 17,
+                        textValue = "League of Legends - 플레티넘",
+                        isEditing = isEditing
                     )
                 }
 
                 item {
                     SellerRegistrationGameItem(
                         bottomPaddingValue = 0,
-                        textValue = "기타 게임 사전 협의"
+                        textValue = "기타 게임 사전 협의",
+                        isEditing = isEditing
                     )
                 }
             }
@@ -133,8 +145,9 @@ fun PersonalProfileScreen(navController: NavController) {
             ) {
                 item {
                     SellerRegistrationGameItem(
-                        bottomPaddingValue = 34,
-                        textValue = "League of Legends - 1시간 5000원 / 1판 3000원"
+                        bottomPaddingValue = 17,
+                        textValue = "League of Legends - 1시간 5000원 / 1판 3000원",
+                        isEditing = isEditing
                     )
                 }
 
@@ -142,6 +155,7 @@ fun PersonalProfileScreen(navController: NavController) {
                     SellerRegistrationGameItem(
                         bottomPaddingValue = 0,
                         textValue = "기타 게임 - 1시간 8000원",
+                        isEditing = isEditing
                     )
                 }
             }
@@ -185,34 +199,7 @@ fun PersonalProfileScreen(navController: NavController) {
             }
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 40.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Button(
-                onClick = {},
-
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = ProfileEditingColor
-                ),
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(30.dp))
-                    .width(101.dp)
-                    .height(40.dp),
-                contentPadding = PaddingValues(0.dp),
-
-                ) {
-                Text(
-                    text = "편집",
-                    fontSize = 15.sp,
-                    color = Color.White,
-                    fontFamily = notosanskr,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
+        ProfileEditButton(isEditing = isEditing)
     }
 }
 
@@ -223,7 +210,8 @@ fun CoinQuestionColumn(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(end = 30.dp),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
@@ -246,16 +234,16 @@ fun CoinQuestionColumn(
             )
         }
 
-        IconButton(
-            onClick = {},
+        GlideImage(
             modifier = Modifier
-                .padding(end = 30.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_baseline_help_24),
-                contentDescription = "",
-            )
-        }
+                .width(50.dp)
+                .height(50.dp)
+                .clip(CircleShape)
+                .clickable(enabled = true, onClick = {}),
+            imageModel = ImageBitmap.imageResource(R.drawable.question_mark),
+            circularReveal = CircularReveal(duration = 250),
+            error = ImageBitmap.imageResource(id = R.drawable.question_mark)
+        )
     }
 }
 
@@ -356,6 +344,7 @@ fun DrawDot(
 fun SellerRegistrationGameItem(
     bottomPaddingValue: Int,
     textValue: String,
+    isEditing: MutableState<Boolean>
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -363,7 +352,7 @@ fun SellerRegistrationGameItem(
     ) {
         DrawDot(dotSize = 5, color = PointColor)
 
-        Text(
+        Text( //
             text = textValue,
             color = Color.White,
             fontSize = 12.sp,
@@ -371,5 +360,57 @@ fun SellerRegistrationGameItem(
             fontWeight = FontWeight.Normal,
             modifier = Modifier.padding(start = 21.dp)
         )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            IconButton(
+                onClick = { },
+                enabled = isEditing.value,
+                modifier = Modifier
+                    .padding(end = 30.dp, bottom = 0.dp)
+                    .then(Modifier.size(24.dp))
+                    .alpha(if(!isEditing.value) 0f else 1f),
+                ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_baseline_help_24),
+                    contentDescription = "",
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ProfileEditButton(
+    isEditing: MutableState<Boolean>
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 40.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Button(
+            onClick = { isEditing.value = !isEditing.value  },
+
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = ProfileEditingColor
+            ),
+            modifier = Modifier
+                .clip(shape = RoundedCornerShape(30.dp))
+                .width(101.dp)
+                .height(40.dp),
+            contentPadding = PaddingValues(0.dp),
+
+            ) {
+            Text(
+                if(!isEditing.value) "편집" else "완료",
+                fontSize = 15.sp,
+                color = Color.White,
+                fontFamily = notosanskr,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
