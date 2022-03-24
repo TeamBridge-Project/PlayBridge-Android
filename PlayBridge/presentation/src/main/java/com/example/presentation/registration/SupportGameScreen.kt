@@ -22,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
@@ -47,9 +46,9 @@ fun SupportGameScreen(navController: NavController) {
         Spacer(Modifier.height(60.dp))
         Title()
         Spacer(Modifier.height(50.dp))
-        DropDownCompnent(optionList = gameList, placeHolderText = "게임 선택/작성")
+        DropDownComponent(optionList = gameList, placeHolderText = "게임 선택/작성")
         Spacer(Modifier.height(40.dp))
-        DropDownCompnent(optionList = tierList, placeHolderText = "랭크/레벨 작성")
+        DropDownComponent(optionList = tierList, placeHolderText = "랭크/레벨 작성")
 
     }
     Box(
@@ -93,7 +92,7 @@ fun Title() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DropDownCompnent(
+fun DropDownComponent(
     optionList: List<String>,
     placeHolderText: String
 ) {
