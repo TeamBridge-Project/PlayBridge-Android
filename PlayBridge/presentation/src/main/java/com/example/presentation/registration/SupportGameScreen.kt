@@ -30,22 +30,35 @@ import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
+import com.example.presentation.ui.theme.ProfileEditingColor
 import com.example.presentation.ui.theme.notosanskr
 
 @Composable
 fun SupportGameScreen(navController: NavController) {
+    val gameList = listOf("리그 오브 레전드", "배틀 그라운드", "로스트아크", "메이플")
+    val tierList = listOf("골드 IV", "골드 III", "골드 II", "골드 I","실버 IV","실버 III","실버 II", "실버 I")
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = BackgroundColor),
-        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         BackButton(navController = navController)
         Spacer(Modifier.height(60.dp))
         Title()
-        Spacer(Modifier.height(60.dp))
-        GameList()
+        Spacer(Modifier.height(50.dp))
+        DropDownCompnent(optionList = gameList, placeHolderText = "게임 선택/작성")
+        Spacer(Modifier.height(40.dp))
+        DropDownCompnent(optionList = tierList, placeHolderText = "랭크/레벨 작성")
+
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 60.dp),
+        contentAlignment = Alignment.BottomCenter
+    ) {
+        NextButton()
     }
 }
 
@@ -80,21 +93,23 @@ fun Title() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun GameList() {
-    val gameList = listOf("리그 오브 레전드", "배틀 그라운드", "로스트아크", "메이플")
+fun DropDownCompnent(
+    optionList: List<String>,
+    placeHolderText: String
+) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedGameText by remember { mutableStateOf("") }
-    var textfieldSize by remember { mutableStateOf(Size.Zero) }
+    var selectedText by remember { mutableStateOf("") }
+    var textFieldSize by remember { mutableStateOf(Size.Zero) }
     val icon = if (expanded)
         Icons.Filled.ArrowDropUp
     else
         Icons.Filled.ArrowDropDown
     Column() {
         OutlinedTextField(
-            value = selectedGameText,
-            onValueChange = { selectedGameText = it },
+            value = selectedText,
+            onValueChange = { selectedText = it },
             modifier = Modifier.onGloballyPositioned { coordinates ->
-                textfieldSize = coordinates.size.toSize()
+                textFieldSize = coordinates.size.toSize()
             },
             textStyle = TextStyle(
                 fontFamily = notosanskr,
@@ -103,7 +118,7 @@ fun GameList() {
             ),
             placeholder = {
                 Text(
-                    text = "게임 선택/작성",
+                    text = placeHolderText,
                     fontFamily = notosanskr,
                     color = Color.Gray,
                     fontWeight = FontWeight.Medium
@@ -128,10 +143,9 @@ fun GameList() {
         DropdownMenu(
             modifier = Modifier
                 .background(ComponentInnerColor)
-                .shadow(elevation = 2.dp)
                 .onGloballyPositioned { coordinates ->
                     //This value is used to assign to the DropDown the same width
-                    textfieldSize = coordinates.size.toSize()
+                    textFieldSize = coordinates.size.toSize()
                 },
             expanded = expanded,
             onDismissRequest = {
@@ -142,18 +156,19 @@ fun GameList() {
                 modifier = Modifier.fillMaxWidth(),
                 thickness = 2.dp
             )
-            gameList.forEach { selectionGame ->
+            optionList.forEach { selection ->
                 DropdownMenuItem(
                     onClick = {
-                        selectedGameText = selectionGame
+                        selectedText = selection
+                        expanded = !expanded
                     },
                     modifier = Modifier
-                        .width(with(LocalDensity.current) { textfieldSize.width.toDp() }),
+                        .width(with(LocalDensity.current) { textFieldSize.width.toDp() }),
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Column() {
                         Text(
-                            text = selectionGame,
+                            text = selection,
                             modifier = Modifier.padding(12.dp),
                             color = Color.White
                         )
@@ -169,5 +184,30 @@ fun GameList() {
             }
         }
     }
-
 }
+
+@Composable
+fun NextButton(){
+    Button(
+        onClick = {},
+
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = ProfileEditingColor
+        ),
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(30.dp))
+            .width(100.dp)
+            .height(40.dp)
+            .shadow(elevation = 5.dp, shape = RoundedCornerShape(30.dp)),
+        contentPadding = PaddingValues(0.dp),
+        ) {
+        Text(
+            text = "편집",
+            fontSize = 15.sp,
+            color = Color.White,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
