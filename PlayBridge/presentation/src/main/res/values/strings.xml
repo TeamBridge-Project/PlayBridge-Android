@@ -24,4 +24,6 @@
     <string name="male">남</string>
     <string name="coin_symbol">C</string>
     <string name="coin_quantity">3000</string>
+    <!-- SupportGame-->
+    <string name="support_game_title">지원 게임 내용을\n작성해주세요</string>
 </resources>
