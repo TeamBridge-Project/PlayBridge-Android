@@ -1,10 +1,7 @@
 package com.example.presentation.personalprofile
 
 import android.graphics.Color.alpha
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -15,12 +12,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,9 +31,16 @@ import com.example.presentation.ui.theme.*
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 
+@Preview(widthDp = 450, heightDp = 850)
+@Composable
+fun preview(){
+    PersonalProfileScreen(navController = rememberNavController())
+}
+
 @Composable
 fun PersonalProfileScreen(navController: NavController) {
     val isEditing = remember { mutableStateOf(false) }
+    var (text,setText) = remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -111,21 +118,23 @@ fun PersonalProfileScreen(navController: NavController) {
             TitleText(textValue = "판매자 등록 게임", bottomPaddingValue = 20)
 
             LazyColumn(
-                modifier = Modifier.padding(bottom = 25.dp)
+                modifier = Modifier.padding(bottom = 25.dp),
             ) {
                 item {
                     SellerRegistrationGameItem(
                         bottomPaddingValue = 17,
-                        textValue = "League of Legends - 플레티넘",
-                        isEditing = isEditing
+                        isEditing = isEditing,
+                        text = text,
+                        textChange = setText
                     )
                 }
 
                 item {
                     SellerRegistrationGameItem(
                         bottomPaddingValue = 0,
-                        textValue = "기타 게임 사전 협의",
-                        isEditing = isEditing
+                        isEditing = isEditing,
+                        text = text,
+                        textChange = setText
                     )
                 }
             }
@@ -146,16 +155,18 @@ fun PersonalProfileScreen(navController: NavController) {
                 item {
                     SellerRegistrationGameItem(
                         bottomPaddingValue = 17,
-                        textValue = "League of Legends - 1시간 5000원 / 1판 3000원",
-                        isEditing = isEditing
+                        isEditing = isEditing,
+                        text = text,
+                        textChange = setText
                     )
                 }
 
                 item {
                     SellerRegistrationGameItem(
                         bottomPaddingValue = 0,
-                        textValue = "기타 게임 - 1시간 8000원",
-                        isEditing = isEditing
+                        isEditing = isEditing,
+                        text = text,
+                        textChange = setText
                     )
                 }
             }
@@ -234,7 +245,7 @@ fun CoinQuestionColumn(
             )
         }
 
-        GlideImage(
+        /*GlideImage(
             modifier = Modifier
                 .width(50.dp)
                 .height(50.dp)
@@ -243,7 +254,7 @@ fun CoinQuestionColumn(
             imageModel = ImageBitmap.imageResource(R.drawable.question_mark),
             circularReveal = CircularReveal(duration = 250),
             error = ImageBitmap.imageResource(id = R.drawable.question_mark)
-        )
+        )*/
     }
 }
 
@@ -343,8 +354,10 @@ fun DrawDot(
 @Composable
 fun SellerRegistrationGameItem(
     bottomPaddingValue: Int,
-    textValue: String,
-    isEditing: MutableState<Boolean>
+    isEditing: MutableState<Boolean>,
+    text:String,
+    textChange: (String) -> Unit,
+
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -352,14 +365,28 @@ fun SellerRegistrationGameItem(
     ) {
         DrawDot(dotSize = 5, color = PointColor)
 
-        Text( //
-            text = textValue,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontFamily = notosanskr,
-            fontWeight = FontWeight.Normal,
-            modifier = Modifier.padding(start = 21.dp)
+        OutlinedTextField(
+            enabled = isEditing.value,
+            modifier = Modifier
+                .width(216.dp)
+                .height(40.dp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Blue,
+                unfocusedBorderColor = Color.Black
+            ),
+            value = text,
+            onValueChange = textChange,
+            textStyle = TextStyle(
+                textAlign = TextAlign.Center,
+                fontSize = 12.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Normal,
+                fontFamily = notosanskr,
+            ),
+            maxLines = 1,
+            singleLine = true,
         )
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
@@ -370,7 +397,7 @@ fun SellerRegistrationGameItem(
                 modifier = Modifier
                     .padding(end = 30.dp, bottom = 0.dp)
                     .then(Modifier.size(24.dp))
-                    .alpha(if(!isEditing.value) 0f else 1f),
+                    .alpha(if (!isEditing.value) 0f else 1f),
                 ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_baseline_help_24),
@@ -402,7 +429,6 @@ fun ProfileEditButton(
                 .width(101.dp)
                 .height(40.dp),
             contentPadding = PaddingValues(0.dp),
-
             ) {
             Text(
                 if(!isEditing.value) "편집" else "완료",
