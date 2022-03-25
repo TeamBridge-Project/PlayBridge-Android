@@ -27,10 +27,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import com.example.presentation.R
+import com.example.presentation.ui.navigation.Screens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.ProfileEditingColor
 import com.example.presentation.ui.theme.notosanskr
+import com.example.presentation.ui.util.BackButton
+import com.example.presentation.ui.util.RegistrationButton
+import com.example.presentation.ui.util.Title
 
 @Composable
 fun SupportGameScreen(navController: NavController) {
@@ -44,7 +48,7 @@ fun SupportGameScreen(navController: NavController) {
     ) {
         BackButton(navController = navController)
         Spacer(Modifier.height(60.dp))
-        Title()
+        Title(stringResource(id = R.string.support_game_title))
         Spacer(Modifier.height(50.dp))
         DropDownComponent(optionList = gameList, placeHolderText = "게임 선택/작성")
         Spacer(Modifier.height(40.dp))
@@ -57,38 +61,12 @@ fun SupportGameScreen(navController: NavController) {
             .padding(bottom = 60.dp),
         contentAlignment = Alignment.BottomCenter
     ) {
-        NextButton()
+        //RegistrationButton("다음",navController,Screens.AboutProfileScreen.route)
     }
 }
 
-@Composable
-fun BackButton(navController: NavController) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start
-    ) {
-        IconButton(
-            onClick = { navController.popBackStack() },
-            modifier = Modifier.padding(top = 35.dp, start = 15.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),
-                contentDescription = "",
-            )
-        }
-    }
-}
 
-@Composable
-fun Title() {
-    Text(
-        text = stringResource(id = R.string.support_game_title),
-        fontSize = 35.sp,
-        color = Color.White,
-        fontFamily = notosanskr,
-        fontWeight = FontWeight.Bold
-    )
-}
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -182,31 +160,6 @@ fun DropDownComponent(
 
             }
         }
-    }
-}
-
-@Composable
-fun NextButton(){
-    Button(
-        onClick = {},
-
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = ProfileEditingColor
-        ),
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(30.dp))
-            .width(100.dp)
-            .height(40.dp)
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(30.dp)),
-        contentPadding = PaddingValues(0.dp),
-        ) {
-        Text(
-            text = "편집",
-            fontSize = 15.sp,
-            color = Color.White,
-            fontFamily = notosanskr,
-            fontWeight = FontWeight.Bold
-        )
     }
 }
 
