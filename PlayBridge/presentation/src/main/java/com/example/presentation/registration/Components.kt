@@ -40,17 +40,20 @@ fun BackButton(navController: NavController) {
         }
     }
 }
+
+
 @Composable
-fun Title(
-    text : String
-) {
-    Text(
-        text = text,
-        fontSize = 35.sp,
-        color = Color.White,
-        fontFamily = notosanskr,
-        fontWeight = FontWeight.Bold
-    )
+fun Title(text:String) {
+    Row(Modifier.fillMaxWidth().padding(start = 60.dp)){
+        Text(
+            text = text,
+            fontSize = 35.sp,
+            color = Color.White,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Bold
+        )
+    }
+
 }
 
 

@@ -1,6 +1,5 @@
 package com.example.presentation.registration
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,25 +11,24 @@ import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import com.example.presentation.R
+import com.example.presentation.ui.navigation.Screens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
-import com.example.presentation.ui.theme.ProfileEditingColor
 import com.example.presentation.ui.theme.notosanskr
+import com.example.presentation.ui.util.BackButton
+import com.example.presentation.ui.util.RegistrationButton
+import com.example.presentation.ui.util.Title
 
 @Composable
 fun SupportGameScreen(navController: NavController) {
@@ -63,24 +61,8 @@ fun SupportGameScreen(navController: NavController) {
             .padding(bottom = 60.dp),
         contentAlignment = Alignment.BottomCenter
     ) {
-        //RegistrationButton("다음",navController,Screens.AboutProfileScreen.route)
+        RegistrationButton("다음",navController, Screens.AboutProfileScreen.route)
     }
-}
-
-
-
-@Composable
-fun Title(text:String) {
-    Row(Modifier.fillMaxWidth().padding(start = 60.dp)){
-        Text(
-            text = text,
-            fontSize = 35.sp,
-            color = Color.White,
-            fontFamily = notosanskr,
-            fontWeight = FontWeight.Bold
-        )
-    }
-
 }
 
 @OptIn(ExperimentalMaterialApi::class)
