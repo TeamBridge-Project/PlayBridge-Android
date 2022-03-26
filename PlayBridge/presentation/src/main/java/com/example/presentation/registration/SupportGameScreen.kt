@@ -27,14 +27,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import com.example.presentation.R
-import com.example.presentation.ui.navigation.Screens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.ProfileEditingColor
 import com.example.presentation.ui.theme.notosanskr
-import com.example.presentation.ui.util.BackButton
-import com.example.presentation.ui.util.RegistrationButton
-import com.example.presentation.ui.util.Title
 
 @Composable
 fun SupportGameScreen(navController: NavController) {
@@ -50,9 +46,15 @@ fun SupportGameScreen(navController: NavController) {
         Spacer(Modifier.height(60.dp))
         Title(stringResource(id = R.string.support_game_title))
         Spacer(Modifier.height(50.dp))
-        DropDownComponent(optionList = gameList, placeHolderText = "게임 선택/작성")
+        DropDownComponent(
+            optionList = gameList,
+            placeHolderText = stringResource(id = R.string.game_select_or_edit)
+        )
         Spacer(Modifier.height(40.dp))
-        DropDownComponent(optionList = tierList, placeHolderText = "랭크/레벨 작성")
+        DropDownComponent(
+            optionList = tierList,
+            placeHolderText = stringResource(id = R.string.rank_or_level_edit)
+        )
 
     }
     Box(
@@ -67,6 +69,19 @@ fun SupportGameScreen(navController: NavController) {
 
 
 
+@Composable
+fun Title(text:String) {
+    Row(Modifier.fillMaxWidth().padding(start = 60.dp)){
+        Text(
+            text = text,
+            fontSize = 35.sp,
+            color = Color.White,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Bold
+        )
+    }
+
+}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -162,4 +177,3 @@ fun DropDownComponent(
         }
     }
 }
-

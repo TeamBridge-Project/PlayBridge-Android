@@ -26,5 +26,7 @@
     <string name="coin_quantity">3000</string>
     <!-- SupportGame-->
     <string name="support_game_title">지원 게임 내용을\n작성해주세요</string>
+    <string name="game_select_or_edit">게임 선택/작성</string>
+    <string name="rank_or_level_edit">랭크/레벨 작성</string>
     <string name="about_profile_title">소개 프로필을\n완성해주세요</string>
 </resources>
