@@ -44,11 +44,17 @@ fun SupportGameScreen(navController: NavController) {
     ) {
         BackButton(navController = navController)
         Spacer(Modifier.height(60.dp))
-        Title()
+        Title(stringResource(id = R.string.support_game_title))
         Spacer(Modifier.height(50.dp))
-        DropDownComponent(optionList = gameList, placeHolderText = "게임 선택/작성")
+        DropDownComponent(
+            optionList = gameList,
+            placeHolderText = stringResource(id = R.string.game_select_or_edit)
+        )
         Spacer(Modifier.height(40.dp))
-        DropDownComponent(optionList = tierList, placeHolderText = "랭크/레벨 작성")
+        DropDownComponent(
+            optionList = tierList,
+            placeHolderText = stringResource(id = R.string.rank_or_level_edit)
+        )
 
     }
     Box(
@@ -80,14 +86,17 @@ fun BackButton(navController: NavController) {
 }
 
 @Composable
-fun Title() {
-    Text(
-        text = stringResource(id = R.string.support_game_title),
-        fontSize = 35.sp,
-        color = Color.White,
-        fontFamily = notosanskr,
-        fontWeight = FontWeight.Bold
-    )
+fun Title(text:String) {
+    Row(Modifier.fillMaxWidth().padding(start = 60.dp)){
+        Text(
+            text = text,
+            fontSize = 35.sp,
+            color = Color.White,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Bold
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterialApi::class)
