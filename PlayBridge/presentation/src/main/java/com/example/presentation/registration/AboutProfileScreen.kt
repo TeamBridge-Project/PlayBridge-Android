@@ -72,7 +72,7 @@ fun AboutProfileScreen(navController: NavController) {
         RegistrationButton(
             text = "등록",
             navController = navController,
-            route = Screens.AboutProfileScreen.route
+            route = Screens.PersonalProfileScreen.route
         )
     }
 }
