@@ -31,7 +31,7 @@ fun BackButton(navController: NavController) {
     ) {
         IconButton(
             onClick = { navController.popBackStack() },
-            modifier = Modifier.padding(top = 35.dp, start = 15.dp)
+            modifier = Modifier.padding(top = 15.dp, start = 15.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),

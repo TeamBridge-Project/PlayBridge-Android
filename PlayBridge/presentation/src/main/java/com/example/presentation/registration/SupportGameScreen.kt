@@ -58,7 +58,7 @@ fun SupportGameScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 60.dp),
+            .padding(bottom = 50.dp),
         contentAlignment = Alignment.BottomCenter
     ) {
         RegistrationButton("다음",navController, Screens.AboutProfileScreen.route)
