@@ -29,4 +29,5 @@
     <string name="rank_or_level_edit">랭크/레벨 작성</string>
     <string name="about_profile_title">소개 프로필을\n완성해주세요</string>
     <string name="game_cost_title">게임 비용을\n작성해주세요</string>
+    <string name="self_introduction">자기 소개</string>
 </resources>
