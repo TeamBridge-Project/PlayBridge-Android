@@ -1,14 +1,12 @@
 package com.example.presentation.registration
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -25,15 +23,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.presentation.R
 import com.example.presentation.ui.navigation.Screens
 import com.example.presentation.ui.theme.BackgroundColor
-import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
 import com.example.presentation.ui.util.BackButton
 import com.example.presentation.ui.util.RegistrationButton
@@ -44,7 +39,6 @@ import com.example.presentation.ui.util.Title
 fun GameCostScreen(navController : NavController) {
     val (gameCost,setGameCost) = remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
-
 
     Column(
         modifier = Modifier
@@ -58,8 +52,10 @@ fun GameCostScreen(navController : NavController) {
         Spacer(Modifier.height(100.dp))
         GameName(selectedGameName = "리그오브레전드")
         Spacer(Modifier.height(30.dp))
-        CostInput(gameCost = gameCost, setGameCost = setGameCost, keyboardController = keyboardController)
-
+        CostInput(
+            gameCost = gameCost,
+            setGameCost = setGameCost,
+            keyboardController = keyboardController)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -71,7 +67,6 @@ fun GameCostScreen(navController : NavController) {
                 navController = navController,
                 route = Screens.AboutProfileScreen.route)
         }
-
     }
 }
 
