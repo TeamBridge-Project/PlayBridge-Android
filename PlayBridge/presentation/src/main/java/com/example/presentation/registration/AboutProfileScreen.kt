@@ -1,25 +1,30 @@
 package com.example.presentation.aboutprofile
 
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.runtime.*
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 
 import androidx.compose.ui.res.stringResource
@@ -43,7 +48,7 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun AboutProfileScreen(navController : NavController){
+fun AboutProfileScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,27 +72,37 @@ fun AboutProfileScreen(navController : NavController){
         RegistrationButton(
             text = "등록",
             navController = navController,
-            route = Screens.AboutProfileScreen.route)
+            route = Screens.AboutProfileScreen.route
+        )
     }
 }
 
 
 @Composable
-fun ProfileSection(){
+fun ProfileSection() {
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        imageUri = uri
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 60.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(){
+        Box() {
             GlideImage(
                 modifier = Modifier
                     .width(70.dp)
                     .height(70.dp)
                     .clip(CircleShape)
-                    .clickable { },
-                imageModel = ImageBitmap.imageResource(R.drawable.profile_image),
+                    .clickable { launcher.launch("image/*") },
+                imageModel = imageUri?.let{ it },
                 circularReveal = CircularReveal(duration = 250),
                 error = ImageBitmap.imageResource(id = R.drawable.profile_image)
             )
@@ -97,14 +112,17 @@ fun ProfileSection(){
         Text(text = "프로필 사진", color = Color.White)
     }
 }
+
 @Composable
-fun SelfIntroductionSection(){
+fun SelfIntroductionSection() {
     var (selfIntroduction, setSelfIntroduction) = remember {
         mutableStateOf("입력 해주세요")
     }
 
     Column(
-        modifier = Modifier.padding(start = 60.dp).fillMaxWidth(),
+        modifier = Modifier
+            .padding(start = 60.dp)
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
