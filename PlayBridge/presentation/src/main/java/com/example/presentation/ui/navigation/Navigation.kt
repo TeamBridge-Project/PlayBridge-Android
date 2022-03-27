@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.presentation.aboutprofile.AboutProfileScreen
 import com.example.presentation.main.MainScreen
 import com.example.presentation.personalprofile.PersonalProfileScreen
+import com.example.presentation.registration.GameCostScreen
 import com.example.presentation.registration.SupportGameScreen
 
 @Composable
@@ -28,6 +29,8 @@ fun Navigation() {
         composable(route = Screens.AboutProfileScreen.route){
             AboutProfileScreen(navController = navController)
         }
-
+        composable(route = Screens.GameCostScreen.route){
+            GameCostScreen(navController = navController)
+        }
     }
 }
