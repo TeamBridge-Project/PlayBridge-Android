@@ -8,6 +8,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PlayBridge" />
+        android:theme="@style/Theme.PlayBridge">
+        <activity android:name="com.example.presentation.signup.SignUpActivity" />
+        <activity android:name="com.example.presentation.main.MainActivity" />
+        <activity
+            android:name="com.example.presentation.start.StartActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.PlayBridge">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+    </application>
+
 
 </manifest>
