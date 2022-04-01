@@ -162,7 +162,7 @@ fun FunctionSelectBar(navController: NavController) {
             ) {
                 when (tabData[index]) {
                     tabData[0] -> profilePage()
-                    tabData[1] -> Text("언제만드냐 이건")
+                    tabData[1] -> MainChattingScreen()
                 }
             }
         }

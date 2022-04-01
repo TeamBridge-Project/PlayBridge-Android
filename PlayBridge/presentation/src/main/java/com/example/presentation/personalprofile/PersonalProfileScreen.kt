@@ -98,7 +98,7 @@ fun CoinSection(
             )
         }
 
-        GlideImage(
+        /*GlideImage(
             modifier = Modifier
                 .width(50.dp)
                 .height(50.dp)
@@ -107,7 +107,7 @@ fun CoinSection(
             imageModel = ImageBitmap.imageResource(R.drawable.question_mark),
             circularReveal = CircularReveal(duration = 250),
             error = ImageBitmap.imageResource(id = R.drawable.question_mark)
-        )
+        )*/
     }
 }
 
@@ -479,7 +479,6 @@ fun ProfileEditButton(
     ) {
         Button(
             onClick = { isEditing.value = !isEditing.value },
-
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = ProfileEditingColor
             ),
