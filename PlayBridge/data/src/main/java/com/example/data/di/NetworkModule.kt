@@ -14,18 +14,19 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule{
+class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit) : ApiService =
+    fun provideApiService(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
 
     @Provides
     @Singleton
     fun provideRetrofit(
-        @Named("baseUrl") baseUrl : String,
-        okHttpClient: OkHttpClient): Retrofit =
+        @Named("baseUrl") baseUrl: String,
+        okHttpClient: OkHttpClient
+    ): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
@@ -35,5 +36,10 @@ class NetworkModule{
     @Provides
     @Singleton
     fun provideOkHttpClient() =
-        OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor()).build()
+        OkHttpClient.Builder()
+            .addInterceptor(
+                HttpLoggingInterceptor()
+                    .setLevel(HttpLoggingInterceptor.Level.BODY)
+            )
+            .build()
 }

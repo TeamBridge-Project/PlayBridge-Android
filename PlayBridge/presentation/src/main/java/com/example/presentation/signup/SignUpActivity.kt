@@ -1,7 +1,6 @@
 package com.example.presentation.signup
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,21 +18,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
 import com.example.presentation.ui.theme.*
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +46,18 @@ class SignUpActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
-fun Screen() {
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundColor)
-    ) {
-        SignUpScreen()
-    }
+fun Screen(viewModel : SignUpViewModel = hiltViewModel()){
+    SignUpScreen(
+        onSignUp = { viewModel.signUp() }
+    )
 }
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    onSignUp : () -> Unit
+) {
     val activity = LocalContext.current as? Activity
     val (id, setId) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
@@ -177,7 +179,7 @@ fun SignUpScreen() {
                 .size(120.dp, 50.dp)
                 .align(Alignment.CenterHorizontally),
             shape = RoundedCornerShape(30.dp),
-            onClick = {},
+            onClick = { onSignUp() },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = SignUpCompleteColor
             ),

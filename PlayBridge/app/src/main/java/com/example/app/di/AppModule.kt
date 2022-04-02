@@ -13,5 +13,5 @@ internal object AppModule {
 
     @Provides
     @Named("baseUrl")
-    fun provideBaseUrl(): String = "https://randomuser.me"
+    fun provideBaseUrl(): String = "http://braininavet.iptime.org:3000/"
 }

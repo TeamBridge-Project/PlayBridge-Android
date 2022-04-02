@@ -1,13 +1,14 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.data"
+        //applicationId "com.example.data"
         minSdk 21
         targetSdk 32
         versionCode 1
@@ -33,10 +34,12 @@ android {
 
 dependencies {
     implementation project(":domain")
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
+
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     implementation 'androidx.core:core-ktx:1.7.0'

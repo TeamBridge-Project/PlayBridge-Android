@@ -41,8 +41,10 @@ import com.example.presentation.signup.SignUpActivity
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.format.TextStyle
 
+@AndroidEntryPoint
 class StartActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
