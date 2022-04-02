@@ -4,8 +4,10 @@ import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -89,7 +91,17 @@ fun ChattingInputField(
             .clip(shape = RoundedCornerShape(15.dp)),
         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
         value = inputText,
-        onValueChange = setInputText
+        onValueChange = setInputText,
+        trailingIcon = {
+            IconButton(
+                onClick = { }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_baseline_play_arrow_24),
+                    contentDescription = ""
+                )
+            }
+        }
     )
 }
 
@@ -99,6 +111,7 @@ fun ChattingWindow() {
         modifier = Modifier
             .height(437.dp)
             .width(345.dp)
+            .verticalScroll(rememberScrollState())
     ) {
 
     }
