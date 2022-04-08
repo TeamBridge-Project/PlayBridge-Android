@@ -39,7 +39,7 @@ class SignUpActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            PlayBridgeTheme() {
+            PlayBridgeTheme{
                 Screen()
             }
         }
@@ -48,24 +48,25 @@ class SignUpActivity : ComponentActivity() {
 
 
 @Composable
-fun Screen(viewModel : SignUpViewModel = hiltViewModel()){
+fun Screen(viewModel: SignUpViewModel = hiltViewModel()) {
     SignUpScreen(
-        onSignUp = { viewModel.signUp() }
+        viewModel = viewModel
     )
 }
 
 @Composable
 fun SignUpScreen(
-    onSignUp : () -> Unit
+    viewModel: SignUpViewModel
 ) {
     val activity = LocalContext.current as? Activity
-    val (id, setId) = remember { mutableStateOf("") }
+    val (email, setEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
     val (nickName, setNickName) = remember { mutableStateOf("") }
-    val (sex, setSex) = remember { mutableStateOf("") }
+    val (gender, setGender) = remember { mutableStateOf("") }
     val (birthday, setBirthday) = remember { mutableStateOf("") }
     val (isSmsChecked, setSmsCheck) = remember { mutableStateOf(false) }
     val (isEmailChecked, setEmailCheck) = remember { mutableStateOf(false) }
+
     IconButton(
         onClick = { activity?.finish() },
         modifier = Modifier.padding(top = 35.dp, start = 15.dp)
@@ -96,9 +97,9 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.padding(18.dp))
 
         InputComponent(
-            textValue = id,
-            textHint = stringResource(id = R.string.id),
-            onValueChange = setId,
+            textValue = email,
+            textHint = stringResource(id = R.string.email),
+            onValueChange = setEmail,
             keyBordType = KeyboardType.Text
         )
 
@@ -129,9 +130,9 @@ fun SignUpScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             RowComponent(
-                textValue = sex,
+                textValue = gender,
                 textHint = stringResource(id = R.string.sex),
-                onValueChange = setSex,
+                onValueChange = setGender,
                 keyBordType = KeyboardType.Text,
                 ratio = 0.35f
             )
@@ -158,13 +159,13 @@ fun SignUpScreen(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.padding(8.dp))
-            CheckRecieve(
+            CheckReceived(
                 checked = isSmsChecked,
                 onCheckedChanged = setSmsCheck,
                 text = stringResource(id = R.string.sns_receive_agree)
             )
             Spacer(modifier = Modifier.padding(6.dp))
-            CheckRecieve(
+            CheckReceived(
                 checked = isEmailChecked,
                 onCheckedChanged = setEmailCheck,
                 text = stringResource(id = R.string.email_receive_agree)
@@ -179,7 +180,18 @@ fun SignUpScreen(
                 .size(120.dp, 50.dp)
                 .align(Alignment.CenterHorizontally),
             shape = RoundedCornerShape(30.dp),
-            onClick = { onSignUp() },
+            onClick = {
+                viewModel.signUp(
+                    email,
+                    password,
+                    nickName,
+                    gender,
+                    birthday,
+                    isSmsChecked,
+                    isEmailChecked
+                )
+                activity?.finish()
+            },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = SignUpCompleteColor
             ),
@@ -197,7 +209,7 @@ fun SignUpScreen(
 }
 
 @Composable
-fun CheckRecieve(
+fun CheckReceived(
     checked: Boolean,
     onCheckedChanged: (Boolean) -> Unit,
     text: String

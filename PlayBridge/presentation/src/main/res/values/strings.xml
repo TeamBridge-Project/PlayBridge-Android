@@ -9,7 +9,7 @@
     <string name="email_receive_agree">E-mail 수신 동의</string>
     <string name="sns_receive_agree">SMS 수신 동의</string>
     <string name="sign_up">회원가입</string>
-    <string name="id">아이디</string>
+    <string name="email">이메일</string>
     <string name="password">비밀번호</string>
     <string name="nickname">닉네임</string>
     <string name="sex">성별</string>
