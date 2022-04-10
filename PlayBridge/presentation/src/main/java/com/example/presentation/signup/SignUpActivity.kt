@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -30,6 +31,7 @@ import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
 import com.example.presentation.ui.theme.*
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -39,7 +41,13 @@ class SignUpActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            PlayBridgeTheme{
+            val systemUiController = rememberSystemUiController()
+            SideEffect {
+                systemUiController.setStatusBarColor(
+                    color = BackgroundColor
+                )
+            }
+            PlayBridgeTheme {
                 Screen()
             }
         }
@@ -49,9 +57,15 @@ class SignUpActivity : ComponentActivity() {
 
 @Composable
 fun Screen(viewModel: SignUpViewModel = hiltViewModel()) {
-    SignUpScreen(
-        viewModel = viewModel
-    )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = BackgroundColor)
+    ) {
+        SignUpScreen(
+            viewModel = viewModel
+        )
+    }
 }
 
 @Composable

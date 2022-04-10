@@ -41,6 +41,7 @@ import com.example.presentation.signup.SignUpActivity
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.format.TextStyle
 
@@ -53,6 +54,12 @@ class StartActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
+            val systemUiController = rememberSystemUiController()
+            SideEffect {
+                systemUiController.setStatusBarColor(
+                    color = BackgroundColor
+                )
+            }
             StartScreen()
         }
     }
