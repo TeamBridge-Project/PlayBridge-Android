@@ -7,9 +7,10 @@ import androidx.compose.runtime.*
 import com.example.presentation.ui.navigation.Navigation
 import com.example.presentation.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
 
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -231,7 +231,7 @@ fun ProfileBody() {
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
-        ) { page ->
+        ) { _ ->
             ProfileCardLayout()
         }
         HorizontalPagerIndicator(

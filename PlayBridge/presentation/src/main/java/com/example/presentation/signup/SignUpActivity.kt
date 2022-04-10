@@ -1,7 +1,6 @@
 package com.example.presentation.signup
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -19,51 +19,68 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
 import com.example.presentation.ui.theme.*
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            PlayBridgeTheme() {
+            val systemUiController = rememberSystemUiController()
+            SideEffect {
+                systemUiController.setStatusBarColor(
+                    color = BackgroundColor
+                )
+            }
+            PlayBridgeTheme {
                 Screen()
             }
         }
     }
 }
 
+
 @Composable
-fun Screen() {
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundColor)
+fun Screen(viewModel: SignUpViewModel = hiltViewModel()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = BackgroundColor)
     ) {
-        SignUpScreen()
+        SignUpScreen(
+            viewModel = viewModel
+        )
     }
 }
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    viewModel: SignUpViewModel
+) {
     val activity = LocalContext.current as? Activity
-    val (id, setId) = remember { mutableStateOf("") }
+    val (email, setEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
     val (nickName, setNickName) = remember { mutableStateOf("") }
-    val (sex, setSex) = remember { mutableStateOf("") }
+    val (gender, setGender) = remember { mutableStateOf("") }
     val (birthday, setBirthday) = remember { mutableStateOf("") }
     val (isSmsChecked, setSmsCheck) = remember { mutableStateOf(false) }
     val (isEmailChecked, setEmailCheck) = remember { mutableStateOf(false) }
+
     IconButton(
         onClick = { activity?.finish() },
         modifier = Modifier.padding(top = 35.dp, start = 15.dp)
@@ -94,9 +111,9 @@ fun SignUpScreen() {
         Spacer(modifier = Modifier.padding(18.dp))
 
         InputComponent(
-            textValue = id,
-            textHint = stringResource(id = R.string.id),
-            onValueChange = setId,
+            textValue = email,
+            textHint = stringResource(id = R.string.email),
+            onValueChange = setEmail,
             keyBordType = KeyboardType.Text
         )
 
@@ -127,9 +144,9 @@ fun SignUpScreen() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             RowComponent(
-                textValue = sex,
+                textValue = gender,
                 textHint = stringResource(id = R.string.sex),
-                onValueChange = setSex,
+                onValueChange = setGender,
                 keyBordType = KeyboardType.Text,
                 ratio = 0.35f
             )
@@ -156,13 +173,13 @@ fun SignUpScreen() {
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.padding(8.dp))
-            CheckRecieve(
+            CheckReceived(
                 checked = isSmsChecked,
                 onCheckedChanged = setSmsCheck,
                 text = stringResource(id = R.string.sns_receive_agree)
             )
             Spacer(modifier = Modifier.padding(6.dp))
-            CheckRecieve(
+            CheckReceived(
                 checked = isEmailChecked,
                 onCheckedChanged = setEmailCheck,
                 text = stringResource(id = R.string.email_receive_agree)
@@ -177,7 +194,18 @@ fun SignUpScreen() {
                 .size(120.dp, 50.dp)
                 .align(Alignment.CenterHorizontally),
             shape = RoundedCornerShape(30.dp),
-            onClick = {},
+            onClick = {
+                viewModel.signUp(
+                    email,
+                    password,
+                    nickName,
+                    gender,
+                    birthday,
+                    isSmsChecked,
+                    isEmailChecked
+                )
+                activity?.finish()
+            },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = SignUpCompleteColor
             ),
@@ -195,7 +223,7 @@ fun SignUpScreen() {
 }
 
 @Composable
-fun CheckRecieve(
+fun CheckReceived(
     checked: Boolean,
     onCheckedChanged: (Boolean) -> Unit,
     text: String
