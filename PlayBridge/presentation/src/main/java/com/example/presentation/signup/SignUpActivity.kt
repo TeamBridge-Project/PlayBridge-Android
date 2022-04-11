@@ -8,6 +8,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -15,21 +17,30 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import com.example.presentation.R
+import com.example.presentation.personalprofile.PersonalProfileScreen
 import com.example.presentation.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +65,6 @@ class SignUpActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 fun Screen(viewModel: SignUpViewModel = hiltViewModel()) {
     Column(
@@ -68,6 +78,8 @@ fun Screen(viewModel: SignUpViewModel = hiltViewModel()) {
     }
 }
 
+
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignUpScreen(
     viewModel: SignUpViewModel
@@ -80,6 +92,7 @@ fun SignUpScreen(
     val (birthday, setBirthday) = remember { mutableStateOf("") }
     val (isSmsChecked, setSmsCheck) = remember { mutableStateOf(false) }
     val (isEmailChecked, setEmailCheck) = remember { mutableStateOf(false) }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     IconButton(
         onClick = { activity?.finish() },
@@ -114,7 +127,7 @@ fun SignUpScreen(
             textValue = email,
             textHint = stringResource(id = R.string.email),
             onValueChange = setEmail,
-            keyBordType = KeyboardType.Text
+            keyboardController = keyboardController
         )
 
         Spacer(modifier = Modifier.padding(12.dp))
@@ -123,7 +136,7 @@ fun SignUpScreen(
             textValue = password,
             textHint = stringResource(id = R.string.password),
             onValueChange = setPassword,
-            keyBordType = KeyboardType.Password
+            keyboardController = keyboardController
         )
 
         Spacer(modifier = Modifier.padding(12.dp))
@@ -132,7 +145,7 @@ fun SignUpScreen(
             textValue = nickName,
             textHint = stringResource(id = R.string.nickname),
             onValueChange = setNickName,
-            keyBordType = KeyboardType.Text
+            keyboardController = keyboardController
         )
 
         Spacer(modifier = Modifier.padding(12.dp))
@@ -141,20 +154,21 @@ fun SignUpScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
+
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             RowComponent(
                 textValue = gender,
                 textHint = stringResource(id = R.string.sex),
                 onValueChange = setGender,
-                keyBordType = KeyboardType.Text,
+                keyboardController = keyboardController,
                 ratio = 0.35f
             )
             RowComponent(
                 textValue = birthday,
                 textHint = stringResource(id = R.string.birthday),
                 onValueChange = setBirthday,
-                keyBordType = KeyboardType.Text,
+                keyboardController = keyboardController,
                 ratio = 0.9f
             )
         }
@@ -248,70 +262,102 @@ fun CheckReceived(
 }
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun InputComponent(
     textValue: String,
     textHint: String,
     onValueChange: (String) -> Unit,
-    keyBordType: KeyboardType
+    keyboardController: SoftwareKeyboardController?
 ) {
-
-    OutlinedTextField(
-        value = textValue,
-        onValueChange = onValueChange,
-        modifier = Modifier
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(30.dp))
-            .height(50.dp),
-        placeholder = {
+    Box {
+        BasicTextField(
+            modifier = Modifier
+                .width(282.dp)
+                .height(50.dp)
+                .clip(shape = RoundedCornerShape(30.dp)),
+            value = textValue,
+            onValueChange = onValueChange,
+            textStyle = TextStyle(
+                fontFamily = notosanskr,
+                color = Color.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+            singleLine = true,
+            decorationBox = { innerTextField ->
+                Row(
+                    Modifier
+                        .background(ComponentInnerColor)
+                        .padding(start = 20.dp, end = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    innerTextField()
+                }
+            },
+        )
+        if(textValue.isEmpty()) {
             Text(
+                modifier = Modifier.offset(20.dp,15.dp),
                 text = textHint,
                 fontFamily = notosanskr,
                 color = Color.Gray,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
-        },
-        shape = RoundedCornerShape(30.dp),
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = ComponentInnerColor,
-            focusedIndicatorColor = Color.Transparent,
-            cursorColor = Color.Black
-        ),
-        keyboardOptions = KeyboardOptions(keyboardType = keyBordType)
-    )
+        }
+    }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RowComponent(
     textValue: String,
     textHint: String,
     onValueChange: (String) -> Unit,
-    keyBordType: KeyboardType,
+    keyboardController: SoftwareKeyboardController?,
     ratio: Float
 ) {
-    OutlinedTextField(
-        value = textValue,
-        onValueChange = onValueChange,
-        modifier = Modifier
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(30.dp))
-            .height(50.dp)
-            .fillMaxWidth(ratio),
-        placeholder = {
+    Box {
+        BasicTextField(
+            modifier = Modifier
+                .fillMaxWidth(ratio)
+                .height(50.dp)
+                .clip(shape = RoundedCornerShape(30.dp)),
+            value = textValue,
+            onValueChange = onValueChange,
+            textStyle = TextStyle(
+                fontFamily = notosanskr,
+                color = Color.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+            singleLine = true,
+            decorationBox = { innerTextField ->
+                Row(
+                    Modifier
+                        .background(ComponentInnerColor)
+                        .padding(start = 20.dp, end = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    innerTextField()
+                }
+            },
+        )
+        if(textValue.isEmpty()) {
             Text(
+                modifier = Modifier.offset(20.dp,15.dp),
                 text = textHint,
                 fontFamily = notosanskr,
                 color = Color.Gray,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
-        },
-        shape = RoundedCornerShape(30.dp),
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = ComponentInnerColor,
-            focusedIndicatorColor = Color.Transparent,
-            cursorColor = Color.Black
-        ),
-        keyboardOptions = KeyboardOptions(keyboardType = keyBordType)
-    )
+        }
+    }
 
 }
