@@ -6,24 +6,28 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Size
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -36,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
@@ -157,14 +162,9 @@ fun SignUpScreen(
 
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            RowComponent(
-                textValue = gender,
-                textHint = stringResource(id = R.string.sex),
-                onValueChange = setGender,
-                keyboardController = keyboardController,
-                ratio = 0.35f
-            )
-            RowComponent(
+            GenderDropDown(keyboardController = keyboardController,)
+
+            BirthdayInput(
                 textValue = birthday,
                 textHint = stringResource(id = R.string.birthday),
                 onValueChange = setBirthday,
@@ -313,7 +313,7 @@ fun InputComponent(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun RowComponent(
+fun BirthdayInput(
     textValue: String,
     textHint: String,
     onValueChange: (String) -> Unit,
@@ -334,7 +334,7 @@ fun RowComponent(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
             ),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
             singleLine = true,
             decorationBox = { innerTextField ->
@@ -359,5 +359,96 @@ fun RowComponent(
             )
         }
     }
+}
 
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun GenderDropDown(
+    keyboardController: SoftwareKeyboardController?,
+){
+    var expanded by remember { mutableStateOf(false) }
+    val genderList = listOf("남","여")
+    var selectedGender by remember { mutableStateOf("")}
+
+    var textFieldSize by remember { mutableStateOf(Size.Zero)}
+
+    val dropDownIcon = if(expanded){
+        R.drawable.ic_baseline_keyboard_arrow_up_24
+    } else {
+        R.drawable.ic_baseline_keyboard_arrow_down_24
+    }
+
+    Box {
+        BasicTextField(
+            enabled = false,
+            modifier = Modifier
+                .fillMaxWidth(0.35f)
+                .height(50.dp)
+                .clip(shape = RoundedCornerShape(30.dp))
+                .onGloballyPositioned { coordinates ->
+                    textFieldSize = coordinates.size.toSize()
+                },
+            value = selectedGender,
+            onValueChange = { selectedGender = it },
+            textStyle = TextStyle(
+                fontFamily = notosanskr,
+                color = Color.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+            singleLine = true,
+            decorationBox = { innerTextField ->
+                Row(
+                    Modifier
+                        .background(ComponentInnerColor)
+                        .padding(start = 20.dp, end = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    innerTextField()
+                }
+            },
+        )
+
+        IconButton(
+            onClick = {},
+            modifier = Modifier
+                .offset(50.dp, 2.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = dropDownIcon),
+                contentDescription = "",
+                modifier = Modifier.clickable { expanded = !expanded }
+            )
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .width(with(LocalDensity.current){textFieldSize.width.toDp()})
+        ) {
+            genderList.forEach { selection ->
+                DropdownMenuItem(onClick = {
+                    selectedGender = selection
+                    expanded = false
+                }) {
+                    Text(text = selection)
+                }
+            }
+
+        }
+
+        if(selectedGender.isEmpty()) {
+            Text(
+                modifier = Modifier.offset(20.dp,15.dp),
+                text = stringResource(id = R.string.sex),
+                fontFamily = notosanskr,
+                color = Color.Gray,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
 }
