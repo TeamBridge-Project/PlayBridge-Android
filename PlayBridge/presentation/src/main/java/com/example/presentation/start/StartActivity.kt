@@ -1,5 +1,6 @@
 package com.example.presentation.start
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,29 +22,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
+
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
+
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
-import com.example.presentation.main.MainActivity
-import com.example.presentation.signup.SignUpActivity
+
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.format.TextStyle
+
 
 @AndroidEntryPoint
 class StartActivity : ComponentActivity() {
@@ -60,11 +57,17 @@ class StartActivity : ComponentActivity() {
                     color = BackgroundColor
                 )
             }
-            StartScreen()
+            Screen()
         }
     }
 
 }
+
+@Composable
+fun Screen(viewModel: StartViewModel = hiltViewModel()) {
+    StartScreen(viewModel::login, viewModel::moveSignUp)
+}
+
 
 @Composable
 fun TextComponent(
@@ -72,7 +75,6 @@ fun TextComponent(
     textValue: String,
     onTextChange: (String) -> Unit
 ) {
-
     OutlinedTextField(
         modifier = Modifier
             .width(350.dp)
@@ -103,14 +105,17 @@ fun TextComponent(
 }
 
 @Composable
-fun StartScreen() {
-    var (id, setId) = remember {
+fun StartScreen(
+    onLogin: (String, String, Activity?) -> Unit,
+    moveSignUpPage: (Activity?) -> Unit,
+) {
+    val (email, setEmail) = remember {
         mutableStateOf("")
     }
-    var (password, setPassword) = remember {
+    val (password, setPassword) = remember {
         mutableStateOf("")
     }
-    val context = LocalContext.current
+    val activity = LocalContext.current as? Activity
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -126,7 +131,7 @@ fun StartScreen() {
                 .width(350.dp)
         )
 
-        TextComponent(stringResource(id = R.string.login_page_id), id, setId)
+        TextComponent(stringResource(id = R.string.login_page_id), email, setEmail)
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -135,7 +140,9 @@ fun StartScreen() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { context.startActivity(Intent(context, MainActivity::class.java))},
+            onClick = {
+                onLogin(email, password, activity)
+            },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .width(350.dp)
@@ -165,7 +172,7 @@ fun StartScreen() {
         )
 
         TextButton(
-            onClick = {context.startActivity(Intent(context, SignUpActivity::class.java))},
+            onClick = { moveSignUpPage(activity) },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 20.dp)
