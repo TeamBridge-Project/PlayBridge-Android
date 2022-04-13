@@ -18,10 +18,10 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun login(loginModel: LoginModel): Result<Response> {
         val result = apiService.login(loginModel.toData()).toDomain()
-        if(result.status){
-            return Result.success(result)
+        return if(result.status){
+            Result.success(result)
         }else{
-            return Result.failure(Exception())
+            Result.failure(Exception())
         }
     }
 
