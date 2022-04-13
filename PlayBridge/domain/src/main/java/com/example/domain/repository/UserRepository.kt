@@ -6,5 +6,5 @@ import com.example.domain.model.SignUpModel
 
 interface UserRepository {
     suspend fun signUp(signUpModel: SignUpModel)
-    suspend fun login(loginModel : LoginModel) : Result<Response>
+    suspend fun login(loginModel : LoginModel) : Response
 }

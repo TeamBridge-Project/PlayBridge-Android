@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.base.processMore
 import com.example.domain.model.LoginModel
 import com.example.domain.usecase.LoginUseCase
 import com.example.presentation.main.MainActivity
@@ -25,13 +26,19 @@ class StartViewModel @Inject constructor(
         activity: Activity?
     ) {
         viewModelScope.launch {
-            loginUseCase(LoginModel(email, password.sha256())).onSuccess {
-                activity?.startActivity(Intent(activity,MainActivity::class.java))
-                Log.d("success", "login: ")
-            }
+            loginUseCase(LoginModel(email, password.sha256())).processMore(
+                onSuccess = {
+                    activity?.startActivity(Intent(activity, MainActivity::class.java))
+                },
+                onError = {
+
+                }
+            )
+
         }
     }
-    fun moveSignUp( activity: Activity?){
-        activity?.startActivity(Intent(activity,SignUpActivity::class.java))
+
+    fun moveSignUp(activity: Activity?) {
+        activity?.startActivity(Intent(activity, SignUpActivity::class.java))
     }
 }
