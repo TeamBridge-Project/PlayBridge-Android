@@ -13,9 +13,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -23,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
-
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -36,16 +33,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import com.example.presentation.R
-import com.example.presentation.personalprofile.PersonalProfileScreen
 import com.example.presentation.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -132,7 +128,8 @@ fun SignUpScreen(
             textValue = email,
             textHint = stringResource(id = R.string.email),
             onValueChange = setEmail,
-            keyboardController = keyboardController
+            keyboardController = keyboardController,
+            passwordInput = false
         )
 
         Spacer(modifier = Modifier.padding(12.dp))
@@ -141,7 +138,8 @@ fun SignUpScreen(
             textValue = password,
             textHint = stringResource(id = R.string.password),
             onValueChange = setPassword,
-            keyboardController = keyboardController
+            keyboardController = keyboardController,
+            passwordInput = true
         )
 
         Spacer(modifier = Modifier.padding(12.dp))
@@ -150,7 +148,8 @@ fun SignUpScreen(
             textValue = nickName,
             textHint = stringResource(id = R.string.nickname),
             onValueChange = setNickName,
-            keyboardController = keyboardController
+            keyboardController = keyboardController,
+            passwordInput = false
         )
 
         Spacer(modifier = Modifier.padding(12.dp))
@@ -166,10 +165,8 @@ fun SignUpScreen(
 
             BirthdayInput(
                 textValue = birthday,
-                textHint = stringResource(id = R.string.birthday),
                 onValueChange = setBirthday,
                 keyboardController = keyboardController,
-                ratio = 0.9f
             )
         }
 
@@ -268,15 +265,22 @@ fun InputComponent(
     textValue: String,
     textHint: String,
     onValueChange: (String) -> Unit,
-    keyboardController: SoftwareKeyboardController?
+    keyboardController: SoftwareKeyboardController?,
+    passwordInput: Boolean
 ) {
     Box {
         BasicTextField(
+            visualTransformation = if (passwordInput) {
+                PasswordVisualTransformation(mask = '\u002A')
+            } else {
+                VisualTransformation.None
+            },
             modifier = Modifier
                 .width(282.dp)
                 .height(50.dp)
                 .clip(shape = RoundedCornerShape(30.dp)),
             value = textValue,
+            cursorBrush = SolidColor(Color.White),
             onValueChange = onValueChange,
             textStyle = TextStyle(
                 fontFamily = notosanskr,
@@ -315,15 +319,13 @@ fun InputComponent(
 @Composable
 fun BirthdayInput(
     textValue: String,
-    textHint: String,
     onValueChange: (String) -> Unit,
     keyboardController: SoftwareKeyboardController?,
-    ratio: Float
 ) {
     Box {
         BasicTextField(
             modifier = Modifier
-                .fillMaxWidth(ratio)
+                .fillMaxWidth(0.9f)
                 .height(50.dp)
                 .clip(shape = RoundedCornerShape(30.dp)),
             value = textValue,
@@ -351,7 +353,7 @@ fun BirthdayInput(
         if(textValue.isEmpty()) {
             Text(
                 modifier = Modifier.offset(20.dp,15.dp),
-                text = textHint,
+                text = stringResource(id = R.string.birthday),
                 fontFamily = notosanskr,
                 color = Color.Gray,
                 fontSize = 14.sp,
@@ -419,7 +421,8 @@ fun GenderDropDown(
             Icon(
                 painter = painterResource(id = dropDownIcon),
                 contentDescription = "",
-                modifier = Modifier.clickable { expanded = !expanded }
+                modifier = Modifier.clickable { expanded = !expanded },
+                tint = Color.White
             )
         }
 
@@ -427,17 +430,17 @@ fun GenderDropDown(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
-                .width(with(LocalDensity.current){textFieldSize.width.toDp()})
+                .width(with(LocalDensity.current){textFieldSize.width.toDp()}),
         ) {
             genderList.forEach { selection ->
-                DropdownMenuItem(onClick = {
+                DropdownMenuItem(
+                    onClick = {
                     selectedGender = selection
-                    expanded = false
-                }) {
+                    expanded = false },
+                ) {
                     Text(text = selection)
                 }
             }
-
         }
 
         if(selectedGender.isEmpty()) {
