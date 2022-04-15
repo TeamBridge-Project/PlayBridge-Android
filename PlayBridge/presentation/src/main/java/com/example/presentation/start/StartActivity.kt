@@ -1,37 +1,38 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package com.example.presentation.start
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
@@ -43,7 +44,6 @@ import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.format.TextStyle
 
 @AndroidEntryPoint
 class StartActivity : ComponentActivity() {
@@ -63,54 +63,15 @@ class StartActivity : ComponentActivity() {
             StartScreen()
         }
     }
-
-}
-
-@Composable
-fun TextComponent(
-    hintValue: String,
-    textValue: String,
-    onTextChange: (String) -> Unit
-) {
-
-    OutlinedTextField(
-        modifier = Modifier
-            .width(350.dp)
-            .shadow(
-                elevation = 5.dp,
-                shape = RoundedCornerShape(30.dp)
-            ),
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = ComponentInnerColor,
-            focusedIndicatorColor = Color.Transparent,
-            cursorColor = Color.Black
-        ),
-        placeholder = {
-            Text(
-                text = hintValue,
-                fontFamily = notosanskr,
-                fontSize = 17.sp,
-                color = Color.Gray,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        shape = RoundedCornerShape(30.dp),
-        value = textValue,
-        onValueChange = onTextChange,
-        maxLines = 1,
-        singleLine = true,
-    )
 }
 
 @Composable
 fun StartScreen() {
-    var (id, setId) = remember {
-        mutableStateOf("")
-    }
-    var (password, setPassword) = remember {
-        mutableStateOf("")
-    }
+    val (id, setId) = remember { mutableStateOf("") }
+    val (password, setPassword) = remember { mutableStateOf("") }
     val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -118,65 +79,130 @@ fun StartScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_image),
-            contentDescription = "",
-            modifier = Modifier
-                .padding(top = 20.dp)
-                .width(350.dp)
-        )
-
-        TextComponent(stringResource(id = R.string.login_page_id), id, setId)
-
+        LogoImage()
+        LogInTextField(stringResource(id = R.string.login_page_id), id, setId, false, keyboardController)
         Spacer(modifier = Modifier.height(20.dp))
-
-        TextComponent(stringResource(id = R.string.login_page_password), password, setPassword)
-
+        LogInTextField(stringResource(id = R.string.login_page_password), password, setPassword, true, keyboardController)
         Spacer(modifier = Modifier.height(20.dp))
+        LogInButton(context)
+        Spacer(modifier = Modifier.height(25.dp))
+        Divider(Modifier.width(380.dp), Color.Gray)
+        SignUpButton(context)
+    }
+}
 
-        Button(
-            onClick = { context.startActivity(Intent(context, MainActivity::class.java))},
+@Composable
+fun LogoImage() {
+    Image(
+        painter = painterResource(id = R.drawable.logo_image),
+        contentDescription = "",
+        modifier = Modifier
+            .padding(top = 20.dp)
+            .width(350.dp)
+    )
+}
+
+@Composable
+fun LogInTextField(
+    hintValue: String,
+    textValue: String,
+    onTextChange: (String) -> Unit,
+    passwordInput: Boolean,
+    keyboardController: SoftwareKeyboardController?
+) {
+    Box {
+        BasicTextField(
+            visualTransformation = if (passwordInput) {
+                PasswordVisualTransformation(mask = '\u002A')
+            } else {
+                VisualTransformation.None
+            },
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
                 .width(350.dp)
                 .height(50.dp)
                 .shadow(
                     elevation = 5.dp,
-                    shape = RoundedCornerShape(16.dp),
-                    clip = true
-                ),
-            colors = ButtonDefaults.buttonColors(backgroundColor = ComponentInnerColor),
-            shape = RoundedCornerShape(50),
-        ) {
-            Text(
-                text = stringResource(id = R.string.login_page_login),
+                    shape = RoundedCornerShape(30.dp)
+                )
+                .clip(shape = RoundedCornerShape(30.dp)),
+            value = textValue,
+            cursorBrush = SolidColor(Color.White),
+            onValueChange = onTextChange,
+            textStyle = TextStyle(
                 fontFamily = notosanskr,
-                fontSize = 17.sp,
                 color = Color.White,
+                fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
-            )
-        }
-
-        Spacer(modifier = Modifier.height(25.dp))
-
-        Divider(
-            color = Color.Gray,
-            modifier = Modifier.width(380.dp)
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+            singleLine = true,
+            decorationBox = { innerTextField ->
+                Row(
+                    Modifier
+                        .background(ComponentInnerColor)
+                        .padding(start = 28.dp, end = 28.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    innerTextField()
+                }
+            },
         )
-
-        TextButton(
-            onClick = {context.startActivity(Intent(context, SignUpActivity::class.java))},
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 20.dp)
-        ) {
+        if(textValue.isEmpty()) {
             Text(
-                text = stringResource(id = R.string.login_page_sign_up),
+                modifier = Modifier.offset(29.dp,12.dp),
+                text = hintValue,
                 fontFamily = notosanskr,
+                color = Color.Gray,
                 fontSize = 17.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold
             )
         }
+    }
+}
+
+@Composable
+fun LogInButton(
+    context: Context,
+) {
+    Button(
+        onClick = { context.startActivity(Intent(context, MainActivity::class.java))},
+        modifier = Modifier
+            .width(350.dp)
+            .height(50.dp)
+            .shadow(
+                elevation = 5.dp,
+                shape = RoundedCornerShape(16.dp),
+                clip = true
+            ),
+        colors = ButtonDefaults.buttonColors(backgroundColor = ComponentInnerColor),
+        shape = RoundedCornerShape(50),
+    ) {
+        Text(
+            text = stringResource(id = R.string.login_page_login),
+            fontFamily = notosanskr,
+            fontSize = 17.sp,
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+        )
+    }
+}
+
+@Composable
+fun SignUpButton(
+    context: Context
+) {
+    TextButton(
+        onClick = {context.startActivity(Intent(context, SignUpActivity::class.java))},
+        modifier = Modifier
+            .padding(top = 20.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.login_page_sign_up),
+            fontFamily = notosanskr,
+            fontSize = 17.sp,
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+        )
     }
 }
