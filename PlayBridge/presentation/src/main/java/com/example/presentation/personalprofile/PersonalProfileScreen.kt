@@ -1,7 +1,6 @@
 package com.example.presentation.personalprofile
 
 
-import android.provider.ContactsContract
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,17 +9,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -32,9 +28,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.presentation.R
 import com.example.presentation.ui.theme.*
-import com.skydoves.landscapist.CircularReveal
-import com.skydoves.landscapist.glide.GlideImage
-
 
 @Preview(widthDp = 450, heightDp = 850)
 @Composable
@@ -45,27 +38,60 @@ fun preview() {
 @Composable
 fun PersonalProfileScreen(navController: NavController) {
     val isEditing = remember { mutableStateOf(false) }
+    val sellerRegistrationGameList = remember {
+        mutableStateListOf(
+            "League of Legends - 플레티넘",
+            "기타 게임 사전 협의",
+        )
+    }
+    val registeredGameFeeList = remember {
+        mutableStateListOf(
+            "리그 오브 레전드 - 1시간 5000원 / 1판 3000원",
+            "기타 게임 - 1시간 8000원",
+        )
+    }
+    val (selfIntroduction, setSelfIntroduction) = remember {
+        mutableStateOf(
+            "안녕하세요~" +
+                    "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
+        )
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = BackgroundColor)
     ) {
-        Spacer(modifier = Modifier.height(35.dp))
+        Backward(navController = navController)
+        Spacer(modifier = Modifier.height(30.47.dp))
         CoinSection(quantity = 3000)
+        Spacer(modifier = Modifier.height(4.63.dp))
         ProfilePersonalInformationSection(
             profileImage = painterResource(id = R.drawable.ic_baseline_account_circle_24),
-            nickname = stringResource(id = R.string.dungledungle),
+            nickname = stringResource(id = R.string.test_name),
             userRating = stringResource(id = R.string.new_rating),
-            gender =  stringResource(id = R.string.male)
+            gender = stringResource(id = R.string.male),
+            isEditing = isEditing
         )
         Spacer(modifier = Modifier.height(27.dp))
-        SellerRegistrationGameSection(isEditing = isEditing)
-        RegisteredGameFeeSection(isEditing = isEditing)
-        SelfIntroductionSection(isEditing = isEditing)
+        SellerRegistrationGameSection(
+            isEditing = isEditing,
+            sellerRegistrationGameList = sellerRegistrationGameList
+        )
+        Spacer(modifier = Modifier.height(25.dp))
+        RegisteredGameFeeSection(
+            isEditing = isEditing,
+            registeredGameFeeList = registeredGameFeeList
+        )
+        Spacer(modifier = Modifier.height(35.dp))
+        SelfIntroductionSection(
+            isEditing = isEditing,
+            selfIntroduction = selfIntroduction,
+            setSelfIntroduction = setSelfIntroduction
+        )
+        Spacer(modifier = Modifier.height(40.dp))
         ProfileEditButton(isEditing = isEditing)
     }
-    Backward(navController = navController)
 }
 
 @Composable
@@ -75,19 +101,22 @@ fun CoinSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(end = 30.dp),
+            .padding(end = 44.5.dp),
         horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.Top
     ) {
         TextButton(
             onClick = {},
+            modifier = Modifier
+                .height(30.2.dp),
+            contentPadding = PaddingValues(0.dp)
         ) {
             Text(
-                text = "C",
+                text = "C ",
                 color = Color.White,
                 fontSize = 20.sp,
                 fontFamily = notosanskr,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(end = 5.dp)
             )
             Text(
                 text = quantity.toString(),
@@ -98,16 +127,6 @@ fun CoinSection(
             )
         }
 
-        GlideImage(
-            modifier = Modifier
-                .width(50.dp)
-                .height(50.dp)
-                .clip(CircleShape)
-                .clickable(enabled = true, onClick = {}),
-            imageModel = ImageBitmap.imageResource(R.drawable.question_mark),
-            circularReveal = CircularReveal(duration = 250),
-            error = ImageBitmap.imageResource(id = R.drawable.question_mark)
-        )
     }
 }
 
@@ -116,34 +135,32 @@ fun ProfilePersonalInformationSection(
     profileImage: Painter,
     nickname: String,
     userRating: String,
-    gender: String
+    gender: String,
+    isEditing:  MutableState<Boolean>
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
-        IconButton(
-            onClick = {},
-            modifier = Modifier
-                .padding(start = 49.dp, end = 24.dp),
-
-            ) {
-            Image(
-                painter = profileImage,
-                contentDescription = "",
-            )
+        Box(
+            modifier = Modifier.padding(start = 49.dp, end = 24.dp),
+        ) {
+            ProfileImage(isEditing = isEditing, profileImage = profileImage)
         }
 
-        Column() {
-            Row()
-            {
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Bottom
+            ) {
                 NicknameColumn(textValue = nickname)
                 Text(
                     text = stringResource(id = R.string.nim),
                     color = Color.White,
-                    fontSize = 20.sp,
+                    fontSize = 15.sp,
                     fontFamily = notosanskr,
-                    fontWeight = FontWeight.Light
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.padding(bottom = 1.dp)
                 )
             }
 
@@ -153,7 +170,7 @@ fun ProfilePersonalInformationSection(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 UserRating(textValue = userRating, ratingColor = NewBadgeColor)
-
+                Spacer(modifier = Modifier.width(11.28.dp))
                 Gender(textValue = gender, genderColor = MaleBadgeColor)
             }
         }
@@ -161,42 +178,56 @@ fun ProfilePersonalInformationSection(
 }
 
 @Composable
-fun SellerRegistrationGameSection(
-    isEditing: MutableState<Boolean>
-){
-    val sellerRegistrationGameList = remember {
-        mutableStateListOf(
-            "League of Legends - 플레티넘",
-            "기타 게임 사전 협의",
+fun ProfileImage(
+    isEditing: MutableState<Boolean>,
+    profileImage: Painter
+) {
+    IconButton(
+        onClick = {},
+        enabled = isEditing.value,
+    ) {
+        Image(
+            painter = profileImage,
+            contentDescription = "",
         )
     }
+    Image(
+        painter = painterResource(id = R.drawable.ic_baseline_add_circle_24),
+        modifier = Modifier
+            .alpha(if (!isEditing.value) 0f else 1f)
+            .size(29.dp)
+            .offset(70.dp, 70.dp),
+        contentDescription = "",
+    )
+}
 
+@Composable
+fun SellerRegistrationGameSection(
+    isEditing: MutableState<Boolean>,
+    sellerRegistrationGameList: SnapshotStateList<String>
+){
     Column(
         modifier = Modifier
-            .width(390.dp)
-            .padding(
-                start = 50.dp,
-            )
+            .width(331.dp)
+            .padding(start = 50.dp)
     ) {
-        TitleText(textValue = "판매자 등록 게임", bottomPaddingValue = 20)
-
+        Title(textValue = stringResource(id = R.string.seller_registration_game), isEditing = isEditing)
+        Spacer(modifier = Modifier.height(20.dp))
         LazyColumn(
             modifier = Modifier
-                .padding(bottom = 25.dp)
                 .fillMaxWidth(),
         ) {
             item {
                 ListRegistration(
-                    bottomPaddingValue = 17,
                     isEditing = isEditing,
                     text = sellerRegistrationGameList[0],
                     textChange = { sellerRegistrationGameList[0] = it }
                 )
+                Spacer(modifier = Modifier.height(34.dp))
             }
 
             item {
                 ListRegistration(
-                    bottomPaddingValue = 0,
                     isEditing = isEditing,
                     text = sellerRegistrationGameList[1],
                     textChange = { sellerRegistrationGameList[1] = it }
@@ -208,39 +239,28 @@ fun SellerRegistrationGameSection(
 
 @Composable
 fun RegisteredGameFeeSection(
-    isEditing: MutableState<Boolean>
+    isEditing: MutableState<Boolean>,
+    registeredGameFeeList: SnapshotStateList<String>,
 ) {
-    val registeredGameFeeList = remember {
-        mutableStateListOf(
-            "리그 오브 레전드 - 1시간 5000원 / 1판 3000원",
-            "기타 게임 - 1시간 8000원",
-        )
-    }
-
     Column(
         modifier = Modifier
-            .width(390.dp)
-            .padding(
-                start = 50.dp,
-            )
+            .width(331.dp)
+            .padding(start = 50.dp)
     ) {
-        TitleText(textValue = "등록 게임 비용", bottomPaddingValue = 20)
-
-        LazyColumn(
-            modifier = Modifier.padding(bottom = 25.dp)
-        ) {
+        Title(textValue = stringResource(id = R.string.registered_game_fee), isEditing = isEditing)
+        Spacer(modifier = Modifier.height(20.dp))
+        LazyColumn {
             item {
                 ListRegistration(
-                    bottomPaddingValue = 17,
                     isEditing = isEditing,
                     text = registeredGameFeeList[0],
                     textChange = { registeredGameFeeList[0] = it }
                 )
+                Spacer(modifier = Modifier.height(34.dp))
             }
 
             item {
                 ListRegistration(
-                    bottomPaddingValue = 0,
                     isEditing = isEditing,
                     text = registeredGameFeeList[1],
                     textChange = { registeredGameFeeList[1] = it }
@@ -252,30 +272,17 @@ fun RegisteredGameFeeSection(
 
 @Composable
 fun SelfIntroductionSection(
-    isEditing: MutableState<Boolean>
+    isEditing: MutableState<Boolean>,
+    selfIntroduction: String,
+    setSelfIntroduction: (String) -> Unit
 ) {
-    var (selfIntroduction, setSelfIntroduction) = remember {
-        mutableStateOf(
-            "안녕하세요~" +
-                    "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-        )
-    }
-    
     Column(
         modifier = Modifier
-            .padding(
-                start = 50.dp,
-            )
+            .fillMaxWidth()
+            .padding(start = 50.dp, end = 50.dp)
     ) {
-        TitleText(textValue = "자기소개", bottomPaddingValue = 0)
-
+        Title(textValue = stringResource(id = R.string.self_introduction), isEditing)
         Spacer(modifier = Modifier.height(17.dp))
-
         SelfIntroductionInputField(
             isEditing = isEditing,
             selfIntroduction = selfIntroduction,
@@ -302,24 +309,20 @@ fun UserRating(
     textValue: String,
     ratingColor: Color
 ) {
-    Button(
-        onClick = { },
-        enabled = false,
-        colors = ButtonDefaults.buttonColors(
-            disabledBackgroundColor = ratingColor,
-        ),
+    Box(
         modifier = Modifier
-            .clip(shape = RoundedCornerShape(10.dp))
-            .width(32.dp)
+            .clip(shape = RoundedCornerShape(50))
+            .background(color = ratingColor)
+            .width(31.72.dp)
             .height(18.dp),
-        contentPadding = PaddingValues(0.dp)
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = textValue,
             fontSize = 8.sp,
             color = Color.White,
             fontFamily = notosanskr,
-            fontWeight = FontWeight.Normal
+            fontWeight = FontWeight.Normal,
         )
     }
 }
@@ -329,41 +332,48 @@ fun Gender(
     textValue: String,
     genderColor: Color
 ) {
-    Button(
-        onClick = { },
-        enabled = false,
-        colors = ButtonDefaults.buttonColors(
-            disabledBackgroundColor = genderColor,
-        ),
+    Box(
         modifier = Modifier
-            .padding(start = 11.28.dp)
             .clip(shape = CircleShape)
-            .size(24.dp),
-        contentPadding = PaddingValues(0.dp)
+            .size(24.dp)
+            .background(color = genderColor),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = textValue,
             color = Color.White,
             fontSize = 12.sp,
             fontFamily = notosanskr,
-            fontWeight = FontWeight.Normal
+            fontWeight = FontWeight.Normal,
         )
     }
 }
 
 @Composable
-fun TitleText(
+fun Title(
     textValue: String,
-    bottomPaddingValue: Int
+    isEditing: MutableState<Boolean>
 ) {
-    Text(
-        text = textValue,
-        color = Color.White,
-        fontSize = 20.sp,
-        fontFamily = notosanskr,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(bottom = bottomPaddingValue.dp)
-    )
+    Row (
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ){
+        Text(
+            text = textValue,
+            color = Color.White,
+            fontSize = 20.sp,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Image(
+            painter = painterResource(id = R.drawable.test_image_sixteensix),
+            modifier = Modifier
+                .alpha(if(isEditing.value) 1f else 0f),
+            contentDescription = "",
+            alignment = Alignment.Center
+        )
+    }
 }
 
 @Composable
@@ -382,27 +392,22 @@ fun DrawDot(
 
 @Composable
 fun ListRegistration(
-    bottomPaddingValue: Int,
     isEditing: MutableState<Boolean>,
     text: String,
     textChange: (String) -> Unit,
 ) {
-    val focusRequester = remember { FocusRequester() }
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(bottom = bottomPaddingValue.dp)
+            .fillMaxWidth()
     ) {
         DrawDot(dotSize = 5, color = PointColor)
-
+        Spacer(modifier = Modifier.width(21.dp))
         BasicTextField(
             enabled = isEditing.value,
             modifier = Modifier
                 .width(275.dp)
-                .height(22.dp)
-                .padding(start = 21.dp)
-                .focusRequester(focusRequester),
+                .height(22.dp),
             value = text,
             onValueChange = textChange,
             textStyle = TextStyle(
@@ -414,25 +419,6 @@ fun ListRegistration(
             singleLine = true,
             cursorBrush = SolidColor(Color.White),
         )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            IconButton(
-                onClick = { focusRequester.requestFocus() },
-                enabled = isEditing.value,
-                modifier = Modifier
-                    .then(Modifier.size(24.dp))
-                    .alpha(if (!isEditing.value) 0f else 1f),
-
-                ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_baseline_help_24),
-                    contentDescription = "",
-                )
-            }
-        }
     }
 }
 
@@ -442,29 +428,26 @@ fun SelfIntroductionInputField(
     selfIntroduction: String,
     setSelfIntroduction: (String) -> Unit
 ) {
-    Row(
+    TextField(
+        readOnly = !isEditing.value,
         modifier = Modifier
-            .verticalScroll(rememberScrollState()),
-    ) {
-        TextField(
-            readOnly = !isEditing.value,
-            modifier = Modifier
-                .width(331.dp)
-                .height(115.dp)
-                .clip(shape = RoundedCornerShape(15.dp)),
-            textStyle = TextStyle(
-                fontSize = 12.sp,
-                color = Color.White,
-                fontFamily = notosanskr,
-                fontWeight = FontWeight.Bold
-            ),
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = SelfIntroduction
-            ),
-            value = selfIntroduction,
-            onValueChange = setSelfIntroduction,
-        )
-    }
+            .fillMaxWidth()
+            .height(115.dp)
+            .clip(shape = RoundedCornerShape(15.dp)),
+        textStyle = TextStyle(
+            fontSize = 12.sp,
+            color = Color.White,
+            fontFamily = notosanskr,
+            fontWeight = FontWeight.Bold
+        ),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = SelfIntroduction,
+            cursorColor = Color.White,
+            trailingIconColor = Color.White
+        ),
+        value = selfIntroduction,
+        onValueChange = setSelfIntroduction,
+    )
 }
 
 @Composable
@@ -473,13 +456,11 @@ fun ProfileEditButton(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 40.dp),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
         Button(
             onClick = { isEditing.value = !isEditing.value },
-
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = ProfileEditingColor
             ),
@@ -487,10 +468,10 @@ fun ProfileEditButton(
                 .clip(shape = RoundedCornerShape(30.dp))
                 .width(101.dp)
                 .height(40.dp),
-            contentPadding = PaddingValues(0.dp),
+            contentPadding = PaddingValues(0.dp)
         ) {
             Text(
-                if (!isEditing.value) "편집" else "완료",
+                text = if(!isEditing.value) "편집" else "완료",
                 fontSize = 15.sp,
                 color = Color.White,
                 fontFamily = notosanskr,
@@ -504,14 +485,15 @@ fun ProfileEditButton(
 fun Backward(
     navController: NavController
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Bottom
     ) {
         IconButton(
             onClick = { navController.popBackStack() },
             modifier = Modifier
-                .padding(start = 35.dp, top = 10.dp),
+                .padding(start = 30.dp, top = 10.dp)
+                .height(24.dp),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_24),

@@ -13,16 +13,18 @@
     <string name="password">비밀번호</string>
     <string name="nickname">닉네임</string>
     <string name="sex">성별</string>
-    <string name="birthday">생일 ex)0000-00-00</string>
+    <string name="birthday">생일 ex)0000–00-00</string>
     <string name="complete">완료</string>
     <!-- Main -->
     <string name="seller_registration">판매자 등록</string>
-    <!-- PersonalProfile -->
-    <string name="dungledungle">둥글둥글</string>
-    <string name="nim">님</string>
-    <string name="new_rating">신규</string>
+    <!-- BadgeName -->
     <string name="male">남</string>
-    <string name="coin_quantity">3000</string>
+    <string name="new_rating">신규</string>
+    <!-- PersonalProfile -->
+    <string name="seller_registration_game">판매자 등록 게임</string>
+    <string name="registered_game_fee">등록 게임 비용</string>
+    <string name="test_name">둥글둥글</string>
+    <string name="nim">님</string>
     <!-- SupportGame-->
     <string name="support_game_title">지원 게임 내용을\n작성해주세요</string>
     <string name="game_select_or_edit">게임 선택/작성</string>
