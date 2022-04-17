@@ -5,10 +5,10 @@ sealed class Result<out T> {
     data class Error<T>(val error: Throwable) : Result<T>()
 }
 
-fun <T> Result<T>.processMore(onSuccess: () -> Unit, onError: () -> Unit = {}): Result<T> {
+fun <T> Result<T>.processMore(onSuccess: (T) -> Unit, onError: () -> Unit = {}): Result<T> {
     when(this) {
         is Result.Success -> {
-            onSuccess()
+            onSuccess(value)
         }
         is Result.Error -> {
             onError()

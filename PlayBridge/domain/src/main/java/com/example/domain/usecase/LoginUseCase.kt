@@ -1,6 +1,5 @@
 package com.example.domain.usecase
 
-import android.util.Log
 import com.example.domain.base.BaseUseCase
 import com.example.domain.base.Result
 import com.example.domain.model.LoginModel
@@ -13,11 +12,11 @@ class LoginUseCase @Inject constructor(
     private val repository: UserRepository
 ) : BaseUseCase() {
     suspend operator fun invoke(loginModel: LoginModel) =
-        withContext(Dispatchers.IO){
-            val response =  repository.login(loginModel)
-            if(response.status){
+        withContext(Dispatchers.IO) {
+            val response = repository.login(loginModel)
+            if (response.status) {
                 Result.Success(response)
-            }else{
+            } else {
                 Result.Error(Exception())
             }
         }
