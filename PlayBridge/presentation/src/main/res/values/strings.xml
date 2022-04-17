@@ -13,7 +13,7 @@
     <string name="password">비밀번호</string>
     <string name="nickname">닉네임</string>
     <string name="sex">성별</string>
-    <string name="birthday">생일</string>
+    <string name="birthday">생일 ex)0000-00-00</string>
     <string name="complete">완료</string>
     <!-- Main -->
     <string name="seller_registration">판매자 등록</string>
