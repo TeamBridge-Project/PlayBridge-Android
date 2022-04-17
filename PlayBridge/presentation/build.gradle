@@ -50,13 +50,11 @@ kapt {
 }
 dependencies {
     implementation project(":domain")
+    implementation project(":local")
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
-
-    implementation "androidx.datastore:datastore-preferences:$datastore_version"
-    implementation "androidx.datastore:datastore-core:$datastore_version"
 
     implementation "androidx.compose.material:material-icons-extended:$material_version"
     implementation "com.google.accompanist:accompanist-pager:$accompanist_version"

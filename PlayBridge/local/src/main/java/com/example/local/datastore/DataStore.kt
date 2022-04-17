@@ -1,4 +1,4 @@
-package com.example.presentation.util.datastore
+package com.example.local.datastore
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
@@ -15,19 +15,20 @@ import javax.inject.Singleton
 private val Context.dataStore by preferencesDataStore("tokens")
 
 @Singleton
-class DataStoreManager @Inject constructor(@ApplicationContext appContext: Context){
+class DataStoreManager @Inject constructor(@ApplicationContext appContext: Context) {
 
     private val tokensDataStore = appContext.dataStore
 
     private val accessTokenKey = stringPreferencesKey("access_token")
     private val refreshTokenKey = stringPreferencesKey("refresh_token")
 
-    suspend fun setAccessToken(accessToken : String){
+    suspend fun setAccessToken(accessToken: String) {
         tokensDataStore.edit { preferences ->
             preferences[accessTokenKey] = accessToken
         }
     }
-    suspend fun setRefreshToken(refreshToken : String){
+
+    suspend fun setRefreshToken(refreshToken: String) {
         tokensDataStore.edit { preferences ->
             preferences[refreshTokenKey] = refreshToken
         }
@@ -35,25 +36,24 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
 
     val accessToken = tokensDataStore.data
         .catch { exception ->
-            if(exception is IOException){
+            if (exception is IOException) {
                 emit(emptyPreferences())
-            }else{
+            } else {
                 throw exception
             }
         }
-        .map{ preferences ->
+        .map { preferences ->
             preferences[accessTokenKey] ?: ""
         }
     val refreshToken = tokensDataStore.data
         .catch { exception ->
-            if(exception is IOException){
+            if (exception is IOException) {
                 emit(emptyPreferences())
-            }else{
+            } else {
                 throw exception
             }
         }
-        .map{ preferences ->
+        .map { preferences ->
             preferences[refreshTokenKey] ?: ""
         }
-
 }
