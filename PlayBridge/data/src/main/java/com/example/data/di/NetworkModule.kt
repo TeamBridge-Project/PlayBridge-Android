@@ -46,14 +46,14 @@ class NetworkModule {
         interceptor: Interceptor
     ) =
         OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
             .addInterceptor(interceptor)
+            .addInterceptor(loggingInterceptor)
             .build()
 
 
     @Provides
     fun providesLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY).setLevel(HttpLoggingInterceptor.Level.HEADERS)
 
     @Provides
     fun providesOkhttpInterceptor(
