@@ -71,6 +71,7 @@ fun DropDownComponent(
     optionList: List<String>,
     placeHolderText: String
 ) {
+    var itemCount: Int = 0
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("") }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
@@ -117,19 +118,11 @@ fun DropDownComponent(
         DropdownMenu(
             modifier = Modifier
                 .background(ComponentInnerColor)
-                .onGloballyPositioned { coordinates ->
-                    //This value is used to assign to the DropDown the same width
-                    textFieldSize = coordinates.size.toSize()
-                },
+                .width(with(LocalDensity.current) { textFieldSize.width.toDp() }),
             expanded = expanded,
             onDismissRequest = {
                 expanded = false
             }) {
-            Divider(
-                color = BackgroundColor,
-                modifier = Modifier.fillMaxWidth(),
-                thickness = 2.dp
-            )
             optionList.forEach { selection ->
                 DropdownMenuItem(
                     onClick = {
@@ -138,23 +131,18 @@ fun DropDownComponent(
                     },
                     modifier = Modifier
                         .width(with(LocalDensity.current) { textFieldSize.width.toDp() }),
-                    contentPadding = PaddingValues(0.dp)
                 ) {
-                    Column() {
-                        Text(
-                            text = selection,
-                            modifier = Modifier.padding(12.dp),
-                            color = Color.White
-                        )
-                        Divider(
-                            color = BackgroundColor,
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = 2.dp
-                        )
-                    }
-
+                    Text(
+                        text = selection,
+                        color = Color.White
+                    )
                 }
 
+                itemCount++
+
+                if(optionList.size != itemCount) {
+                    Divider(thickness = 2.dp)
+                }
             }
         }
     }
