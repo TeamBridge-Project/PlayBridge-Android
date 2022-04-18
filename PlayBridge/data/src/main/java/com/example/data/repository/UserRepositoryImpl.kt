@@ -11,12 +11,11 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : UserRepository {
-    override suspend fun signUp(signUpModel: SignUpModel) {
-        apiService.signUp(signUpModel.toData())
-    }
+    override suspend fun signUp(signUpModel: SignUpModel) =
+        Mapper.mapperResponse(apiService.signUp(signUpModel.toData()))
+
 
     override suspend fun login(loginModel: LoginModel) =
         Mapper.mapperResponse(apiService.login(loginModel.toData()))
-
 
 }

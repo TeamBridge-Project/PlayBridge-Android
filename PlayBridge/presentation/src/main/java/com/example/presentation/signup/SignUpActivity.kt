@@ -73,9 +73,7 @@ fun Screen(viewModel: SignUpViewModel = hiltViewModel()) {
             .fillMaxSize()
             .background(color = BackgroundColor)
     ) {
-        SignUpScreen(
-            viewModel = viewModel
-        )
+        SignUpScreen(viewModel::signUp, viewModel::backPress)
     }
 }
 
@@ -83,7 +81,8 @@ fun Screen(viewModel: SignUpViewModel = hiltViewModel()) {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignUpScreen(
-    viewModel: SignUpViewModel
+    onSignUp: (String, String, String, String, String, Boolean, Boolean, Activity?) -> Unit,
+    onBackPressed : (Activity?) -> Unit
 ) {
     val activity = LocalContext.current as? Activity
     val (email, setEmail) = remember { mutableStateOf("") }
@@ -96,7 +95,7 @@ fun SignUpScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     IconButton(
-        onClick = { activity?.finish() },
+        onClick = { onBackPressed(activity) },
         modifier = Modifier.padding(top = 35.dp, start = 15.dp)
     ) {
         Image(
@@ -161,7 +160,7 @@ fun SignUpScreen(
 
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            GenderDropDown(keyboardController = keyboardController,)
+            GenderDropDown(keyboardController = keyboardController)
 
             BirthdayInput(
                 textValue = birthday,
@@ -206,16 +205,16 @@ fun SignUpScreen(
                 .align(Alignment.CenterHorizontally),
             shape = RoundedCornerShape(30.dp),
             onClick = {
-                viewModel.signUp(
+                onSignUp(
                     email,
                     password,
                     nickName,
                     gender,
                     birthday,
                     isSmsChecked,
-                    isEmailChecked
+                    isEmailChecked,
+                    activity
                 )
-                activity?.finish()
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = SignUpCompleteColor
@@ -302,9 +301,9 @@ fun InputComponent(
                 }
             },
         )
-        if(textValue.isEmpty()) {
+        if (textValue.isEmpty()) {
             Text(
-                modifier = Modifier.offset(20.dp,15.dp),
+                modifier = Modifier.offset(20.dp, 15.dp),
                 text = textHint,
                 fontFamily = notosanskr,
                 color = Color.Gray,
@@ -336,7 +335,10 @@ fun BirthdayInput(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
             ),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
             keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
             singleLine = true,
             decorationBox = { innerTextField ->
@@ -350,9 +352,9 @@ fun BirthdayInput(
                 }
             },
         )
-        if(textValue.isEmpty()) {
+        if (textValue.isEmpty()) {
             Text(
-                modifier = Modifier.offset(20.dp,15.dp),
+                modifier = Modifier.offset(20.dp, 15.dp),
                 text = stringResource(id = R.string.birthday),
                 fontFamily = notosanskr,
                 color = Color.Gray,
@@ -367,14 +369,14 @@ fun BirthdayInput(
 @Composable
 fun GenderDropDown(
     keyboardController: SoftwareKeyboardController?,
-){
+) {
     var expanded by remember { mutableStateOf(false) }
-    val genderList = listOf("남","여")
-    var selectedGender by remember { mutableStateOf("")}
+    val genderList = listOf("남", "여")
+    var selectedGender by remember { mutableStateOf("") }
 
-    var textFieldSize by remember { mutableStateOf(Size.Zero)}
+    var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
-    val dropDownIcon = if(expanded){
+    val dropDownIcon = if (expanded) {
         R.drawable.ic_baseline_keyboard_arrow_up_24
     } else {
         R.drawable.ic_baseline_keyboard_arrow_down_24
@@ -430,22 +432,23 @@ fun GenderDropDown(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
-                .width(with(LocalDensity.current){textFieldSize.width.toDp()}),
+                .width(with(LocalDensity.current) { textFieldSize.width.toDp() }),
         ) {
             genderList.forEach { selection ->
                 DropdownMenuItem(
                     onClick = {
-                    selectedGender = selection
-                    expanded = false },
+                        selectedGender = selection
+                        expanded = false
+                    },
                 ) {
                     Text(text = selection)
                 }
             }
         }
 
-        if(selectedGender.isEmpty()) {
+        if (selectedGender.isEmpty()) {
             Text(
-                modifier = Modifier.offset(20.dp,15.dp),
+                modifier = Modifier.offset(20.dp, 15.dp),
                 text = stringResource(id = R.string.sex),
                 fontFamily = notosanskr,
                 color = Color.Gray,

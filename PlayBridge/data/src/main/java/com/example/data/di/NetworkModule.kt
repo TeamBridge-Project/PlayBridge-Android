@@ -53,7 +53,7 @@ class NetworkModule {
 
     @Provides
     fun providesLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY).setLevel(HttpLoggingInterceptor.Level.HEADERS)
+        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     @Provides
     fun providesOkhttpInterceptor(
