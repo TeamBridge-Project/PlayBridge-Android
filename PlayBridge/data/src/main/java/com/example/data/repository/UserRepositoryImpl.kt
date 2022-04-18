@@ -1,10 +1,11 @@
 package com.example.data.repository
 
+import com.example.data.mapper.Mapper
 import com.example.data.mapper.toData
 import com.example.data.service.ApiService
+import com.example.domain.model.LoginModel
 import com.example.domain.model.SignUpModel
 import com.example.domain.repository.UserRepository
-import retrofit2.Response
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -13,5 +14,9 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun signUp(signUpModel: SignUpModel) {
         apiService.signUp(signUpModel.toData())
     }
+
+    override suspend fun login(loginModel: LoginModel) =
+        Mapper.mapperResponse(apiService.login(loginModel.toData()))
+
 
 }

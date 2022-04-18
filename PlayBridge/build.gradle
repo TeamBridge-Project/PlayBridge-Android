@@ -11,6 +11,7 @@ buildscript {
         retrofit_version = "2.9.0"
         okhttp_version = "4.9.3"
         hilt_navigation_compose_version = "1.0.0"
+        datastore_version = "1.0.0-alpha07"
     }
     repositories {
         google()

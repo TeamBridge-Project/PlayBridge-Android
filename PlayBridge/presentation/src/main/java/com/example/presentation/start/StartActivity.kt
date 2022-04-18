@@ -2,48 +2,50 @@
 
 package com.example.presentation.start
 
-import android.content.Context
-import android.content.Intent
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
-import com.example.presentation.main.MainActivity
-import com.example.presentation.signup.SignUpActivity
+
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class StartActivity : ComponentActivity() {
@@ -60,16 +62,25 @@ class StartActivity : ComponentActivity() {
                     color = BackgroundColor
                 )
             }
-            StartScreen()
+            Screen()
         }
     }
+
 }
 
 @Composable
-fun StartScreen() {
-    val (id, setId) = remember { mutableStateOf("") }
+fun Screen(viewModel: StartViewModel = hiltViewModel()) {
+    StartScreen(viewModel::login, viewModel::moveSignUp)
+}
+
+@Composable
+fun StartScreen(
+    onLogin: (String, String, Activity?) -> Unit,
+    moveSignUpPage: (Activity?) -> Unit,
+) {
+    val (email, setEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
-    val context = LocalContext.current
+    val activity = LocalContext.current as? Activity
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
@@ -80,14 +91,14 @@ fun StartScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         LogoImage()
-        LogInTextField(stringResource(id = R.string.login_page_id), id, setId, false, keyboardController)
+        LogInTextField(stringResource(id = R.string.login_page_id), email, setEmail, false, keyboardController)
         Spacer(modifier = Modifier.height(20.dp))
         LogInTextField(stringResource(id = R.string.login_page_password), password, setPassword, true, keyboardController)
         Spacer(modifier = Modifier.height(20.dp))
-        LogInButton(context)
+        LogInButton(activity,onLogin,email,password)
         Spacer(modifier = Modifier.height(25.dp))
         Divider(Modifier.width(380.dp), Color.Gray)
-        SignUpButton(context)
+        SignUpButton(activity,moveSignUpPage)
     }
 }
 
@@ -163,10 +174,13 @@ fun LogInTextField(
 
 @Composable
 fun LogInButton(
-    context: Context,
+    activity: Activity?,
+    onLogin: (String, String, Activity?) -> Unit,
+    email: String,
+    password :String
 ) {
     Button(
-        onClick = { context.startActivity(Intent(context, MainActivity::class.java))},
+        onClick = { onLogin(email,password,activity)},
         modifier = Modifier
             .width(350.dp)
             .height(50.dp)
@@ -190,10 +204,11 @@ fun LogInButton(
 
 @Composable
 fun SignUpButton(
-    context: Context
+    activity: Activity?,
+    moveSignUpPage: (Activity?) -> Unit
 ) {
     TextButton(
-        onClick = {context.startActivity(Intent(context, SignUpActivity::class.java))},
+        onClick = { moveSignUpPage(activity) },
         modifier = Modifier
             .padding(top = 20.dp)
     ) {

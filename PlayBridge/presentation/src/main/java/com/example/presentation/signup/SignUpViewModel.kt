@@ -18,11 +18,12 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
         email: String, password: String, nickname: String,
         gender: String, date: String, agreeSms: Boolean, agreeEmail: Boolean
     ) {
-
         viewModelScope.launch {
             signUpUseCase(
-                SignUpModel(email, password.sha256(), nickname, gender,
-                    date.toDate(), agreeSms, agreeEmail)
+                SignUpModel(
+                    email, password.sha256(), nickname, gender,
+                    date.toDate(), agreeSms, agreeEmail
+                )
 
             )
         }
