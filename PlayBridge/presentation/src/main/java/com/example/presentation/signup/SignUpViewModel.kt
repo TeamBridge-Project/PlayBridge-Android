@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.base.processMore
 import com.example.domain.model.SignUpModel
 import com.example.domain.usecase.SignUpUseCase
+import com.example.local.datastore.DataStoreManager
 import com.example.presentation.main.MainActivity
 import com.example.presentation.util.sha256
 import com.example.presentation.util.toDate
@@ -16,7 +17,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCase) : ViewModel() {
+class SignUpViewModel @Inject constructor(
+    private val signUpUseCase: SignUpUseCase,
+    private val dataStore: DataStoreManager
+) : ViewModel() {
     fun signUp(
         email: String, password: String, nickname: String,
         gender: String, date: String, agreeSms: Boolean, agreeEmail: Boolean,
@@ -36,6 +40,10 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
                 )
             ).processMore(
                 onSuccess = {
+                    viewModelScope.launch {
+                        dataStore.setAccessToken(it.accessToken)
+                        dataStore.setRefreshToken(it.refreshToken)
+                    }
                     activity?.startActivity(Intent(activity, MainActivity::class.java))
                 },
                 onError = {
