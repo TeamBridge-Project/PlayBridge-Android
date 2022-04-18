@@ -15,6 +15,6 @@ object Mapper {
             accessToken,
             refreshToken
         )
-
     }
+
 }
