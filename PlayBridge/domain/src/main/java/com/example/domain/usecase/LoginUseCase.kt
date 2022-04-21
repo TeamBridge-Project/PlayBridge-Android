@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
     private val repository: UserRepository
-) : BaseUseCase() {
+) {
     suspend operator fun invoke(loginModel: LoginModel) =
         withContext(Dispatchers.IO) {
             val response = repository.login(loginModel)
