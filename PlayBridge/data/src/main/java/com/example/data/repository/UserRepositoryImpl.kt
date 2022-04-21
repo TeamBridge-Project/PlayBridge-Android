@@ -1,6 +1,6 @@
 package com.example.data.repository
 
-import com.example.data.mapper.Mapper
+import com.example.data.mapper.ResponseMapper
 import com.example.data.mapper.toData
 import com.example.data.service.ApiService
 import com.example.domain.model.LoginModel
@@ -12,10 +12,8 @@ class UserRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : UserRepository {
     override suspend fun signUp(signUpModel: SignUpModel) =
-        Mapper.mapperResponse(apiService.signUp(signUpModel.toData()))
-
+        ResponseMapper.mapperResponse(apiService.signUp(signUpModel.toData()))
 
     override suspend fun login(loginModel: LoginModel) =
-        Mapper.mapperResponse(apiService.login(loginModel.toData()))
-
+        ResponseMapper.mapperResponse(apiService.login(loginModel.toData()))
 }

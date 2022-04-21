@@ -2,13 +2,30 @@ package com.example.presentation.registration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -22,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import com.example.presentation.R
-import com.example.presentation.ui.navigation.Screens
+import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
@@ -33,7 +50,7 @@ import com.example.presentation.ui.util.Title
 @Composable
 fun SupportGameScreen(navController: NavController) {
     val gameList = listOf("리그 오브 레전드", "배틀 그라운드", "로스트아크", "메이플")
-    val tierList = listOf("골드 IV", "골드 III", "골드 II", "골드 I","실버 IV","실버 III","실버 II", "실버 I")
+    val tierList = listOf("골드 IV", "골드 III", "골드 II", "골드 I", "실버 IV", "실버 III", "실버 II", "실버 I")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,7 +70,6 @@ fun SupportGameScreen(navController: NavController) {
             optionList = tierList,
             placeHolderText = stringResource(id = R.string.rank_or_level_edit)
         )
-
     }
     Box(
         modifier = Modifier
@@ -61,7 +77,7 @@ fun SupportGameScreen(navController: NavController) {
             .padding(bottom = 60.dp),
         contentAlignment = Alignment.BottomCenter
     ) {
-        RegistrationButton("다음",navController, Screens.GameCostScreen.route)
+        RegistrationButton("다음", navController, HomeScreens.GameCostScreen.route)
     }
 }
 
@@ -122,7 +138,8 @@ fun DropDownComponent(
             expanded = expanded,
             onDismissRequest = {
                 expanded = false
-            }) {
+            }
+        ) {
             optionList.forEach { selection ->
                 DropdownMenuItem(
                     onClick = {
@@ -140,7 +157,7 @@ fun DropDownComponent(
 
                 itemCount++
 
-                if(optionList.size != itemCount) {
+                if (optionList.size != itemCount) {
                     Divider(thickness = 2.dp)
                 }
             }

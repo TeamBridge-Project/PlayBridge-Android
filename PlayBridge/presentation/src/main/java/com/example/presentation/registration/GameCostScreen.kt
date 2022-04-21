@@ -1,7 +1,15 @@
 package com.example.presentation.registration
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -27,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.presentation.R
-import com.example.presentation.ui.navigation.Screens
+import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.notosanskr
 import com.example.presentation.ui.util.BackButton
@@ -36,8 +44,8 @@ import com.example.presentation.ui.util.Title
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun GameCostScreen(navController : NavController) {
-    val (gameCost,setGameCost) = remember { mutableStateOf("") }
+fun GameCostScreen(navController: NavController) {
+    val (gameCost, setGameCost) = remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
@@ -55,7 +63,8 @@ fun GameCostScreen(navController : NavController) {
         CostInput(
             gameCost = gameCost,
             setGameCost = setGameCost,
-            keyboardController = keyboardController)
+            keyboardController = keyboardController
+        )
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -65,7 +74,8 @@ fun GameCostScreen(navController : NavController) {
             RegistrationButton(
                 text = "다음",
                 navController = navController,
-                route = Screens.AboutProfileScreen.route)
+                route = HomeScreens.AboutProfileScreen.route
+            )
         }
     }
 }
@@ -108,7 +118,7 @@ fun CostInput(
         Box(
             modifier = Modifier
                 .padding(top = 2.dp, end = 10.dp)
-        ){
+        ) {
             Text(
                 text = "1시간당/",
                 fontSize = 20.sp,
@@ -133,9 +143,11 @@ fun CostInput(
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done),
+                imeAction = ImeAction.Done
+            ),
             keyboardActions = KeyboardActions(onDone = {
-                keyboardController?.hide()} ),
+                keyboardController?.hide()
+            }),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
                 cursorColor = Color.White,

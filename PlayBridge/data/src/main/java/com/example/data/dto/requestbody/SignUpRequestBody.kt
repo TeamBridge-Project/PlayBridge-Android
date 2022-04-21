@@ -1,7 +1,7 @@
 package com.example.data.dto.requestbody
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import java.util.Date
 
 data class SignUpRequestBody(
     @SerializedName("email") val email: String,

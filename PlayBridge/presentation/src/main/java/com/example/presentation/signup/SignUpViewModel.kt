@@ -1,6 +1,5 @@
 package com.example.presentation.signup
 
-
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.ViewModel
@@ -22,8 +21,13 @@ class SignUpViewModel @Inject constructor(
     private val dataStore: DataStoreManager
 ) : ViewModel() {
     fun signUp(
-        email: String, password: String, nickname: String,
-        gender: String, date: String, agreeSms: Boolean, agreeEmail: Boolean,
+        email: String,
+        password: String,
+        nickname: String,
+        gender: String,
+        date: String,
+        agreeSms: Boolean,
+        agreeEmail: Boolean,
         activity: Activity?
     ) {
         val charGender = when (gender) {
@@ -47,7 +51,6 @@ class SignUpViewModel @Inject constructor(
                     activity?.startActivity(Intent(activity, MainActivity::class.java))
                 },
                 onError = {
-
                 }
             )
         }
