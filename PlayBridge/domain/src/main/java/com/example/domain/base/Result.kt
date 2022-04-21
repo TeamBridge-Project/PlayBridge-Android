@@ -17,12 +17,3 @@ fun <T> Result<T>.processMore(onSuccess: (T) -> Unit, onError: () -> Unit = {}):
 
     return this
 }
-
-abstract class BaseUseCase {
-    protected inline fun <T> execute(block: () -> T): Result<T> = runCatching {
-        Result.Success(block())
-    }.getOrElse {
-        it.printStackTrace()
-        Result.Error(it)
-    }
-}
