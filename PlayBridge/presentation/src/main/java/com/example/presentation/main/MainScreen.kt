@@ -3,14 +3,31 @@ package com.example.presentation.main
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.FloatingActionButtonDefaults
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -26,8 +43,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.presentation.R
-import com.example.presentation.ui.navigation.Screens
-import com.example.presentation.ui.theme.*
+import com.example.presentation.ui.navigation.HomeScreens
+import com.example.presentation.ui.theme.BackgroundColor
+import com.example.presentation.ui.theme.ComponentInnerColor
+import com.example.presentation.ui.theme.ConnectingDotColor
+import com.example.presentation.ui.theme.MaleBadgeColor
+import com.example.presentation.ui.theme.NewBadgeColor
+import com.example.presentation.ui.theme.SellerRegistrationColor
+import com.example.presentation.ui.theme.notosanskr
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -63,7 +86,7 @@ fun TopBar(navController: NavController) {
                 .width(40.dp)
                 .height(40.dp)
                 .clip(CircleShape)
-                .clickable { navController.navigate(Screens.PersonalProfileScreen.route) },
+                .clickable { navController.navigate(HomeScreens.PersonalProfileScreen.route) },
             imageModel = ImageBitmap.imageResource(R.drawable.profile_image),
             circularReveal = CircularReveal(duration = 250),
             error = ImageBitmap.imageResource(id = R.drawable.profile_image)
@@ -139,7 +162,7 @@ fun FunctionSelectBar(navController: NavController) {
             }
             Spacer(Modifier.width(60.dp))
             FloatingActionButton(
-                onClick = { navController.navigate(Screens.SupportGameRegistrationScreen.route) },
+                onClick = { navController.navigate(HomeScreens.SupportGameRegistrationScreen.route) },
                 modifier = Modifier
                     .width(80.dp)
                     .height(30.dp),
@@ -271,7 +294,7 @@ fun ProfileCard() {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                drawDot(dotSize = 5, color = ConnectingDotColor)
+                DrawDot(dotSize = 5, color = ConnectingDotColor)
                 Spacer(modifier = Modifier.width(5.dp))
                 ProFileText(
                     text = "현재 접속 중",
@@ -312,7 +335,7 @@ fun ProfileCard() {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    drawDot(dotSize = 3, color = Color.Green)
+                    DrawDot(dotSize = 3, color = Color.Green)
                     Spacer(modifier = Modifier.width(5.dp))
                     ProFileText(
                         text = "오버워치 - 실버",
@@ -324,7 +347,7 @@ fun ProfileCard() {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    drawDot(dotSize = 3, color = Color.Cyan)
+                    DrawDot(dotSize = 3, color = Color.Cyan)
                     Spacer(modifier = Modifier.width(5.dp))
                     ProFileText(
                         text = "리그 오브 레전드 - 실버",
@@ -338,7 +361,7 @@ fun ProfileCard() {
 }
 
 @Composable
-fun drawDot(dotSize: Int, color: Color) {
+fun DrawDot(dotSize: Int, color: Color) {
     Canvas(modifier = Modifier.size(dotSize.dp), onDraw = {
         val size = dotSize.dp.toPx()
         drawCircle(
