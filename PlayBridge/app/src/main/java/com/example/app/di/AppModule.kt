@@ -1,6 +1,7 @@
 package com.example.app.di
 
 import android.content.Context
+import com.example.app.constant.Url
 import com.example.local.datastore.DataStoreManager
 import dagger.Module
 import dagger.Provides
@@ -16,7 +17,7 @@ internal object AppModule {
 
     @Provides
     @Named("baseUrl")
-    fun provideBaseUrl(): String = "http://braininavet.iptime.org:3000/"
+    fun provideBaseUrl(): String = Url.baseUrl
 
     @Provides
     @Singleton
