@@ -6,7 +6,7 @@ sealed class Result<out T> {
 }
 
 fun <T> Result<T>.processMore(onSuccess: (T) -> Unit, onError: () -> Unit = {}): Result<T> {
-    when(this) {
+    when (this) {
         is Result.Success -> {
             onSuccess(value)
         }

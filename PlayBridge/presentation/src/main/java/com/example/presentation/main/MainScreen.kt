@@ -36,7 +36,6 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun MainScreen(navController: NavController) {
     Spacer(modifier = Modifier.height(60.dp))
@@ -50,7 +49,6 @@ fun MainScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(30.dp))
         FunctionSelectBar(navController = navController)
     }
-
 }
 
 @Composable
@@ -94,7 +92,6 @@ fun TopBar(navController: NavController) {
                 error = ImageBitmap.imageResource(id = R.drawable.question_mark)
             )
         }
-
     }
 }
 
@@ -120,7 +117,8 @@ fun FunctionSelectBar(navController: NavController) {
                     .padding(start = 40.dp),
             ) {
                 tabData.forEachIndexed { index, text ->
-                    Tab(selected = tabIndex == index,
+                    Tab(
+                        selected = tabIndex == index,
                         onClick = {
                             scope.launch {
                                 pagerState.animateScrollToPage(
@@ -167,8 +165,6 @@ fun FunctionSelectBar(navController: NavController) {
             }
         }
     }
-
-
 }
 
 @Composable
@@ -176,7 +172,6 @@ fun profilePage() {
     Spacer(Modifier.height(40.dp))
     ProfileArrangeBadges()
     ProfileBody()
-
 }
 
 @Composable
@@ -215,7 +210,6 @@ fun Badge(text: String) {
     }
     Spacer(modifier = Modifier.width(8.dp))
 }
-
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -351,7 +345,6 @@ fun drawDot(dotSize: Int, color: Color) {
             color = color,
             radius = size / 2f
         )
-
     })
 }
 
@@ -368,7 +361,6 @@ fun ProFileText(
         fontSize = fontSize.sp,
         color = Color.White
     )
-
 }
 
 @Composable

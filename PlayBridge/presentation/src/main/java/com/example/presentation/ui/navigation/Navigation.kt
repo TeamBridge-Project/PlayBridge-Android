@@ -26,10 +26,10 @@ fun Navigation() {
         composable(route = Screens.PersonalProfileScreen.route) {
             PersonalProfileScreen(navController = navController)
         }
-        composable(route = Screens.AboutProfileScreen.route){
+        composable(route = Screens.AboutProfileScreen.route) {
             AboutProfileScreen(navController = navController)
         }
-        composable(route = Screens.GameCostScreen.route){
+        composable(route = Screens.GameCostScreen.route) {
             GameCostScreen(navController = navController)
         }
     }

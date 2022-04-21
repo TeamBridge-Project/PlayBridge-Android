@@ -6,7 +6,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -50,7 +49,6 @@ class NetworkModule {
             .addInterceptor(loggingInterceptor)
             .build()
 
-
     @Provides
     fun providesLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -68,10 +66,9 @@ class NetworkModule {
             val refreshToken = runBlocking {
                 dataStore.refreshToken.first()
             }
-            requestBuilder.addHeader("X-Access-Token",accessToken)
-                .addHeader("X-Refresh-Token",refreshToken)
+            requestBuilder.addHeader("X-Access-Token", accessToken)
+                .addHeader("X-Refresh-Token", refreshToken)
             val request = requestBuilder.build()
             chain.proceed(request)
-
         }
 }

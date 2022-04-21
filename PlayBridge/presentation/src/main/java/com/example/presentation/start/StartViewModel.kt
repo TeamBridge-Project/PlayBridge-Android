@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class StartViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
@@ -42,7 +41,6 @@ class StartViewModel @Inject constructor(
                     _uiState.value = StartState.Success
                 },
                 onError = {
-
                 }
             )
         }

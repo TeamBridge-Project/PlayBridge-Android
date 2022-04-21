@@ -1,13 +1,7 @@
 package com.example.presentation.aboutprofile
 
-
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -17,23 +11,17 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
-
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.ui.navigation.Screens
@@ -41,7 +29,6 @@ import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.SelfIntroduction
 import com.example.presentation.ui.theme.notosanskr
 import com.example.presentation.ui.util.BackButton
-
 import com.example.presentation.ui.util.RegistrationButton
 import com.example.presentation.ui.util.Title
 import com.skydoves.landscapist.CircularReveal
@@ -77,7 +64,6 @@ fun AboutProfileScreen(navController: NavController) {
     }
 }
 
-
 @Composable
 fun ProfileSection() {
     var imageUri by remember {
@@ -102,7 +88,7 @@ fun ProfileSection() {
                     .height(70.dp)
                     .clip(CircleShape)
                     .clickable { launcher.launch("image/*") },
-                imageModel = imageUri?.let{ it },
+                imageModel = imageUri?.let { it },
                 circularReveal = CircularReveal(duration = 250),
                 error = ImageBitmap.imageResource(id = R.drawable.profile_image)
             )
@@ -140,7 +126,6 @@ fun SelfIntroductionSection() {
         )
     }
 }
-
 
 @Composable
 fun SelfIntroductionInputField(

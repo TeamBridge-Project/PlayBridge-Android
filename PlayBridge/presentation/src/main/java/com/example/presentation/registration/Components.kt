@@ -13,7 +13,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,7 +20,6 @@ import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.ui.theme.ProfileEditingColor
 import com.example.presentation.ui.theme.notosanskr
-
 
 @Composable
 fun BackButton(navController: NavController) {
@@ -41,10 +39,9 @@ fun BackButton(navController: NavController) {
     }
 }
 
-
 @Composable
-fun Title(text:String) {
-    Row(Modifier.fillMaxWidth().padding(start = 60.dp)){
+fun Title(text: String) {
+    Row(Modifier.fillMaxWidth().padding(start = 60.dp)) {
         Text(
             text = text,
             fontSize = 35.sp,
@@ -53,18 +50,16 @@ fun Title(text:String) {
             fontWeight = FontWeight.Bold
         )
     }
-
 }
-
 
 @Composable
 fun RegistrationButton(
-    text : String,
+    text: String,
     navController: NavController,
-    route:String
-){
+    route: String
+) {
     Button(
-        onClick = {navController.navigate(route = route)},
+        onClick = { navController.navigate(route = route) },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = ProfileEditingColor
         ),

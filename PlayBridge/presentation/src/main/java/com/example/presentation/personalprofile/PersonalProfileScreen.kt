@@ -1,7 +1,5 @@
 package com.example.presentation.personalprofile
 
-
-import android.provider.ContactsContract
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,7 +33,6 @@ import com.example.presentation.ui.theme.*
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 
-
 @Preview(widthDp = 450, heightDp = 850)
 @Composable
 fun preview() {
@@ -57,7 +54,7 @@ fun PersonalProfileScreen(navController: NavController) {
             profileImage = painterResource(id = R.drawable.ic_baseline_account_circle_24),
             nickname = stringResource(id = R.string.dungledungle),
             userRating = stringResource(id = R.string.new_rating),
-            gender =  stringResource(id = R.string.male)
+            gender = stringResource(id = R.string.male)
         )
         Spacer(modifier = Modifier.height(27.dp))
         SellerRegistrationGameSection(isEditing = isEditing)
@@ -127,7 +124,7 @@ fun ProfilePersonalInformationSection(
             modifier = Modifier
                 .padding(start = 49.dp, end = 24.dp),
 
-            ) {
+        ) {
             Image(
                 painter = profileImage,
                 contentDescription = "",
@@ -135,8 +132,7 @@ fun ProfilePersonalInformationSection(
         }
 
         Column() {
-            Row()
-            {
+            Row() {
                 NicknameColumn(textValue = nickname)
                 Text(
                     text = stringResource(id = R.string.nim),
@@ -163,7 +159,7 @@ fun ProfilePersonalInformationSection(
 @Composable
 fun SellerRegistrationGameSection(
     isEditing: MutableState<Boolean>
-){
+) {
     val sellerRegistrationGameList = remember {
         mutableStateListOf(
             "League of Legends - 플레티넘",
@@ -257,15 +253,15 @@ fun SelfIntroductionSection(
     var (selfIntroduction, setSelfIntroduction) = remember {
         mutableStateOf(
             "안녕하세요~" +
-                    "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
-                    + "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
+                "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!" +
+                "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!" +
+                "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!" +
+                "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!" +
+                "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!" +
+                "\n신규로 들어와서 같이 즐겁게 게임하실분 구하고 있습니다! 게임은 역시 즐겜!"
         )
     }
-    
+
     Column(
         modifier = Modifier
             .padding(
@@ -426,7 +422,7 @@ fun ListRegistration(
                     .then(Modifier.size(24.dp))
                     .alpha(if (!isEditing.value) 0f else 1f),
 
-                ) {
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_baseline_help_24),
                     contentDescription = "",
