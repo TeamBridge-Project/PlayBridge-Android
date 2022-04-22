@@ -50,8 +50,6 @@ class SignUpViewModel @Inject constructor(
                     }
                     activity?.startActivity(Intent(activity, MainActivity::class.java))
                 },
-                onError = {
-                }
             )
         }
     }
