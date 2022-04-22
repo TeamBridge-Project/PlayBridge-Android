@@ -5,6 +5,7 @@ import com.example.domain.model.LoginModel
 import com.example.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
@@ -16,7 +17,7 @@ class LoginUseCase @Inject constructor(
             if (response.status) {
                 Result.Success(response)
             } else {
-                Result.Error(Exception())
+                Result.Error(IllegalStateException())
             }
         }
 }
