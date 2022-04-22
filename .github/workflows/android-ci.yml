@@ -31,8 +31,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Chmod permissions
+        run: sudo chmod +x gradlew
       
       - name: Decrypt secrets.tar.gpg
         run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase="$SECRET_GPG_PASSWORD" --output secrets.tar secrets.tar.gpg
