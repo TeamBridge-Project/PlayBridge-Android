@@ -15,21 +15,21 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screens.HomeScreen.route
+        startDestination = HomeScreens.HomeScreen.route
     ) {
-        composable(route = Screens.HomeScreen.route) {
+        composable(route = HomeScreens.HomeScreen.route) {
             MainScreen(navController = navController)
         }
-        composable(route = Screens.SupportGameRegistrationScreen.route) {
+        composable(route = HomeScreens.SupportGameRegistrationScreen.route) {
             SupportGameScreen(navController = navController)
         }
-        composable(route = Screens.PersonalProfileScreen.route) {
+        composable(route = HomeScreens.PersonalProfileScreen.route) {
             PersonalProfileScreen(navController = navController)
         }
-        composable(route = Screens.AboutProfileScreen.route) {
+        composable(route = HomeScreens.AboutProfileScreen.route) {
             AboutProfileScreen(navController = navController)
         }
-        composable(route = Screens.GameCostScreen.route) {
+        composable(route = HomeScreens.GameCostScreen.route) {
             GameCostScreen(navController = navController)
         }
     }
