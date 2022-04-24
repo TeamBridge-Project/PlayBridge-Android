@@ -1,22 +1,17 @@
 package com.example.domain.usecase
 
+import com.example.domain.base.BaseUseCase
 import com.example.domain.base.Result
 import com.example.domain.model.LoginModel
 import com.example.domain.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
     private val repository: UserRepository
-) {
-    suspend operator fun invoke(loginModel: LoginModel) =
-        withContext(Dispatchers.IO) {
-            val response = repository.login(loginModel)
-            if (response.status) {
-                Result.Success(response)
-            } else {
-                Result.Error(Exception())
-            }
-        }
+): BaseUseCase() {
+    suspend operator fun invoke(loginModel: LoginModel) = execute {
+        repository.login(loginModel)
+    }
+
 }

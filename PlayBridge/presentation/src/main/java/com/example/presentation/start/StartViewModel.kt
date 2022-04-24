@@ -40,8 +40,6 @@ class StartViewModel @Inject constructor(
                     activity?.startActivity(Intent(activity, MainActivity::class.java))
                     _uiState.value = StartState.Success
                 },
-                onError = {
-                }
             )
         }
     }
