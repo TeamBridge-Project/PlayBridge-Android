@@ -27,6 +27,9 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+       
+      - name: Run gradlew
+        run: chmod -x gradlew
 
       - name: Run ktlint
         run: gradlew ktlintCheck
