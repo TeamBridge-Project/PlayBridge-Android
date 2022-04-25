@@ -1,3 +1,6 @@
+dependencies:
+    override:
+        -chmod +x gradlew
 name: Android CI
 on:
   pull_request:
