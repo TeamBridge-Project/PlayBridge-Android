@@ -32,22 +32,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Decrypt secrets.tar.gpg
-        run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase="$SECRET_GPG_PASSWORD" --output secrets.tar secrets.tar.gpg
-        env:
-          SECRET_GPG_PASSWORD: ${{ secrets.SECRET_GPG_PASSWORD }}
-
-      - name: Unzip secrets.tar
-        run: tar xvf secrets.tar
-
       - name: Check ktlint format
         run: ./gradlew ktlintCheck
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3.0.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: documents/coverage/jacoco/report.xml
 
       - name: Build assemble release apk
         run: ./gradlew assembleRelease
