@@ -13,6 +13,7 @@ import com.example.presentation.signup.SignUpActivity
 import com.example.presentation.util.sha256
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class StartViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<StartState>(StartState.LoginNeeded)
-
+    val uiState: StateFlow<StartState> = _uiState
     fun login(
         email: String,
         password: String,
@@ -40,6 +41,9 @@ class StartViewModel @Inject constructor(
                     activity?.startActivity(Intent(activity, MainActivity::class.java))
                     _uiState.value = StartState.Success
                 },
+                onFailure = {
+                    _uiState.value = StartState.LoginNeeded
+                }
             )
         }
     }
