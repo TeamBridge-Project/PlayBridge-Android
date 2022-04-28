@@ -12,6 +12,7 @@ import com.example.presentation.main.MainActivity
 import com.example.presentation.util.sha256
 import com.example.presentation.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +21,10 @@ class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val dataStore: DataStoreManager
 ) : ViewModel() {
+
+    private val _uiState = MutableStateFlow<SignUpState>(SignUpState.SignUpNeeded)
+    val uiState: MutableStateFlow<SignUpState> = _uiState
+
     fun signUp(
         email: String,
         password: String,
@@ -36,6 +41,7 @@ class SignUpViewModel @Inject constructor(
                 "f"
             }
         }
+        _uiState.value = SignUpState.Loading
         viewModelScope.launch {
             signUpUseCase(
                 SignUpModel(
@@ -49,7 +55,11 @@ class SignUpViewModel @Inject constructor(
                         dataStore.setRefreshToken(it.refreshToken)
                     }
                     activity?.startActivity(Intent(activity, MainActivity::class.java))
+                    _uiState.value = SignUpState.Success
                 },
+                onFailure = {
+                    _uiState.value = SignUpState.SignUpNeeded
+                }
             )
         }
     }

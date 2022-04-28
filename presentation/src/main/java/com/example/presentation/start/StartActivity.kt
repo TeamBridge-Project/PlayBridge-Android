@@ -24,11 +24,13 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -50,6 +53,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
@@ -81,18 +86,37 @@ class StartActivity : ComponentActivity() {
 
 @Composable
 fun Screen(viewModel: StartViewModel = hiltViewModel()) {
-    StartScreen(viewModel::login, viewModel::moveSignUp)
+    StartScreen(viewModel = viewModel)
+
+}
+
+@Composable
+fun LoadingIndicator(){
+    Dialog(
+        onDismissRequest = {},
+        DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+    ) {
+        Box(
+            contentAlignment= Alignment.Center,
+            modifier = Modifier
+        ) {
+            CircularProgressIndicator( color = White )
+        }
+    }
 }
 
 @Composable
 fun StartScreen(
-    onLogin: (String, String, Activity?) -> Unit,
-    moveSignUpPage: (Activity?) -> Unit,
+    viewModel: StartViewModel
 ) {
     val (email, setEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
     val activity = LocalContext.current as? Activity
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    if(viewModel.uiState.collectAsState().value == StartState.Loading){
+        LoadingIndicator()
+    }
 
     Column(
         modifier = Modifier
@@ -118,10 +142,10 @@ fun StartScreen(
             keyboardController
         )
         Spacer(modifier = Modifier.height(20.dp))
-        LogInButton(activity, onLogin, email, password)
+        LogInButton(activity, viewModel::login, email, password)
         Spacer(modifier = Modifier.height(25.dp))
         Divider(Modifier.width(380.dp), Color.Gray)
-        SignUpButton(activity, moveSignUpPage)
+        SignUpButton(activity, viewModel::moveSignUp)
     }
 }
 

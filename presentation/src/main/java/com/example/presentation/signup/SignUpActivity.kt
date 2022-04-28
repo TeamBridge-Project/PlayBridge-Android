@@ -34,6 +34,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,6 +67,8 @@ import androidx.compose.ui.unit.toSize
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
+import com.example.presentation.start.LoadingIndicator
+import com.example.presentation.start.StartState
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.PlayBridgeTheme
@@ -100,15 +103,14 @@ fun Screen(viewModel: SignUpViewModel = hiltViewModel()) {
             .fillMaxSize()
             .background(color = BackgroundColor)
     ) {
-        SignUpScreen(viewModel::signUp, viewModel::backPress)
+        SignUpScreen(viewModel)
     }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignUpScreen(
-    onSignUp: (String, String, String, String, String, Boolean, Boolean, Activity?) -> Unit,
-    onBackPressed: (Activity?) -> Unit
+    viewModel: SignUpViewModel
 ) {
     val activity = LocalContext.current as? Activity
     val (email, setEmail) = remember { mutableStateOf("") }
@@ -120,8 +122,12 @@ fun SignUpScreen(
     val (isEmailChecked, setEmailCheck) = remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    if(viewModel.uiState.collectAsState().value == SignUpState.Loading){
+        LoadingIndicator()
+    }
+
     IconButton(
-        onClick = { onBackPressed(activity) },
+        onClick = { viewModel.backPress(activity) },
         modifier = Modifier.padding(top = 35.dp, start = 15.dp)
     ) {
         Image(
@@ -231,7 +237,7 @@ fun SignUpScreen(
                 .align(Alignment.CenterHorizontally),
             shape = RoundedCornerShape(30.dp),
             onClick = {
-                onSignUp(
+                viewModel.signUp(
                     email,
                     password,
                     nickName,
