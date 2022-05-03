@@ -6,8 +6,11 @@ import com.example.data.mapper.toData
 import com.example.data.service.UserService
 import com.example.domain.model.LoginModel
 import com.example.domain.model.SignUpModel
+import com.example.domain.model.UserModel
 import com.example.domain.repository.UserRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -24,4 +27,9 @@ class UserRepositoryImpl @Inject constructor(
         withContext(defaultDispatcher) {
             ResponseMapper.mapperResponse(apiService.login(loginModel.toData()))
         }
+
+    override suspend fun getUser(query: Int): Flow<UserModel> {
+        TODO("Not yet implemented")
+    }
+
 }
