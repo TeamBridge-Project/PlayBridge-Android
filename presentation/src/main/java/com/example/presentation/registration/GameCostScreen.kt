@@ -110,7 +110,7 @@ fun CostInput(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "1시간당 / ",
+            text = stringResource(id = R.string.per_hour),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = notosanskr,
@@ -118,8 +118,8 @@ fun CostInput(
         )
 
         Box {
-            Column() {
-                Row() {
+            Column {
+                Row {
                     BasicTextField(
                         modifier = Modifier.width(180.dp),
                         value = gameCost,
@@ -141,7 +141,7 @@ fun CostInput(
                         cursorBrush = SolidColor(Color.White),
                     )
                     Text(
-                        text = " C",
+                        text = stringResource(id = R.string.coin_icon),
                         color = Color.White,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
