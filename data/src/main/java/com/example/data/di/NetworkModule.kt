@@ -1,6 +1,6 @@
 package com.example.data.di
 
-import com.example.data.service.ApiService
+import com.example.data.service.UserService
 import com.example.local.datastore.DataStoreManager
 import dagger.Module
 import dagger.Provides
@@ -23,8 +23,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService =
-        retrofit.create(ApiService::class.java)
+    fun provideApiService(retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
 
     @Provides
     @Singleton
