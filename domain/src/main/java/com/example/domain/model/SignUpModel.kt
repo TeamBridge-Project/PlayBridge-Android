@@ -8,6 +8,5 @@ data class SignUpModel(
     val nickname: String,
     val gender: String,
     val birthday: Date,
-    val agreeSms: Boolean,
     val agreeEmail: Boolean
 )

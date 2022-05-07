@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package com.example.presentation.signup
 
 import android.app.Activity
@@ -68,7 +70,6 @@ import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
 import com.example.presentation.start.LoadingIndicator
-import com.example.presentation.start.StartState
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.PlayBridgeTheme
@@ -107,7 +108,6 @@ fun Screen(viewModel: SignUpViewModel = hiltViewModel()) {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignUpScreen(
     viewModel: SignUpViewModel
@@ -116,9 +116,8 @@ fun SignUpScreen(
     val (email, setEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
     val (nickName, setNickName) = remember { mutableStateOf("") }
-    val (gender, setGender) = remember { mutableStateOf("") }
+    val gender = remember { mutableStateOf("") }
     val (birthday, setBirthday) = remember { mutableStateOf("") }
-    val (isSmsChecked, setSmsCheck) = remember { mutableStateOf(false) }
     val (isEmailChecked, setEmailCheck) = remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -216,12 +215,6 @@ fun SignUpScreen(
             )
             Spacer(modifier = Modifier.padding(8.dp))
             CheckReceived(
-                checked = isSmsChecked,
-                onCheckedChanged = setSmsCheck,
-                text = stringResource(id = R.string.sns_receive_agree)
-            )
-            Spacer(modifier = Modifier.padding(6.dp))
-            CheckReceived(
                 checked = isEmailChecked,
                 onCheckedChanged = setEmailCheck,
                 text = stringResource(id = R.string.email_receive_agree)
@@ -241,9 +234,8 @@ fun SignUpScreen(
                     email,
                     password,
                     nickName,
-                    gender,
+                    gender.value,
                     birthday,
-                    isSmsChecked,
                     isEmailChecked,
                     activity
                 )
@@ -288,7 +280,6 @@ fun CheckReceived(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun InputComponent(
     textValue: String,
@@ -344,7 +335,6 @@ fun InputComponent(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BirthdayInput(
     textValue: String,
@@ -395,7 +385,6 @@ fun BirthdayInput(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun GenderDropDown(
     keyboardController: SoftwareKeyboardController?,

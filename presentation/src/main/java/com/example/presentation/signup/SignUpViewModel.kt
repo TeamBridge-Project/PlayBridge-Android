@@ -31,7 +31,6 @@ class SignUpViewModel @Inject constructor(
         nickname: String,
         gender: String,
         date: String,
-        agreeSms: Boolean,
         agreeEmail: Boolean,
         activity: Activity?
     ) {
@@ -46,7 +45,7 @@ class SignUpViewModel @Inject constructor(
             signUpUseCase(
                 SignUpModel(
                     email, password.sha256(), nickname, charGender,
-                    date.toDate(), agreeSms, agreeEmail
+                    date.toDate(), agreeEmail
                 )
             ).processMore(
                 onSuccess = {
