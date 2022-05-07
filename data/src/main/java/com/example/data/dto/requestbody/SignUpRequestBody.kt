@@ -9,7 +9,6 @@ data class SignUpRequestBody(
     @SerializedName("nickname") val nickname: String,
     @SerializedName("gender") val gender: String,
     @SerializedName("birthday") val birthday: Date,
-    @SerializedName("agreeSms") val agreeSms: Boolean,
     @SerializedName("agreeEmail") val agreeEmail: Boolean
 
 )
