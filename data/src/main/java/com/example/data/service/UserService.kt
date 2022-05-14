@@ -1,12 +1,9 @@
 package com.example.data.service
 
-import androidx.paging.PagingData
 import com.example.data.dto.requestbody.LoginRequestBody
 import com.example.data.dto.requestbody.SignUpRequestBody
 import com.example.data.dto.responsebody.ResponseBody
 import com.example.data.dto.responsebody.UserResponseBody
-import com.example.domain.model.UserModel
-import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -21,5 +18,5 @@ interface UserService {
     suspend fun login(@Body loginRequestBody: LoginRequestBody): Response<ResponseBody>
 
     @GET("/user")
-    suspend fun getUserList(@Query("page") page: Int) : Response<UserResponseBody>
+    suspend fun getUserList(@Query("page") page: Int): Response<UserResponseBody>
 }

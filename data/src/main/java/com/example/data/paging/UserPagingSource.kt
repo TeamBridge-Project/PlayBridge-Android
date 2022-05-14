@@ -30,7 +30,6 @@ class UserPagingSource @Inject constructor(
         } catch (e: HttpException) {
             LoadResult.Error(e)
         }
-
     }
 
     override fun getRefreshKey(state: PagingState<Int, UserModel>): Int? =

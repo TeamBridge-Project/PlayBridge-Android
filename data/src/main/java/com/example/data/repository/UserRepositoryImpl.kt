@@ -20,7 +20,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val apiService: UserService,
     @IoDispatcher private val defaultDispatcher: CoroutineDispatcher
-): UserRepository {
+) : UserRepository {
     override suspend fun signUp(signUpModel: SignUpModel) =
         withContext(defaultDispatcher) {
             ResponseMapper.mapperResponse(apiService.signUp(signUpModel.toData()))
@@ -38,6 +38,4 @@ class UserRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = { UserPagingSource(apiService, query) }
         ).flow
-
-
 }
