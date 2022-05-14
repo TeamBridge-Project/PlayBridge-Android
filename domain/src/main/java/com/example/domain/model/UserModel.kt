@@ -1,4 +1,5 @@
 package com.example.domain.model
+
 import java.util.Date
 
 data class UserModel(
@@ -14,12 +15,13 @@ data class UserModel(
     val gameFee: List<GameFee>,
     val aboutMe: String,
     val registeredDate: Date
-){
+) {
     data class PlayingGame(
         val id: String,
         val tier: String,
         val feePerPlay: Int
     )
+
     data class GameFee(
         val id: String,
         val feePerHour: Int,

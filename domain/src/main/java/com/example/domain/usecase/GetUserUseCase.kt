@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetUserUseCase @Inject constructor(
     private val repository: UserRepository
-): BaseUseCase() {
+) : BaseUseCase() {
     suspend operator fun invoke(query: Int) = runCatching {
         repository.getUser(query)
     }
