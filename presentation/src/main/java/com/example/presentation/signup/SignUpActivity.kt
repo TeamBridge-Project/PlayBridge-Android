@@ -67,8 +67,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
-import com.example.presentation.start.LoadingIndicator
-import com.example.presentation.start.StartState
+import com.example.presentation.ui.common.LoadingIndicator
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.PlayBridgeTheme
