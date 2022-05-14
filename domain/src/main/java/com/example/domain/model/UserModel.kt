@@ -2,10 +2,6 @@ package com.example.domain.model
 import java.util.Date
 
 data class UserModel(
-    val status: Boolean,
-    val result: List<User>,
-)
-data class User(
     val email: String,
     val password: String,
     val nickname: String,
@@ -18,16 +14,15 @@ data class User(
     val gameFee: List<GameFee>,
     val aboutMe: String,
     val registeredDate: Date
-)
-
-data class PlayingGame(
-    val id: String,
-    val tier: String,
-    val feePerPlay: Int
-)
-
-data class GameFee(
-    val id: String,
-    val feePerHour: Int,
-    val feePerPlay: Int
-)
+){
+    data class PlayingGame(
+        val id: String,
+        val tier: String,
+        val feePerPlay: Int
+    )
+    data class GameFee(
+        val id: String,
+        val feePerHour: Int,
+        val feePerPlay: Int
+    )
+}
