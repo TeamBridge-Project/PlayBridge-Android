@@ -23,13 +23,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.FloatingActionButtonDefaults
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,7 +46,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.domain.model.UserModel
 import com.example.presentation.R
 import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
@@ -60,7 +68,13 @@ import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen(
+    navController: NavController,
+    viewModel: MainViewModel = hiltViewModel()
+) {
+    LaunchedEffect(Unit) {
+        viewModel.container.stateFlow.value
+    }
     Spacer(modifier = Modifier.height(60.dp))
     Column(
         modifier = Modifier
@@ -70,7 +84,7 @@ fun MainScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(40.dp))
         TopBar(navController = navController)
         Spacer(modifier = Modifier.height(30.dp))
-        FunctionSelectBar(navController = navController)
+        FunctionSelectBar(navController = navController, viewModel = viewModel)
     }
 }
 
@@ -81,6 +95,7 @@ fun TopBar(navController: NavController) {
             .padding(start = 40.dp, end = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+
         GlideImage(
             modifier = Modifier
                 .width(40.dp)
@@ -120,7 +135,10 @@ fun TopBar(navController: NavController) {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun FunctionSelectBar(navController: NavController) {
+fun FunctionSelectBar(
+    navController: NavController,
+    viewModel: MainViewModel
+) {
     val tabData = listOf(
         "프로필", "채팅"
     )
@@ -182,7 +200,7 @@ fun FunctionSelectBar(navController: NavController) {
                 modifier = Modifier.fillMaxSize(),
             ) {
                 when (tabData[index]) {
-                    tabData[0] -> profilePage()
+                    tabData[0] -> profilePage(viewModel = viewModel)
                     tabData[1] -> Text("언제만드냐 이건")
                 }
             }
@@ -191,10 +209,10 @@ fun FunctionSelectBar(navController: NavController) {
 }
 
 @Composable
-fun profilePage() {
+fun profilePage(viewModel: MainViewModel) {
     Spacer(Modifier.height(40.dp))
     ProfileArrangeBadges()
-    ProfileBody()
+    ProfileBody(viewModel = viewModel)
 }
 
 @Composable
@@ -236,47 +254,53 @@ fun Badge(text: String) {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ProfileBody() {
+fun ProfileBody(viewModel: MainViewModel) {
+    val state by viewModel.container.stateFlow.collectAsState()
+    val pagerState = rememberPagerState()
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            viewModel.getUserList(page+1)
+        }
+    }
     Column(Modifier.fillMaxSize()) {
-        val pagerState = rememberPagerState()
         HorizontalPager(
             count = 6,
             state = pagerState,
-            // Add 32.dp horizontal padding to 'center' the pages
-
             contentPadding = PaddingValues(horizontal = 16.dp),
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
-        ) { _ ->
-            ProfileCardLayout()
+        ) {
+            when (state) {
+                is MainState.ItemLoaded -> {
+                    val items = (state as MainState.ItemLoaded).users.collectAsLazyPagingItems()
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        userScrollEnabled = false
+                    ) {
+                        items(items.itemCount) { index ->
+                            ProfileCard(items[index]!!)
+                        }
+                    }
+                }else->{
+                    CircularProgressIndicator()
+                }
+            }
         }
         HorizontalPagerIndicator(
             pagerState = pagerState,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(16.dp)
+                .padding(32.dp)
                 .padding(bottom = 16.dp),
             inactiveColor = ComponentInnerColor
         )
     }
 }
 
-@Composable
-fun ProfileCardLayout() {
-    val numbers = (0..3).toList()
-
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2)
-    ) {
-        items(numbers.size) {
-            ProfileCard()
-        }
-    }
-}
 
 @Composable
-fun ProfileCard() {
+fun ProfileCard(user: UserModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth(1f)
@@ -317,14 +341,19 @@ fun ProfileCard() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 ProFileText(
-                    text = "최상록님",
+                    text = user.nickname + "님",
                     fontSize = 12,
                     fontWeight = FontWeight.Medium
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 UserRating(textValue = "신규")
                 Spacer(modifier = Modifier.width(3.dp))
-                Gender(textValue = "남")
+                Gender(
+                    textValue = when (user.gender) {
+                        "m" -> "남"
+                        else -> "여"
+                    }
+                )
             }
             Spacer(modifier = Modifier.height(8.dp))
             Column(
