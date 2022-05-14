@@ -10,7 +10,6 @@ fun SignUpModel.toData(): SignUpRequestBody = SignUpRequestBody(
     nickname = nickname,
     gender = gender,
     birthday = birthday,
-    agreeSms = agreeSms,
     agreeEmail = agreeEmail
 )
 
