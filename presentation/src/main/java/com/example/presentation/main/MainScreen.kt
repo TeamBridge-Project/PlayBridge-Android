@@ -257,7 +257,6 @@ fun Badge(text: String) {
 fun ProfileBody(viewModel: MainViewModel) {
     val state by viewModel.container.stateFlow.collectAsState()
     val pagerState = rememberPagerState()
-    var currentPage = 0
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             viewModel.getUserList(page+1)
