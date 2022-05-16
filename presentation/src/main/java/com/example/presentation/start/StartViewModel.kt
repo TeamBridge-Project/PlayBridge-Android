@@ -11,6 +11,10 @@ import com.example.local.datastore.DataStoreManager
 import com.example.presentation.main.MainActivity
 import com.example.presentation.signup.SignUpActivity
 import com.example.presentation.util.sha256
+import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onFailure
+import com.skydoves.sandwich.onSuccess
+import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,19 +36,16 @@ class StartViewModel @Inject constructor(
     ) {
         _uiState.value = StartState.Loading
         viewModelScope.launch {
-            loginUseCase(LoginModel(email, password.sha256())).processMore(
-                onSuccess = {
-                    viewModelScope.launch {
-                        dataStore.setAccessToken(it.accessToken)
-                        dataStore.setRefreshToken(it.refreshToken)
-                    }
-                    activity?.startActivity(Intent(activity, MainActivity::class.java))
-                    _uiState.value = StartState.Success
-                },
-                onFailure = {
-                    _uiState.value = StartState.LoginNeeded
-                }
-            )
+            loginUseCase(LoginModel(email, password.sha256())).suspendOnSuccess{
+                val accessToken = headers["X-Access-Token"]!!
+                val refreshToken = headers["X-Refresh-Token"]!!
+                dataStore.setAccessToken(accessToken)
+                dataStore.setRefreshToken(refreshToken)
+                activity?.startActivity(Intent(activity, MainActivity::class.java))
+                _uiState.value = StartState.Success
+            }.onFailure {
+                _uiState.value = StartState.LoginNeeded
+            }
         }
     }
 
