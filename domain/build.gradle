@@ -35,6 +35,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "androidx.paging:paging-common:$paging_version"
+    implementation "com.github.skydoves:sandwich:$sandwich_version"
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'io.mockk:mockk:1.12.0'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
