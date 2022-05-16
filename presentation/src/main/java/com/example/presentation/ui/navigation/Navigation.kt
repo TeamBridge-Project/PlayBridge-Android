@@ -9,6 +9,7 @@ import com.example.presentation.main.MainScreen
 import com.example.presentation.personalprofile.PersonalProfileScreen
 import com.example.presentation.registration.GameCostScreen
 import com.example.presentation.registration.SupportGameScreen
+import com.example.presentation.reservation.ReservationDetailsScreen
 
 @Composable
 fun Navigation() {
@@ -31,6 +32,9 @@ fun Navigation() {
         }
         composable(route = HomeScreens.GameCostScreen.route) {
             GameCostScreen(navController = navController)
+        }
+        composable(route = HomeScreens.ReservationDetailsScreen.route) {
+            ReservationDetailsScreen(navController = navController)
         }
     }
 }

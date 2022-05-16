@@ -33,4 +33,12 @@
     <!-- GameCost-->
     <string name="coin_icon"> C</string>
     <string name="per_hour">1시간당 / </string>
+    <!-- ReservationDetails -->
+    <string name="reservation_details">예약 내역</string>
+    <string name="reservation_date">예약 날짜</string>
+    <string name="hours_of_use">이용 시간</string>
+    <string name="reservation_fee">예약 비용</string>
+    <string name="memo">메모</string>
+    <string name="reservation_accept">예약 수락</string>
+    <string name="reservation_refuse">예약 거절</string>
 </resources>
