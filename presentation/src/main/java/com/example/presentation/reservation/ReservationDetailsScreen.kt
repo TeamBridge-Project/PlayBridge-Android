@@ -31,8 +31,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -57,16 +60,57 @@ fun ReservationDetailsScreen(navController: NavController) {
         ) {
             UserProfileSection()
             Spacer(modifier = Modifier.height(40.dp))
-            DateLine(text = stringResource(id = R.string.reservation_date))
+            ReservationContent(
+                textValue = stringResource(id = R.string.reservation_date),
+                contentText = "2022.4.9 토요일"
+            )
             Spacer(modifier = Modifier.height(29.dp))
-            TimeLine(text = stringResource(id = R.string.hours_of_use))
+            ReservationContent(
+                textValue = stringResource(id = R.string.hours_of_use),
+                contentText = "14 : 00 - 17 : 00"
+            )
             Spacer(modifier = Modifier.height(29.dp))
-            FeeLine(text = stringResource(id = R.string.reservation_fee))
+            ReservationContent(
+                textValue = stringResource(id = R.string.reservation_fee),
+                contentText = "300"
+            )
             Spacer(modifier = Modifier.height(50.dp))
             MemoSection(text = stringResource(id = R.string.memo))
             Spacer(modifier = Modifier.height(60.dp))
         }
         ButtonLine()
+    }
+}
+
+@Composable
+fun ReservationContent(
+    textValue: String,
+    contentText: String
+) {
+    Row(
+        modifier = Modifier.width(300.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = textValue,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            fontFamily = notosanskr
+        )
+        Text(
+            text = buildAnnotatedString {
+                                        append(contentText)
+                if(textValue == stringResource(id = R.string.reservation_fee)) {
+                    append(" C")
+                }
+            },
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            fontFamily = notosanskr
+        )
     }
 }
 
@@ -157,88 +201,6 @@ fun MemoSection(text: String) {
 }
 
 @Composable
-fun FeeLine(text: String) {
-    Row(
-        modifier = Modifier.width(300.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = text,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            fontFamily = notosanskr
-        )
-        Row {
-            Text(
-                text = "300",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                fontFamily = notosanskr
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = stringResource(id = R.string.coin_icon),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                fontFamily = notosanskr
-            )
-        }
-    }
-}
-
-@Composable
-fun TimeLine(text: String) {
-    Row(
-        modifier = Modifier.width(300.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = text,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            fontFamily = notosanskr
-        )
-        Text(
-            text = "14 : 00 - 17 : 00",
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            fontFamily = notosanskr
-        )
-    }
-}
-
-@Composable
-fun DateLine(text: String) {
-    Row(
-        modifier = Modifier.width(300.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = text,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            fontFamily = notosanskr
-        )
-        Text(
-            text = "2022.4.9 토요일",
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            fontFamily = notosanskr
-        )
-    }
-}
-
-@Composable
 fun UserProfileSection() {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -253,17 +215,14 @@ fun UserProfileSection() {
         )
         Spacer(modifier = Modifier.width(19.dp))
         Text(
-            text = stringResource(id = R.string.dungledungle),
+            text = buildAnnotatedString {
+                append("둥글둥글")
+                withStyle(SpanStyle(fontSize = 15.sp, fontWeight = FontWeight.Medium)) {
+                    append("님")
+                }
+            },
             fontSize = 20.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color.White,
-            fontFamily = notosanskr
-        )
-        Text(
-            modifier = Modifier.padding(top = 2.dp),
-            text = stringResource(id = R.string.nim),
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.Bold,
             color = Color.White,
             fontFamily = notosanskr
         )
