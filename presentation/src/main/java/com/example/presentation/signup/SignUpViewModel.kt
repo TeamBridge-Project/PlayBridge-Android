@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.base.processMore
 import com.example.domain.model.SignUpModel
 import com.example.domain.usecase.SignUpUseCase
 import com.example.local.datastore.DataStoreManager
