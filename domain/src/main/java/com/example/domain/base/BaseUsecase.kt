@@ -2,20 +2,17 @@ package com.example.domain.base
 
 import com.example.domain.model.UserResponse
 
+/*
 abstract class BaseUseCase {
-    protected inline fun <T> execute(block: () -> T): Result<T> = runCatching {
-        val response = block()
-        if(response is UserResponse){
-            if(response.status){
-                Result.Success(response)
-            }else{
-                Result.Failure()
-            }
+    protected inline fun execute(block: () -> UserResponse): Result<UserResponse>  {
+        val result = block()
+        if(result.errors.isEmpty()){
+            return Result.Success(result)
         }else{
-            Result.Success(block())
+            with(result.errors[0]){
+                return Result.Error(error,message)
+            }
         }
-    }.getOrElse {
-        it.printStackTrace()
-        Result.Error(it)
     }
 }
+*/
