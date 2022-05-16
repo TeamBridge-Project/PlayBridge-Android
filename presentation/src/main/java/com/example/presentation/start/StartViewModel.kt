@@ -11,6 +11,7 @@ import com.example.local.datastore.DataStoreManager
 import com.example.presentation.main.MainActivity
 import com.example.presentation.signup.SignUpActivity
 import com.example.presentation.util.sha256
+import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.onSuccess
 import com.skydoves.sandwich.suspendOnSuccess
