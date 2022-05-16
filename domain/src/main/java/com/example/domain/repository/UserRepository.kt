@@ -5,10 +5,11 @@ import com.example.domain.model.LoginModel
 import com.example.domain.model.SignUpModel
 import com.example.domain.model.UserModel
 import com.example.domain.model.UserResponse
+import com.skydoves.sandwich.ApiResponse
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-    suspend fun signUp(signUpModel: SignUpModel): UserResponse
-    suspend fun login(loginModel: LoginModel): UserResponse
+    suspend fun signUp(signUpModel: SignUpModel): ApiResponse<UserResponse>
+    suspend fun login(loginModel: LoginModel): ApiResponse<UserResponse>
     suspend fun getUser(query: Int): Flow<PagingData<UserModel>>
 }
