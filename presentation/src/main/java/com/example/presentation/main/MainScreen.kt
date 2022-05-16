@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -64,7 +65,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.skydoves.landscapist.CircularReveal
-import com.skydoves.landscapist.glide.GlideImage
+import com.skydoves.landscapist.coil.CoilImage
 import kotlinx.coroutines.launch
 
 @Composable
@@ -92,16 +93,17 @@ fun TopBar(navController: NavController) {
             .padding(start = 40.dp, end = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-
-        GlideImage(
+        CoilImage(
             modifier = Modifier
                 .width(40.dp)
                 .height(40.dp)
                 .clip(CircleShape)
                 .clickable { navController.navigate(HomeScreens.PersonalProfileScreen.route) },
             imageModel = ImageBitmap.imageResource(R.drawable.profile_image),
+            contentScale = ContentScale.Crop,
             circularReveal = CircularReveal(duration = 250),
-            error = ImageBitmap.imageResource(id = R.drawable.profile_image)
+            placeHolder = ImageBitmap.imageResource(R.drawable.profile_image),
+            error = ImageBitmap.imageResource(R.drawable.profile_image)
         )
         Spacer(modifier = Modifier.width(10.dp))
         Row(
@@ -116,15 +118,17 @@ fun TopBar(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = "C  3000", color = Color.White, textAlign = TextAlign.Right)
-            GlideImage(
+            CoilImage(
                 modifier = Modifier
                     .width(50.dp)
                     .height(50.dp)
                     .clip(CircleShape)
                     .clickable(enabled = true, onClick = {}),
                 imageModel = ImageBitmap.imageResource(R.drawable.question_mark),
+                contentScale = ContentScale.Crop,
                 circularReveal = CircularReveal(duration = 250),
-                error = ImageBitmap.imageResource(id = R.drawable.question_mark)
+                placeHolder = ImageBitmap.imageResource(R.drawable.question_mark),
+                error = ImageBitmap.imageResource(R.drawable.question_mark)
             )
         }
     }
@@ -324,7 +328,7 @@ fun ProfileCard(user: UserModel) {
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            GlideImage(
+            CoilImage(
                 modifier = Modifier
                     .width(130.dp)
                     .height(100.dp)

@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -81,7 +80,6 @@ fun SupportGameScreen(navController: NavController) {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DropDownComponent(
     optionList: List<String>,
