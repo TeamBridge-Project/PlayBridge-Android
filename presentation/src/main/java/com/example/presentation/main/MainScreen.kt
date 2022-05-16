@@ -72,6 +72,9 @@ fun MainScreen(
     navController: NavController,
     viewModel: MainViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.container.stateFlow.value
+    }
     Spacer(modifier = Modifier.height(60.dp))
     Column(
         modifier = Modifier
