@@ -11,6 +11,8 @@ import com.example.local.datastore.DataStoreManager
 import com.example.presentation.main.MainActivity
 import com.example.presentation.util.sha256
 import com.example.presentation.util.toDate
+import com.skydoves.sandwich.onFailure
+import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -47,19 +49,16 @@ class SignUpViewModel @Inject constructor(
                     email, password.sha256(), nickname, charGender,
                     date.toDate(), agreeEmail
                 )
-            ).processMore(
-                onSuccess = {
-                    viewModelScope.launch {
-                        dataStore.setAccessToken(it.accessToken)
-                        dataStore.setRefreshToken(it.refreshToken)
-                    }
-                    activity?.startActivity(Intent(activity, MainActivity::class.java))
-                    _uiState.value = SignUpState.Success
-                },
-                onFailure = {
-                    _uiState.value = SignUpState.SignUpNeeded
-                }
-            )
+            ).suspendOnSuccess {
+                val accessToken = headers["X-Access-Token"]!!
+                val refreshToken = headers["X-Refresh-Token"]!!
+                dataStore.setAccessToken(accessToken)
+                dataStore.setRefreshToken(refreshToken)
+                activity?.startActivity(Intent(activity, MainActivity::class.java))
+                _uiState.value = SignUpState.Success
+            }.onFailure {
+                _uiState.value = SignUpState.SignUpNeeded
+            }
         }
     }
 
