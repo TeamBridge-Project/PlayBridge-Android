@@ -49,10 +49,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.presentation.R
+import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.MaleBadgeColor
 import com.example.presentation.ui.theme.NewBadgeColor
@@ -61,7 +64,13 @@ import com.example.presentation.ui.theme.ProfileEditingColor
 import com.example.presentation.ui.theme.SelfIntroduction
 import com.example.presentation.ui.theme.notosanskr
 import com.skydoves.landscapist.CircularReveal
-import com.skydoves.landscapist.glide.GlideImage
+import com.skydoves.landscapist.coil.CoilImage
+
+@Preview(widthDp = 450, heightDp = 850)
+@Composable
+fun preview(){
+    PersonalProfileScreen(navController = rememberNavController())
+}
 
 @Composable
 fun PersonalProfileScreen(navController: NavController) {
@@ -119,7 +128,7 @@ fun CoinSection(
             )
         }
 
-        GlideImage(
+        CoilImage(
             modifier = Modifier
                 .width(50.dp)
                 .height(50.dp)
@@ -526,7 +535,7 @@ fun Backward(
             .fillMaxSize(),
     ) {
         IconButton(
-            onClick = { navController.popBackStack() },
+            onClick = { navController.navigate(HomeScreens.HomeScreen.route) },
             modifier = Modifier
                 .padding(start = 35.dp, top = 10.dp),
         ) {

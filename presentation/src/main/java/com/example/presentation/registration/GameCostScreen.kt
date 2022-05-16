@@ -64,12 +64,14 @@ fun GameCostScreen(navController: NavController) {
             setGameCost = setGameCost,
             keyboardController = keyboardController
         )
-        Spacer(modifier = Modifier.height(300.dp))
-        RegistrationButton(
-            text = "다음",
-            navController = navController,
-            route = HomeScreens.AboutProfileScreen.route
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 60.dp),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            RegistrationButton("다음", navController, HomeScreens.AboutProfileScreen.route)
+        }
     }
 }
 

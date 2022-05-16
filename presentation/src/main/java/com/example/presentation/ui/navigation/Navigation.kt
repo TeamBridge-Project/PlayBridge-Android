@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.presentation.aboutprofile.AboutProfileScreen
+import com.example.presentation.registration.AboutProfileScreen
 import com.example.presentation.main.MainScreen
 import com.example.presentation.personalprofile.PersonalProfileScreen
 import com.example.presentation.registration.GameCostScreen
