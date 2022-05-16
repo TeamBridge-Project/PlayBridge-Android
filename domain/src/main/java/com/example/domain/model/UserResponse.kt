@@ -1,8 +1,6 @@
 package com.example.domain.model
 
 data class UserResponse(
-    val status: Boolean,
-    val result: List<Unit>,
-    val accessToken: String,
-    val refreshToken: String
+    val result: List<UserModel>,
+    val errors: List<ErrorModel>,
 )
