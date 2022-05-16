@@ -48,7 +48,7 @@ import com.example.presentation.ui.theme.SelfIntroduction
 import com.example.presentation.ui.theme.notosanskr
 
 @Composable
-private fun ReservationDetailsScreen(navController: NavController) {
+internal fun ReservationDetailsScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
