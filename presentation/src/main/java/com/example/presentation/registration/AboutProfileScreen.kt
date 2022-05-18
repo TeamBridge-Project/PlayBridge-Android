@@ -1,4 +1,4 @@
-package com.example.presentation.aboutprofile
+package com.example.presentation.registration
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -48,7 +48,7 @@ import com.example.presentation.ui.util.BackButton
 import com.example.presentation.ui.util.RegistrationButton
 import com.example.presentation.ui.util.Title
 import com.skydoves.landscapist.CircularReveal
-import com.skydoves.landscapist.glide.GlideImage
+import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun AboutProfileScreen(navController: NavController) {
@@ -97,8 +97,8 @@ fun ProfileSection() {
             .padding(start = 60.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box() {
-            GlideImage(
+        Box {
+            CoilImage(
                 modifier = Modifier
                     .width(70.dp)
                     .height(70.dp)

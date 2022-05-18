@@ -24,7 +24,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -39,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -53,11 +51,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
+import com.example.presentation.ui.common.LoadingIndicator
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
@@ -90,20 +87,7 @@ fun Screen(viewModel: StartViewModel = hiltViewModel()) {
 
 }
 
-@Composable
-fun LoadingIndicator(){
-    Dialog(
-        onDismissRequest = {},
-        DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
-    ) {
-        Box(
-            contentAlignment= Alignment.Center,
-            modifier = Modifier
-        ) {
-            CircularProgressIndicator( color = White )
-        }
-    }
-}
+
 
 @Composable
 fun StartScreen(
