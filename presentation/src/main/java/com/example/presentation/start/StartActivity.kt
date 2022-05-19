@@ -4,6 +4,7 @@ package com.example.presentation.start
 
 import android.app.Activity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -84,10 +85,7 @@ class StartActivity : ComponentActivity() {
 @Composable
 fun Screen(viewModel: StartViewModel = hiltViewModel()) {
     StartScreen(viewModel = viewModel)
-
 }
-
-
 
 @Composable
 fun StartScreen(
@@ -98,8 +96,13 @@ fun StartScreen(
     val activity = LocalContext.current as? Activity
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    if(viewModel.uiState.collectAsState().value == StartState.Loading){
+    if (viewModel.uiState.collectAsState().value == StartState.Loading) {
         LoadingIndicator()
+    } else if (viewModel.uiState.collectAsState().value == StartState.Failed) {
+        SideEffect {
+            Toast.makeText(activity, "이메일 또는 비밀번호가 아닙니다.", Toast.LENGTH_SHORT).show()
+            viewModel.changeStateLoginNeeded()
+        }
     }
 
     Column(
@@ -110,6 +113,7 @@ fun StartScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         LogoImage()
+
         LogInTextField(
             stringResource(id = R.string.login_page_id),
             email,
@@ -117,7 +121,9 @@ fun StartScreen(
             false,
             keyboardController
         )
+
         Spacer(modifier = Modifier.height(20.dp))
+
         LogInTextField(
             stringResource(id = R.string.login_page_password),
             password,
@@ -126,9 +132,13 @@ fun StartScreen(
             keyboardController
         )
         Spacer(modifier = Modifier.height(20.dp))
+
         LogInButton(activity, viewModel::login, email, password)
+
         Spacer(modifier = Modifier.height(25.dp))
+
         Divider(Modifier.width(380.dp), Color.Gray)
+
         SignUpButton(activity, viewModel::moveSignUp)
     }
 }
