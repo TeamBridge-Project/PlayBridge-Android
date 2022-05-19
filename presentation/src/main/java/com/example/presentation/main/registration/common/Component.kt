@@ -1,4 +1,4 @@
-package com.example.presentation.ui.util
+package com.example.presentation.main.registration.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +28,7 @@ import com.example.presentation.ui.theme.ProfileEditingColor
 import com.example.presentation.ui.theme.notosanskr
 
 @Composable
-fun BackButton(navController: NavController) {
+internal fun BackButton(navController: NavController) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
@@ -46,7 +46,7 @@ fun BackButton(navController: NavController) {
 }
 
 @Composable
-fun Title(text: String) {
+internal fun Title(text: String) {
     Row(Modifier.fillMaxWidth().padding(start = 60.dp)) {
         Text(
             text = text,
@@ -59,7 +59,7 @@ fun Title(text: String) {
 }
 
 @Composable
-fun RegistrationButton(
+internal fun RegistrationButton(
     text: String,
     navController: NavController,
     route: String

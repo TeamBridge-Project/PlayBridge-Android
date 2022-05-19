@@ -1,4 +1,4 @@
-package com.example.presentation.reservation
+package com.example.presentation.main.reservation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.presentation.R
-import com.example.presentation.reservation.components.ReservationContent
+import com.example.presentation.main.reservation.component.ReservationContent
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ReservationAcceptButtonColor
 import com.example.presentation.ui.theme.ReservationRefuseButtonColor
