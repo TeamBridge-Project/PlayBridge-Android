@@ -4,6 +4,7 @@ package com.example.presentation.signup
 
 import android.app.Activity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -122,8 +123,13 @@ fun SignUpScreen(
     val (isEmailChecked, setEmailCheck) = remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    if(viewModel.uiState.collectAsState().value == SignUpState.Loading){
-        LoadingIndicator()
+    when (viewModel.uiState.collectAsState().value) {
+        SignUpState.Loading -> {
+            LoadingIndicator()
+        }
+        SignUpState.EmailFailed -> {
+                Toast.makeText(activity, "이메일 양식이 아닙니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     IconButton(
