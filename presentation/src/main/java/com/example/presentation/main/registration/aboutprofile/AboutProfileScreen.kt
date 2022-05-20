@@ -1,4 +1,4 @@
-package com.example.presentation.registration
+package com.example.presentation.main.registration.aboutprofile
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -44,9 +44,9 @@ import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.SelfIntroduction
 import com.example.presentation.ui.theme.notosanskr
-import com.example.presentation.ui.util.BackButton
-import com.example.presentation.ui.util.RegistrationButton
-import com.example.presentation.ui.util.Title
+import com.example.presentation.main.registration.common.BackButton
+import com.example.presentation.main.registration.common.RegistrationButton
+import com.example.presentation.main.registration.common.Title
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -81,7 +81,7 @@ fun AboutProfileScreen(navController: NavController) {
 }
 
 @Composable
-fun ProfileSection() {
+internal fun ProfileSection() {
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -116,7 +116,7 @@ fun ProfileSection() {
 }
 
 @Composable
-fun SelfIntroductionSection() {
+internal fun SelfIntroductionSection() {
     var (selfIntroduction, setSelfIntroduction) = remember {
         mutableStateOf("입력 해주세요")
     }
@@ -144,7 +144,7 @@ fun SelfIntroductionSection() {
 }
 
 @Composable
-fun SelfIntroductionInputField(
+internal fun SelfIntroductionInputField(
     selfIntroduction: String,
     setSelfIntroduction: (String) -> Unit
 ) {

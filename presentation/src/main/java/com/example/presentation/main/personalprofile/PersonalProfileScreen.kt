@@ -1,4 +1,4 @@
-package com.example.presentation.personalprofile
+package com.example.presentation.main.personalprofile
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image

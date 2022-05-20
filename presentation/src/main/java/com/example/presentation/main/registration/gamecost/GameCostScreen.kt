@@ -1,4 +1,6 @@
-package com.example.presentation.registration
+@file:OptIn(ExperimentalComposeUiApi::class)
+
+package com.example.presentation.main.registration.gamecost
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -37,11 +39,10 @@ import com.example.presentation.R
 import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.notosanskr
-import com.example.presentation.ui.util.BackButton
-import com.example.presentation.ui.util.RegistrationButton
-import com.example.presentation.ui.util.Title
+import com.example.presentation.main.registration.common.BackButton
+import com.example.presentation.main.registration.common.RegistrationButton
+import com.example.presentation.main.registration.common.Title
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun GameCostScreen(navController: NavController) {
     val (gameCost, setGameCost) = remember { mutableStateOf("") }
@@ -76,7 +77,7 @@ fun GameCostScreen(navController: NavController) {
 }
 
 @Composable
-fun GameName(
+internal fun GameName(
     selectedGameName: String
 ) {
     Row(
@@ -98,9 +99,8 @@ fun GameName(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CostInput(
+internal fun CostInput(
     gameCost: String,
     setGameCost: (String) -> Unit,
     keyboardController: SoftwareKeyboardController?
@@ -149,7 +149,9 @@ fun CostInput(
                         fontWeight = FontWeight.Bold,
                     )
                 }
-                Divider(modifier = Modifier.width(200.dp).height(3.dp), color = Color.White)
+                Divider(modifier = Modifier
+                    .width(200.dp)
+                    .height(3.dp), color = Color.White)
             }
         }
     }

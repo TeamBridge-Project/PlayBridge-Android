@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.presentation.registration.AboutProfileScreen
+import com.example.presentation.main.registration.aboutprofile.AboutProfileScreen
 import com.example.presentation.main.MainScreen
-import com.example.presentation.personalprofile.PersonalProfileScreen
-import com.example.presentation.registration.GameCostScreen
-import com.example.presentation.registration.SupportGameScreen
-import com.example.presentation.reservation.ReservationDetailsScreen
+import com.example.presentation.main.personalprofile.PersonalProfileScreen
+import com.example.presentation.main.registration.gamecost.GameCostScreen
+import com.example.presentation.main.registration.supportgame.SupportGameScreen
+import com.example.presentation.main.reservation.ReservationDetailsScreen
 
 @Composable
 fun Navigation() {
