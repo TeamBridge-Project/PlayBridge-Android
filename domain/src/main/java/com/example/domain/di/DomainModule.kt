@@ -1,6 +1,8 @@
 package com.example.domain.di
 
+import com.example.domain.common.LoginValidator
 import com.example.domain.common.SignUpValidator
+import com.example.domain.common.impl.LoginValidatorImpl
 import com.example.domain.common.impl.SignUpValidatorImpl
 import dagger.Binds
 import dagger.Module
@@ -17,5 +19,11 @@ internal interface DomainModule {
     fun bindSignUpValidator(
         validator: SignUpValidatorImpl
     ): SignUpValidator
+
+    @Binds
+    @Singleton
+    fun bindLoginValidator(
+        validator: LoginValidatorImpl
+    ): LoginValidator
 
 }
