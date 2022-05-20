@@ -1,4 +1,4 @@
-package com.example.presentation.reservation.components
+package com.example.presentation.main.reservation.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

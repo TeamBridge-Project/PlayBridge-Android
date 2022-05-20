@@ -1,4 +1,4 @@
-package com.example.presentation.registration
+package com.example.presentation.main.registration.supportgame
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,9 +42,9 @@ import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
-import com.example.presentation.ui.util.BackButton
-import com.example.presentation.ui.util.RegistrationButton
-import com.example.presentation.ui.util.Title
+import com.example.presentation.main.registration.common.BackButton
+import com.example.presentation.main.registration.common.RegistrationButton
+import com.example.presentation.main.registration.common.Title
 
 @Composable
 fun SupportGameScreen(navController: NavController) {
@@ -81,7 +81,7 @@ fun SupportGameScreen(navController: NavController) {
 }
 
 @Composable
-fun DropDownComponent(
+internal fun DropDownComponent(
     optionList: List<String>,
     placeHolderText: String
 ) {
