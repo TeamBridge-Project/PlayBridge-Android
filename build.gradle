@@ -4,7 +4,6 @@ buildscript {
         compose_version = '1.2.0-alpha04'
         accompanist_version = '0.24.4-alpha'
         nav_version = "2.4.1"
-        dagger_version = "2.41"
         hilt_version = "2.41"
         coroutines_version = "1.6.0"
         retrofit_version = "2.9.0"
