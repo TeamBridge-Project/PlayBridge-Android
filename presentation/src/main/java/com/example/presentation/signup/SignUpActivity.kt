@@ -36,6 +36,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -122,15 +123,33 @@ fun SignUpScreen(
     val (birthday, setBirthday) = remember { mutableStateOf("") }
     val (isEmailChecked, setEmailCheck) = remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val signUpUiState = viewModel.uiState.collectAsState().value
 
-    when (viewModel.uiState.collectAsState().value) {
-        SignUpState.Loading -> {
-            LoadingIndicator()
-        }
-        SignUpState.EmailFailed -> {
-                Toast.makeText(activity, "이메일 양식이 아닙니다.", Toast.LENGTH_SHORT).show()
-        }
+    if(signUpUiState == SignUpState.Loading) {
+        LoadingIndicator()
     }
+
+    LaunchedEffect(signUpUiState) {
+        when (signUpUiState) {
+            SignUpState.EmailFailed -> {
+                Toast.makeText(activity, "이메일 형식이 틀렸습니다.", Toast.LENGTH_SHORT).show()
+            }
+            SignUpState.PasswordFailed -> {
+                Toast.makeText(activity, "패스워드 형식이 틀렸습니다.", Toast.LENGTH_SHORT).show()
+            }
+            SignUpState.NickName -> {
+                Toast.makeText(activity, "닉네임 형식이 틀렸습니다.", Toast.LENGTH_SHORT).show()
+            }
+            SignUpState.Date -> {
+                Toast.makeText(activity, "생일 형식이 틀렸습니다.", Toast.LENGTH_SHORT).show()
+            }
+            else -> {}
+        }
+        viewModel.changeStateSignUpNeeded()
+    }
+
+
+
 
     IconButton(
         onClick = { viewModel.backPress(activity) },

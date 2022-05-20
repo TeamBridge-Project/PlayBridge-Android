@@ -39,6 +39,12 @@ class SignUpViewModel @Inject constructor(
 
         if (!email.matches("""^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[.][a-zA-Z]{2,3}$""".toRegex())) {
             _uiState.value = SignUpState.EmailFailed
+        } else if(!password.matches("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&.])[A-Za-z[0-9]$@$!%*#?&.]{8,20}$".toRegex())) {
+            _uiState.value = SignUpState.PasswordFailed
+        } else if(!nickname.matches("^[가-힣a-zA-Z0-9]{2,6}$".toRegex())) {
+            _uiState.value = SignUpState.NickName
+        } else if(!date.matches("^(19[0-9][0-9]|20\\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$".toRegex())) {
+            _uiState.value = SignUpState.Date
         } else {
             val charGender = when (gender) {
                 "남" -> "m"
