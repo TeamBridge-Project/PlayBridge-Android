@@ -1,11 +1,9 @@
 package com.example.domain.common.impl
 
-import com.example.domain.common.SignUpValidation
+import com.example.domain.common.SignUpValidator
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class SignUpValidationImpl @Inject constructor() : SignUpValidation{
+internal class SignUpValidatorImpl @Inject constructor() : SignUpValidator{
     override fun isEmailValidity(email: String): Boolean {
         return email.matches("""^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[.][a-zA-Z]{2,3}$""".toRegex())
     }

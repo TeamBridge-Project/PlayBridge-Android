@@ -1,6 +1,6 @@
 package com.example.domain.common
 
-interface SignUpValidation {
+interface SignUpValidator {
     fun isEmailValidity(email: String) : Boolean
 
     fun isPasswordValidity(password: String) : Boolean

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.common.SignUpValidator
 import com.example.domain.model.SignUpModel
 import com.example.domain.usecase.SignUpUseCase
 import com.example.local.datastore.DataStoreManager
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
-    private val dataStore: DataStoreManager
+    private val dataStore: DataStoreManager,
+    private val signUpValidator: SignUpValidator
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SignUpState>(SignUpState.SignUpNeeded)
@@ -37,14 +39,14 @@ class SignUpViewModel @Inject constructor(
     ) {
         _uiState.value = SignUpState.Loading
 
-        if (!email.matches("""^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[.][a-zA-Z]{2,3}$""".toRegex())) {
+        if (!signUpValidator.isEmailValidity(email)) {
             _uiState.value = SignUpState.EmailFailed
-        } else if(!password.matches("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&.])[A-Za-z[0-9]$@$!%*#?&.]{8,20}$".toRegex())) {
+        } else if(!signUpValidator.isPasswordValidity(password)) {
             _uiState.value = SignUpState.PasswordFailed
-        } else if(!nickname.matches("^[가-힣a-zA-Z0-9]{2,6}$".toRegex())) {
-            _uiState.value = SignUpState.NickName
-        } else if(!date.matches("^(19[0-9][0-9]|20\\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$".toRegex())) {
-            _uiState.value = SignUpState.Date
+        } else if(!signUpValidator.isNickNameValidity(nickname)) {
+            _uiState.value = SignUpState.NickNameFailed
+        } else if(!signUpValidator.isDateValidity(date)) {
+            _uiState.value = SignUpState.DateFailed
         } else {
             val charGender = when (gender) {
                 "남" -> "m"
