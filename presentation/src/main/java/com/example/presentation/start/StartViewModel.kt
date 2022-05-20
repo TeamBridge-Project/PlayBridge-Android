@@ -2,9 +2,9 @@ package com.example.presentation.start
 
 import android.app.Activity
 import android.content.Intent
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.common.LoginValidator
 import com.example.domain.model.LoginModel
 import com.example.domain.usecase.LoginUseCase
 import com.example.local.datastore.DataStoreManager
@@ -16,14 +16,14 @@ import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class StartViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val dataStore: DataStoreManager
+    private val dataStore: DataStoreManager,
+    private val loginValidator: LoginValidator
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<StartState>(StartState.LoginNeeded)
@@ -35,8 +35,8 @@ class StartViewModel @Inject constructor(
         activity: Activity?
     ) {
         _uiState.value = StartState.Loading
-        if(email.matches("""^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[.][a-zA-Z]{2,3}$""".toRegex())
-            and password.matches("""^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&.])[A-Za-z[0-9]$@$!%*#?&.]{8,20}$""".toRegex())) {
+        if(loginValidator.isEmailValidity(email)
+            and loginValidator.isPasswordValidity(password)) {
             viewModelScope.launch {
                 loginUseCase(LoginModel(email, password.sha256())).suspendOnSuccess {
                     val accessToken = headers["X-Access-Token"]!!
