@@ -137,10 +137,10 @@ fun SignUpScreen(
             SignUpState.PasswordFailed -> {
                 Toast.makeText(activity, "패스워드 형식이 틀렸습니다.", Toast.LENGTH_SHORT).show()
             }
-            SignUpState.NickName -> {
+            SignUpState.NickNameFailed -> {
                 Toast.makeText(activity, "닉네임 형식이 틀렸습니다.", Toast.LENGTH_SHORT).show()
             }
-            SignUpState.Date -> {
+            SignUpState.DateFailed -> {
                 Toast.makeText(activity, "생일 형식이 틀렸습니다.", Toast.LENGTH_SHORT).show()
             }
             else -> {}
