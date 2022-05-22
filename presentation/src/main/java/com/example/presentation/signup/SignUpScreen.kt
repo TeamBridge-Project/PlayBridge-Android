@@ -48,7 +48,7 @@ import com.example.presentation.ui.theme.notosanskr
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SignUpScreen(
+internal fun SignUpScreen(
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
     Column(

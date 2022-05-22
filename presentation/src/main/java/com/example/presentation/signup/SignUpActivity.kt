@@ -1,12 +1,9 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
-
 package com.example.presentation.signup
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.view.WindowCompat
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.PlayBridgeTheme
