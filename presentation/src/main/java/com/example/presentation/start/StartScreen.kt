@@ -2,7 +2,6 @@
 
 package com.example.presentation.start
 
-import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -28,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
-import com.example.presentation.main.MainActivity
 import com.example.presentation.signup.SignUpActivity
 import com.example.presentation.start.component.LogInButton
 import com.example.presentation.start.component.LogInTextField
@@ -51,12 +49,13 @@ internal fun StartScreen(viewModel: StartViewModel = hiltViewModel()) {
         StartState.Success -> {
             activity?.startMain()
         }
-        else -> {
+        StartState.Failed -> {
             LaunchedEffect(startUiState) {
                 Toast.makeText(activity, "이메일 또는 비밀번호가 아닙니다.", Toast.LENGTH_SHORT).show()
                 viewModel.changeStateLoginNeeded()
             }
         }
+        else -> {}
     }
 
     Column(
