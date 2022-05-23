@@ -1,15 +1,11 @@
 package com.example.presentation.signup
 
-import android.app.Activity
-import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.common.SignUpValidator
 import com.example.domain.model.SignUpModel
 import com.example.domain.usecase.SignUpUseCase
 import com.example.local.datastore.DataStoreManager
-import com.example.presentation.main.MainActivity
 import com.example.presentation.util.sha256
 import com.example.presentation.util.toDate
 import com.skydoves.sandwich.onFailure
@@ -64,9 +60,9 @@ class SignUpViewModel @Inject constructor(
                     val accessToken = headers["X-Access-Token"]!!
                     val refreshToken = headers["X-Refresh-Token"]!!
                     val uuid = data.result[0].uuid
-                    Log.d("uuid", uuid)
                     dataStore.setAccessToken(accessToken)
                     dataStore.setRefreshToken(refreshToken)
+                    dataStore.setUuid(uuid)
                     _uiState.value = SignUpState.Success
                 }.onFailure {
                     _uiState.value = SignUpState.SignUpNeeded
