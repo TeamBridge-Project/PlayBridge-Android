@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -102,13 +103,12 @@ internal fun LogInTextField(
 
 @Composable
 internal fun LogInButton(
-    activity: Activity?,
-    onLogin: (String, String, Activity?) -> Unit,
+    onLogin: (String, String) -> Unit,
     email: String,
     password: String
 ) {
     Button(
-        onClick = { onLogin(email, password, activity) },
+        onClick = { onLogin(email, password) },
         modifier = Modifier
             .width(350.dp)
             .height(50.dp)
@@ -132,11 +132,11 @@ internal fun LogInButton(
 
 @Composable
 internal fun SignUpButton(
-    activity: Activity?,
-    moveSignUpPage: (Activity?) -> Unit
+    moveSignUpPage: () -> Unit
 ) {
+    val activity = LocalContext.current as? Activity
     TextButton(
-        onClick = { moveSignUpPage(activity) },
+        onClick = { moveSignUpPage() },
         modifier = Modifier
             .padding(top = 20.dp)
     ) {

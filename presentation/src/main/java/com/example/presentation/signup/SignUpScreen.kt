@@ -1,6 +1,7 @@
 package com.example.presentation.signup
 
 import android.app.Activity
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
+import com.example.presentation.main.MainActivity
 import com.example.presentation.signup.components.BirthdayInput
 import com.example.presentation.signup.components.CheckReceived
 import com.example.presentation.signup.components.GenderDropDown
@@ -56,7 +58,7 @@ internal fun SignUpScreen(
             .fillMaxSize()
             .background(color = BackgroundColor)
     ) {
-        val activity = LocalContext.current as? Activity
+        val activity = LocalContext.current as? SignUpActivity
         val (email, setEmail) = remember { mutableStateOf("") }
         val (password, setPassword) = remember { mutableStateOf("") }
         val (nickName, setNickName) = remember { mutableStateOf("") }
@@ -84,13 +86,16 @@ internal fun SignUpScreen(
                 SignUpState.DateFailed -> {
                     Toast.makeText(activity, "생일 형식이 틀렸습니다.", Toast.LENGTH_SHORT).show()
                 }
+                SignUpState.Success -> {
+                    activity?.startMain()
+                }
                 else -> {}
             }
             viewModel.changeStateSignUpNeeded()
         }
 
         IconButton(
-            onClick = { viewModel.backPress(activity) },
+            onClick = { activity?.finish() },
             modifier = Modifier.padding(top = 35.dp, start = 15.dp)
         ) {
             Image(
@@ -203,7 +208,6 @@ internal fun SignUpScreen(
                         gender.value,
                         birthday,
                         isEmailChecked,
-                        activity
                     )
                 },
                 colors = ButtonDefaults.buttonColors(

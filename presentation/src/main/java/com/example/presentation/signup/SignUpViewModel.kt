@@ -35,17 +35,16 @@ class SignUpViewModel @Inject constructor(
         gender: String,
         date: String,
         agreeEmail: Boolean,
-        activity: Activity?
     ) {
         _uiState.value = SignUpState.Loading
 
         if (!signUpValidator.isEmailValidity(email)) {
             _uiState.value = SignUpState.EmailFailed
-        } else if(!signUpValidator.isPasswordValidity(password)) {
+        } else if (!signUpValidator.isPasswordValidity(password)) {
             _uiState.value = SignUpState.PasswordFailed
-        } else if(!signUpValidator.isNickNameValidity(nickname)) {
+        } else if (!signUpValidator.isNickNameValidity(nickname)) {
             _uiState.value = SignUpState.NickNameFailed
-        } else if(!signUpValidator.isDateValidity(date)) {
+        } else if (!signUpValidator.isDateValidity(date)) {
             _uiState.value = SignUpState.DateFailed
         } else {
             val charGender = when (gender) {
@@ -65,7 +64,6 @@ class SignUpViewModel @Inject constructor(
                     val refreshToken = headers["X-Refresh-Token"]!!
                     dataStore.setAccessToken(accessToken)
                     dataStore.setRefreshToken(refreshToken)
-                    activity?.startActivity(Intent(activity, MainActivity::class.java))
                     _uiState.value = SignUpState.Success
                 }.onFailure {
                     _uiState.value = SignUpState.SignUpNeeded
@@ -76,9 +74,5 @@ class SignUpViewModel @Inject constructor(
 
     fun changeStateSignUpNeeded() {
         _uiState.value = SignUpState.SignUpNeeded
-    }
-
-    fun backPress(activity: Activity?) {
-        activity?.finish()
     }
 }
