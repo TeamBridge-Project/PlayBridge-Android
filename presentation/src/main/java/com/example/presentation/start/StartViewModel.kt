@@ -2,6 +2,7 @@ package com.example.presentation.start
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.common.LoginValidator
@@ -41,6 +42,8 @@ class StartViewModel @Inject constructor(
                 loginUseCase(LoginModel(email, password.sha256())).suspendOnSuccess {
                     val accessToken = headers["X-Access-Token"]!!
                     val refreshToken = headers["X-Refresh-Token"]!!
+                    val uuid = data.result[0].uuid
+                    Log.d("uuid", uuid)
                     dataStore.setAccessToken(accessToken)
                     dataStore.setRefreshToken(refreshToken)
                     _uiState.value = StartState.Success

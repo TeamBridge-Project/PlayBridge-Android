@@ -2,6 +2,7 @@ package com.example.presentation.signup
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.common.SignUpValidator
@@ -62,6 +63,8 @@ class SignUpViewModel @Inject constructor(
                 ).suspendOnSuccess {
                     val accessToken = headers["X-Access-Token"]!!
                     val refreshToken = headers["X-Refresh-Token"]!!
+                    val uuid = data.result[0].uuid
+                    Log.d("uuid", uuid)
                     dataStore.setAccessToken(accessToken)
                     dataStore.setRefreshToken(refreshToken)
                     _uiState.value = SignUpState.Success
