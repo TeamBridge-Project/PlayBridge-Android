@@ -32,7 +32,6 @@ class StartViewModel @Inject constructor(
     fun login(
         email: String,
         password: String,
-        activity: Activity?
     ) {
         _uiState.value = StartState.Loading
         if(loginValidator.isEmailValidity(email)
@@ -43,7 +42,6 @@ class StartViewModel @Inject constructor(
                     val refreshToken = headers["X-Refresh-Token"]!!
                     dataStore.setAccessToken(accessToken)
                     dataStore.setRefreshToken(refreshToken)
-                    activity?.startActivity(Intent(activity, MainActivity::class.java))
                     _uiState.value = StartState.Success
                 }.onFailure {
                     _uiState.value = StartState.LoginNeeded
@@ -56,9 +54,5 @@ class StartViewModel @Inject constructor(
 
     fun changeStateLoginNeeded() {
         _uiState.value = StartState.LoginNeeded
-    }
-
-    fun moveSignUp(activity: Activity?) {
-        activity?.startActivity(Intent(activity, SignUpActivity::class.java))
     }
 }
