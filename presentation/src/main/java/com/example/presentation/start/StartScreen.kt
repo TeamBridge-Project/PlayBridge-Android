@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -48,12 +49,14 @@ fun StartScreen(
     val activity = LocalContext.current as? Activity
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    if (viewModel.uiState.collectAsState().value == StartState.Loading) {
-        LoadingIndicator()
-    } else if (viewModel.uiState.collectAsState().value == StartState.Failed) {
-        SideEffect {
-            Toast.makeText(activity, "이메일 또는 비밀번호가 아닙니다.", Toast.LENGTH_SHORT).show()
-            viewModel.changeStateLoginNeeded()
+    when(val startUiState = viewModel.uiState.collectAsState().value) {
+        StartState.Loading ->
+            LoadingIndicator()
+        else -> {
+            LaunchedEffect(startUiState) {
+                Toast.makeText(activity, "이메일 또는 비밀번호가 아닙니다.", Toast.LENGTH_SHORT).show()
+                viewModel.changeStateLoginNeeded()
+            }
         }
     }
 
