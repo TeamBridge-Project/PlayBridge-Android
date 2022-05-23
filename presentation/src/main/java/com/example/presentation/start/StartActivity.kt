@@ -1,10 +1,12 @@
 package com.example.presentation.start
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.SideEffect
 import androidx.core.view.WindowCompat
+import com.example.presentation.main.MainActivity
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.PlayBridgeTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -26,8 +28,13 @@ class StartActivity : ComponentActivity() {
                 )
             }
             PlayBridgeTheme {
-                Screen()
+                StartScreen()
             }
         }
+    }
+
+    internal fun startMain() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

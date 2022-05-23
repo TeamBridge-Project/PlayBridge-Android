@@ -34,8 +34,9 @@ class StartViewModel @Inject constructor(
         password: String,
     ) {
         _uiState.value = StartState.Loading
-        if(loginValidator.isEmailValidity(email)
-            and loginValidator.isPasswordValidity(password)) {
+        if (loginValidator.isEmailValidity(email)
+            and loginValidator.isPasswordValidity(password)
+        ) {
             viewModelScope.launch {
                 loginUseCase(LoginModel(email, password.sha256())).suspendOnSuccess {
                     val accessToken = headers["X-Access-Token"]!!

@@ -1,10 +1,12 @@
 package com.example.presentation.signup
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.SideEffect
 import androidx.core.view.WindowCompat
+import com.example.presentation.main.MainActivity
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.PlayBridgeTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -30,5 +32,10 @@ class SignUpActivity : ComponentActivity() {
                 SignUpScreen()
             }
         }
+    }
+
+    internal fun startMain() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }
