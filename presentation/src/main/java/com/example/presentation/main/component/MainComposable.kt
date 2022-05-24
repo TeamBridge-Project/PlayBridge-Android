@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.main.MainViewModel
+import com.example.presentation.main.message.MessagePage
 import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.SellerRegistrationColor
 import com.example.presentation.ui.theme.notosanskr
@@ -167,7 +168,7 @@ internal fun FunctionSelectBar(
             ) {
                 when (tabData[index]) {
                     tabData[0] -> profilePage(viewModel = viewModel)
-                    tabData[1] -> Text("언제만드냐 이건")
+                    tabData[1] -> MessagePage()
                 }
             }
         }
