@@ -9,6 +9,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserService {
@@ -20,4 +21,7 @@ interface UserService {
 
     @GET("/user")
     suspend fun getUserList(@Query("page") page: Int): Response<UserResponse>
+
+    @POST("/user/{uuid}/profile")
+    suspend fun getProfile(@Path("uuid") uuid: String): ApiResponse<UserResponse>
 }

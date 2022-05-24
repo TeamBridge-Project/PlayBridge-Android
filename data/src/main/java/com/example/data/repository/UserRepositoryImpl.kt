@@ -31,13 +31,18 @@ class UserRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getUser(query: Int): Flow<PagingData<UserModel>> =
-        withContext(defaultDispatcher){
+        withContext(defaultDispatcher) {
             Pager(
                 config = PagingConfig(
                     pageSize = 6
                 ),
                 pagingSourceFactory = { UserPagingSource(apiService, query) }
             ).flow
+        }
+
+    override suspend fun getProfile(uuid: String) =
+        withContext(defaultDispatcher) {
+            apiService.getProfile(uuid)
         }
 
 }
