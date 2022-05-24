@@ -41,4 +41,8 @@
     <string name="memo">메모</string>
     <string name="reservation_accept">예약 수락</string>
     <string name="reservation_refuse">예약 거절</string>
+    <!-- SendMessageScreen -->
+    <string name="send_message">쪽지 보내기</string>
+    <string name="send">전송</string>
+    <string name="content_input">내용을 입력하세요.</string>
 </resources>

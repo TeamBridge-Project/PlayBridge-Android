@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,7 +63,7 @@ internal fun SendMessageScreen() {
             }
 
             Text(
-                text = "쪽지 보내기",
+                text = stringResource(id = R.string.send_message),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = notosanskr,
@@ -79,7 +80,7 @@ internal fun SendMessageScreen() {
                 colors = ButtonDefaults.buttonColors(backgroundColor = ProfileEditingColor)
             ) {
                 Text(
-                    text = "전송",
+                    text = stringResource(id = R.string.send),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = notosanskr,
@@ -101,7 +102,7 @@ internal fun SendMessageScreen() {
             ),
             placeholder = {
                 Text(
-                    text = "내용을 입력하세요.",
+                    text = stringResource(id = R.string.content_input),
                     fontFamily = notosanskr,
                     color = Color.Gray,
                     fontWeight = FontWeight.Medium
