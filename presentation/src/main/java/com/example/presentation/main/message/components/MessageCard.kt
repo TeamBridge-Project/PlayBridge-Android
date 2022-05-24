@@ -1,4 +1,4 @@
-package com.example.presentation.main.messagebox.components
+package com.example.presentation.main.message.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
