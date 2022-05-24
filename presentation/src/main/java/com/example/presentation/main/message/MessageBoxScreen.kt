@@ -1,4 +1,4 @@
-package com.example.presentation.main.messagebox
+package com.example.presentation.main.message
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.example.presentation.R
-import com.example.presentation.main.messagebox.components.MessageCard
+import com.example.presentation.main.message.components.MessageCard
 
 @Composable
 internal fun MessageBoxScreen() {

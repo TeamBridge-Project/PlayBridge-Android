@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.main.MainViewModel
-import com.example.presentation.main.messagebox.MessageBoxScreen
+import com.example.presentation.main.message.MessageBoxScreen
 import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.SellerRegistrationColor
 import com.example.presentation.ui.theme.notosanskr
