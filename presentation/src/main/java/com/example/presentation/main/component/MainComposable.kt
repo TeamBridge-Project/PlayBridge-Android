@@ -99,7 +99,6 @@ internal fun TopBar(
 
 @Composable
 internal fun FunctionSelectBar(
-    navController: NavController,
     viewModel: MainViewModel
 ) {
     val tabData = listOf(
@@ -144,9 +143,7 @@ internal fun FunctionSelectBar(
             Spacer(Modifier.width(60.dp))
             FloatingActionButton(
                 onClick = {
-                    scope.launch {
-                        navController.navigate(HomeScreens.SupportGameRegistrationScreen.route)
-                    }
+                    viewModel.onRegister()
                 },
                 modifier = Modifier
                     .width(80.dp)

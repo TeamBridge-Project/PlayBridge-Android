@@ -1,9 +1,11 @@
 package com.example.presentation.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.presentation.main.registration.aboutprofile.AboutProfileScreen
 import com.example.presentation.main.MainScreen
 import com.example.presentation.main.personalprofile.PersonalProfileScreen
@@ -21,8 +23,16 @@ fun Navigation() {
         composable(route = HomeScreens.HomeScreen.route) {
             MainScreen(navController = navController)
         }
-        composable(route = HomeScreens.SupportGameRegistrationScreen.route) {
-            SupportGameScreen(navController = navController)
+        composable(
+            route = HomeScreens.SupportGameRegistrationScreen.route,
+            arguments = listOf(
+                navArgument("uuid") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val uuid = backStackEntry.arguments?.getString("uuid")
+            SupportGameScreen(navController = navController, uuid)
         }
         composable(route = HomeScreens.PersonalProfileScreen.route) {
             PersonalProfileScreen(navController = navController)

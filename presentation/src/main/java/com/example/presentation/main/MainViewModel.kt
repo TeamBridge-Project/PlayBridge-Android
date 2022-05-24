@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
@@ -22,9 +23,9 @@ class MainViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
     private val getProfileUseCase: GetProfileUseCase,
     private val dataStore: DataStoreManager
-) : ViewModel(), ContainerHost<MainState, Nothing> {
+) : ViewModel(), ContainerHost<MainState, MainSideEffect> {
 
-    override val container = container<MainState, Nothing>(MainState())
+    override val container = container<MainState, MainSideEffect>(MainState())
 
     init{
         getUserProfile()
@@ -42,7 +43,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getUserProfile() = intent {
+    private fun getUserProfile() = intent {
         reduce { state.copy(status = UiStatus.Loading) }
         val uuid = runBlocking {
             dataStore.uuid.first()
@@ -55,5 +56,13 @@ class MainViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun onRegister() = intent{
+        val uuid = runBlocking {
+            dataStore.uuid.first()
+        }
+        postSideEffect(MainSideEffect.NavigateToRegistration(uuid))
+        reduce { state.copy(status = UiStatus.Success) }
     }
 }

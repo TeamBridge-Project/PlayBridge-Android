@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.domain.model.UserModel
 import com.example.presentation.R
-import com.example.presentation.main.MainState
 import com.example.presentation.main.MainViewModel
 import com.example.presentation.ui.common.UiStatus
 import com.example.presentation.ui.theme.ComponentInnerColor
