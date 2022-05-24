@@ -12,14 +12,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presentation.ui.theme.notosanskr
 
+
 @Composable
-fun Message() {
+fun Message(
+    messageCurrent: String,
+    date: String,
+    contents: String
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -31,7 +35,7 @@ fun Message() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "받은 쪽지",
+                text = messageCurrent,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = notosanskr,
@@ -39,11 +43,7 @@ fun Message() {
             )
 
             Text(
-                text = buildAnnotatedString {
-                    append("21/09/18")
-                    append(" ")
-                    append("23:04")
-                },
+                text = date,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = notosanskr,
@@ -52,7 +52,7 @@ fun Message() {
         }
 
         BasicTextField(
-            value = "안녕하세요 감사해요 잘있어요 다시 만나요 매일 같은 하루",
+            value = contents,
             onValueChange = { },
             readOnly = true,
             modifier = Modifier.padding(10.dp),

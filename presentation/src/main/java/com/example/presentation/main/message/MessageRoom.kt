@@ -74,7 +74,11 @@ internal fun MessageRoom() {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             item {
-                Message()
+                Message(
+                    messageCurrent = "보낸 쪽지",
+                    date = "21/09/18 23:04",
+                    contents = "이 세개가 이제 DB에서 받아오는 값이다 이말이죠? 날짜는 우리가 포맷해서 바꾸고?"
+                )
             }
         }
     }
