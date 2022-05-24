@@ -11,7 +11,7 @@ import com.example.presentation.R
 import com.example.presentation.main.message.components.MessageCard
 
 @Composable
-internal fun MessageBoxScreen() {
+internal fun MessagePage() {
     val userProfileImage = listOf(
         painterResource(id = R.drawable.nyong),
         painterResource(id = R.drawable.nyong)
