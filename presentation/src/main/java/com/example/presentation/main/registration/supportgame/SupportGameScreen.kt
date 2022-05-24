@@ -1,5 +1,6 @@
 package com.example.presentation.main.registration.supportgame
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -47,7 +48,10 @@ import com.example.presentation.main.registration.common.RegistrationButton
 import com.example.presentation.main.registration.common.Title
 
 @Composable
-fun SupportGameScreen(navController: NavController) {
+fun SupportGameScreen(
+    navController: NavController,
+    uuid: String?
+) {
     val gameList = listOf("리그 오브 레전드", "배틀 그라운드", "로스트아크", "메이플")
     val tierList = listOf("골드 IV", "골드 III", "골드 II", "골드 I", "실버 IV", "실버 III", "실버 II", "실버 I")
     Column(
