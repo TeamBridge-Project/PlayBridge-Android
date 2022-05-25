@@ -48,8 +48,8 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun TopBar(
     navController: NavController,
-    nickname: String = "OOO님",
-    credit: String = "1000",
+    nickname: String,
+    credit: String,
 ) {
     Row(
         modifier = Modifier

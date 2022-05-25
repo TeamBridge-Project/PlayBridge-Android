@@ -1,7 +1,7 @@
 package com.example.presentation.main
 
 import androidx.paging.PagingData
-import com.example.domain.model.UserModel
+import com.example.domain.model.user.UserModel
 import com.example.presentation.ui.common.UiStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow

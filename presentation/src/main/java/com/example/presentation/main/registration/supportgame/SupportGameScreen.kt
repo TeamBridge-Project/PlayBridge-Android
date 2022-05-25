@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.ui.navigation.HomeScreens
@@ -46,42 +48,54 @@ import com.example.presentation.ui.theme.notosanskr
 import com.example.presentation.main.registration.common.BackButton
 import com.example.presentation.main.registration.common.RegistrationButton
 import com.example.presentation.main.registration.common.Title
+import com.example.presentation.ui.common.LoadingIndicator
+import com.example.presentation.ui.common.UiStatus
 
 @Composable
 fun SupportGameScreen(
     navController: NavController,
-    uuid: String?
+    uuid: String?,
+    viewModel: SupportGameViewModel = hiltViewModel()
 ) {
-    val gameList = listOf("리그 오브 레전드", "배틀 그라운드", "로스트아크", "메이플")
-    val tierList = listOf("골드 IV", "골드 III", "골드 II", "골드 I", "실버 IV", "실버 III", "실버 II", "실버 I")
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = BackgroundColor),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        BackButton(navController = navController)
-        Spacer(Modifier.height(60.dp))
-        Title(stringResource(id = R.string.support_game_title))
-        Spacer(Modifier.height(50.dp))
-        DropDownComponent(
-            optionList = gameList,
-            placeHolderText = stringResource(id = R.string.game_select_or_edit)
-        )
-        Spacer(Modifier.height(40.dp))
-        DropDownComponent(
-            optionList = tierList,
-            placeHolderText = stringResource(id = R.string.rank_or_level_edit)
-        )
+    val state by viewModel.container.stateFlow.collectAsState()
+    when (state.status) {
+        UiStatus.Success -> {
+            val gameList = state.gameList.map { it.name }
+            val tierList = listOf("골드 IV", "골드 III", "골드 II", "골드 I", "실버 IV", "실버 III", "실버 II", "실버 I")
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = BackgroundColor),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                BackButton(navController = navController)
+                Spacer(Modifier.height(60.dp))
+                Title(stringResource(id = R.string.support_game_title))
+                Spacer(Modifier.height(50.dp))
+                DropDownComponent(
+                    optionList = gameList,
+                    placeHolderText = stringResource(id = R.string.game_select_or_edit)
+                )
+                Spacer(Modifier.height(40.dp))
+                DropDownComponent(
+                    optionList = tierList,
+                    placeHolderText = stringResource(id = R.string.rank_or_level_edit)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 60.dp),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                RegistrationButton("다음", navController, HomeScreens.GameCostScreen.route)
+            }
+        }
+        UiStatus.Loading -> {
+            LoadingIndicator()
+        }
     }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 60.dp),
-        contentAlignment = Alignment.BottomCenter
-    ) {
-        RegistrationButton("다음", navController, HomeScreens.GameCostScreen.route)
-    }
+
 }
 
 @Composable

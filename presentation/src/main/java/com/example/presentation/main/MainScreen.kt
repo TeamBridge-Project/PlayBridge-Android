@@ -49,7 +49,8 @@ fun MainScreen(
                 state.profile?.let {
                     TopBar(
                         navController = navController,
-                        it.nickname
+                        it.nickname,
+                        it.credit.toString()
                     )
                 }
                 Spacer(modifier = Modifier.height(30.dp))

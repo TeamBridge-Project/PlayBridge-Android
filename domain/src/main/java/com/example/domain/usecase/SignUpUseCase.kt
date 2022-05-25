@@ -1,6 +1,6 @@
 package com.example.domain.usecase
 
-import com.example.domain.model.SignUpModel
+import com.example.domain.model.user.SignUpModel
 import com.example.domain.repository.UserRepository
 import javax.inject.Inject
 

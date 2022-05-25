@@ -2,8 +2,8 @@ package com.example.data.service
 
 import com.example.data.dto.requestbody.LoginRequestBody
 import com.example.data.dto.requestbody.SignUpRequestBody
-import com.example.domain.model.AuthResponse
-import com.example.domain.model.UserResponse
+import com.example.domain.model.user.AuthResponse
+import com.example.domain.model.user.UserResponse
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.Response
 import retrofit2.http.Body

@@ -7,9 +7,9 @@ import com.example.data.di.IoDispatcher
 import com.example.data.mapper.toData
 import com.example.data.paging.UserPagingSource
 import com.example.data.service.UserService
-import com.example.domain.model.LoginModel
-import com.example.domain.model.SignUpModel
-import com.example.domain.model.UserModel
+import com.example.domain.model.user.LoginModel
+import com.example.domain.model.user.SignUpModel
+import com.example.domain.model.user.UserModel
 import com.example.domain.repository.UserRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

@@ -3,7 +3,7 @@ package com.example.presentation.start
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.common.LoginValidator
-import com.example.domain.model.LoginModel
+import com.example.domain.model.user.LoginModel
 import com.example.domain.usecase.LoginUseCase
 import com.example.local.datastore.DataStoreManager
 import com.example.presentation.util.sha256

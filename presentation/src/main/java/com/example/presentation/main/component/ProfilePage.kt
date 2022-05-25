@@ -41,7 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.domain.model.UserModel
+import com.example.domain.model.user.UserModel
 import com.example.presentation.R
 import com.example.presentation.main.MainViewModel
 import com.example.presentation.ui.common.UiStatus

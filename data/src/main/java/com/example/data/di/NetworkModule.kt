@@ -1,5 +1,6 @@
 package com.example.data.di
 
+import com.example.data.service.GameService
 import com.example.data.service.UserService
 import com.example.local.datastore.DataStoreManager
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
@@ -24,8 +25,13 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): UserService =
+    fun provideUserService(retrofit: Retrofit): UserService =
         retrofit.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideGameService(retrofit: Retrofit): GameService =
+        retrofit.create(GameService::class.java)
 
     @Provides
     @Singleton
