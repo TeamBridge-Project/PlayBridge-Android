@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.presentation.main.personalprofile.common.PencilIcon
 import com.example.presentation.ui.theme.SelfIntroduction
 import com.example.presentation.ui.theme.notosanskr
 
@@ -34,13 +36,19 @@ fun IntroSection(
     Column(
         modifier = Modifier
     ) {
-        Text(
-            text = "자기소개",
-            color = Color.White,
-            fontSize = 20.sp,
-            fontFamily = notosanskr,
-            fontWeight = FontWeight.Bold,
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "자기소개",
+                color = Color.White,
+                fontSize = 20.sp,
+                fontFamily = notosanskr,
+                fontWeight = FontWeight.Bold,
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            PencilIcon(isEditing = isEditing)
+        }
 
         Spacer(modifier = Modifier.height(17.dp))
 
