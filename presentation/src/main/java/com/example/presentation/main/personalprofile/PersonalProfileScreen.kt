@@ -14,10 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.presentation.R
 import com.example.presentation.main.personalprofile.common.Backward
 import com.example.presentation.main.personalprofile.common.ProfileEditButton
@@ -26,12 +24,6 @@ import com.example.presentation.main.personalprofile.components.Description
 import com.example.presentation.main.personalprofile.components.IntroSection
 import com.example.presentation.main.personalprofile.components.UserInfoSection
 import com.example.presentation.ui.theme.BackgroundColor
-
-@Preview
-@Composable
-fun preview(){
-    PersonalProfileScreen(navController = rememberNavController())
-}
 
 @Composable
 fun PersonalProfileScreen(navController: NavController) {
@@ -51,12 +43,16 @@ fun PersonalProfileScreen(navController: NavController) {
         ) {
             Backward(navController = navController)
 
-            CoinSection()
+            CoinSection(coin = "3000", navController= navController)
 
+            Spacer(modifier = Modifier.height(4.dp))
+            
             UserInfoSection(
                 profileImage = painterResource(id = R.drawable.ic_baseline_account_circle_24),
                 nickname = "둥글둥글",
-                gender = stringResource(id = R.string.male)
+                gender = stringResource(id = R.string.male),
+                isEditing = isEditing,
+                navController = navController
             )
 
             Spacer(modifier = Modifier.height(27.dp))
@@ -74,6 +70,8 @@ fun PersonalProfileScreen(navController: NavController) {
             )
 
             IntroSection(isEditing = isEditing)
+            
+            Spacer(modifier = Modifier.height(40.dp))
 
             ProfileEditButton(isEditing = isEditing)
         }
