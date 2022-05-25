@@ -29,6 +29,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.presentation.R
+import com.example.presentation.main.common.GenderBadge
 import com.example.presentation.ui.theme.MaleBadgeColor
 import com.example.presentation.ui.theme.MessageCardColor
 import com.example.presentation.ui.theme.SignUpCompleteColor
@@ -74,7 +75,7 @@ internal fun MessageCard(
                     color = Color.White
                 )
 
-                MessageCardBadge(gender = gender)
+                GenderBadge(gender = gender, badgeSize = 16.dp, textSize = 8.sp)
             }
 
             Spacer(modifier = Modifier.width(173.dp))
@@ -84,39 +85,5 @@ internal fun MessageCard(
                 contentDescription = ""
             )
         }
-    }
-}
-
-@Composable
-internal fun MessageCardBadge(
-    gender: String
-) {
-    Box(
-        modifier = Modifier
-            .padding(top = 10.dp)
-            .size(16.dp)
-            .clip(CircleShape)
-            .background(
-                if (gender == "m") {
-                    MaleBadgeColor
-                } else {
-                    SignUpCompleteColor
-                }
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = buildAnnotatedString {
-                if (gender == "m") {
-                    append("남")
-                } else if (gender == "f") {
-                    append("여")
-                }
-            },
-            fontFamily = notosanskr,
-            fontSize = 8.sp,
-            fontWeight = FontWeight.Normal,
-            color = Color.White
-        )
     }
 }
