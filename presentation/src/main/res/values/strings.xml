@@ -18,11 +18,12 @@
     <!-- Main -->
     <string name="seller_registration">판매자 등록</string>
     <!-- PersonalProfile -->
-    <string name="dungledungle">둥글둥글</string>
     <string name="nim">님</string>
     <string name="new_rating">신규</string>
-    <string name="male">남</string>
-    <string name="coin_quantity">3000</string>
+    <string name="male">m</string>
+    <string name="coin_mark">C</string>
+    <string name="seller_registration_game">판매자 등록 게임</string>
+    <string name="registration_game_costs">등록 게임 비용</string>
     <!-- SupportGame-->
     <string name="support_game_title">지원 게임 내용을\n작성해주세요</string>
     <string name="game_select_or_edit">게임 선택/작성</string>
