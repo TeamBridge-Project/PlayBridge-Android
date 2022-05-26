@@ -3,11 +3,15 @@ package com.example.presentation.main.registration.supportgame
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecase.GetGameUseCase
 import com.example.local.datastore.DataStoreManager
+import com.example.presentation.main.MainSideEffect
 import com.example.presentation.ui.common.UiStatus
 import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
@@ -33,5 +37,10 @@ class SupportGameViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun onRegister(game: String, tier: String) = intent{
+        postSideEffect(SupportGameSideEffect.NavigateToGameCostScreen(game,tier))
+        reduce { state.copy(status = UiStatus.Success) }
     }
 }

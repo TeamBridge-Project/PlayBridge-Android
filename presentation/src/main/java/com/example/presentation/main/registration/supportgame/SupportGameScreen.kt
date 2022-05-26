@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +42,6 @@ import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.presentation.R
-import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.notosanskr
@@ -50,36 +50,57 @@ import com.example.presentation.main.registration.common.RegistrationButton
 import com.example.presentation.main.registration.common.Title
 import com.example.presentation.ui.common.LoadingIndicator
 import com.example.presentation.ui.common.UiStatus
+import com.example.presentation.ui.navigation.HomeScreens
 
 @Composable
 fun SupportGameScreen(
+    viewModel: SupportGameViewModel = hiltViewModel(),
+    onBackPressed: () -> Unit,
     navController: NavController,
-    uuid: String?,
-    viewModel: SupportGameViewModel = hiltViewModel()
 ) {
+    val (gameText, setGameText) = remember { mutableStateOf("") }
+    val (tierText, setTierText) = remember { mutableStateOf("") }
+    LaunchedEffect(viewModel) {
+        viewModel.container.sideEffectFlow.collect {
+            when (it) {
+                is SupportGameSideEffect.NavigateToGameCostScreen -> {
+                    navController.navigate(
+                        HomeScreens.GameCostScreen.getDestination(it.game, it.tier)
+                    )
+                }
+            }
+        }
+    }
+
     val state by viewModel.container.stateFlow.collectAsState()
+
     when (state.status) {
         UiStatus.Success -> {
             val gameList = state.gameList.map { it.name }
-            val tierList = listOf("골드 IV", "골드 III", "골드 II", "골드 I", "실버 IV", "실버 III", "실버 II", "실버 I")
+            val tierList =
+                listOf("골드 IV", "골드 III", "골드 II", "골드 I", "실버 IV", "실버 III", "실버 II", "실버 I")
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(color = BackgroundColor),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                BackButton(navController = navController)
+                BackButton(onBackPressed)
                 Spacer(Modifier.height(60.dp))
                 Title(stringResource(id = R.string.support_game_title))
                 Spacer(Modifier.height(50.dp))
                 DropDownComponent(
                     optionList = gameList,
-                    placeHolderText = stringResource(id = R.string.game_select_or_edit)
+                    placeHolderText = stringResource(id = R.string.game_select_or_edit),
+                    gameText,
+                    setGameText
                 )
                 Spacer(Modifier.height(40.dp))
                 DropDownComponent(
                     optionList = tierList,
-                    placeHolderText = stringResource(id = R.string.rank_or_level_edit)
+                    placeHolderText = stringResource(id = R.string.rank_or_level_edit),
+                    tierText,
+                    setTierText
                 )
             }
             Box(
@@ -88,12 +109,13 @@ fun SupportGameScreen(
                     .padding(bottom = 60.dp),
                 contentAlignment = Alignment.BottomCenter
             ) {
-                RegistrationButton("다음", navController, HomeScreens.GameCostScreen.route)
+                RegistrationButton("다음") { viewModel.onRegister(gameText, tierText) }
             }
         }
         UiStatus.Loading -> {
             LoadingIndicator()
         }
+        else -> {}
     }
 
 }
@@ -101,20 +123,21 @@ fun SupportGameScreen(
 @Composable
 internal fun DropDownComponent(
     optionList: List<String>,
-    placeHolderText: String
+    placeHolderText: String,
+    text: String,
+    setText: (String) -> Unit,
 ) {
     var itemCount: Int = 0
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf("") }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
     val icon = if (expanded)
         Icons.Filled.ArrowDropUp
     else
         Icons.Filled.ArrowDropDown
-    Column() {
+    Column {
         OutlinedTextField(
-            value = selectedText,
-            onValueChange = { selectedText = it },
+            value = text,
+            onValueChange = setText,
             modifier = Modifier.onGloballyPositioned { coordinates ->
                 textFieldSize = coordinates.size.toSize()
             },
@@ -159,7 +182,7 @@ internal fun DropDownComponent(
             optionList.forEach { selection ->
                 DropdownMenuItem(
                     onClick = {
-                        selectedText = selection
+                        setText(selection)
                         expanded = !expanded
                     },
                     modifier = Modifier

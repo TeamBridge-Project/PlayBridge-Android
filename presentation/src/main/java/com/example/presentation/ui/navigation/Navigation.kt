@@ -1,17 +1,16 @@
 package com.example.presentation.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.presentation.main.registration.aboutprofile.AboutProfileScreen
 import com.example.presentation.main.MainScreen
 import com.example.presentation.main.personalprofile.PersonalProfileScreen
 import com.example.presentation.main.registration.gamecost.GameCostScreen
 import com.example.presentation.main.registration.supportgame.SupportGameScreen
 import com.example.presentation.main.reservation.ReservationDetailsScreen
+import com.example.presentation.ui.navigation.HomeScreens.GameCostScreen.getDestination
 
 @Composable
 fun Navigation() {
@@ -23,25 +22,27 @@ fun Navigation() {
         composable(route = HomeScreens.HomeScreen.route) {
             MainScreen(navController = navController)
         }
-        composable(
-            route = HomeScreens.SupportGameRegistrationScreen.route,
-            arguments = listOf(
-                navArgument("uuid") {
-                    type = NavType.StringType
-                }
-            )
-        ) { backStackEntry ->
-            val uuid = backStackEntry.arguments?.getString("uuid")
-            SupportGameScreen(navController = navController, uuid)
+        composable(route = HomeScreens.SupportGameRegistrationScreen.route) {
+            SupportGameScreen(
+                onBackPressed = { navController.popBackStack() },
+                navController = navController)
         }
         composable(route = HomeScreens.PersonalProfileScreen.route) {
             PersonalProfileScreen(navController = navController)
         }
-        composable(route = HomeScreens.AboutProfileScreen.route) {
-            AboutProfileScreen(navController = navController)
+        composable(
+            route = HomeScreens.AboutProfileScreen.route,
+            arguments = HomeScreens.AboutProfileScreen.argumentList
+        ) { backStackEntry ->
+            val (game, tier, gameCost) = HomeScreens.AboutProfileScreen.parseArguments(backStackEntry)
+            AboutProfileScreen(navController = navController, game = game, tier = tier, gameCost = gameCost)
         }
-        composable(route = HomeScreens.GameCostScreen.route) {
-            GameCostScreen(navController = navController)
+        composable(
+            route = HomeScreens.GameCostScreen.route,
+            arguments = HomeScreens.GameCostScreen.argumentList
+        ) { backStackEntry ->
+            val (game, tier) = HomeScreens.GameCostScreen.parseArguments(backStackEntry)
+            GameCostScreen(navController = navController, game = game, tier = tier)
         }
         composable(route = HomeScreens.ReservationDetailsScreen.route) {
             ReservationDetailsScreen(navController = navController)

@@ -2,6 +2,7 @@
 
 package com.example.presentation.main.registration.gamecost
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,34 +37,37 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.presentation.R
-import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
 import com.example.presentation.ui.theme.notosanskr
 import com.example.presentation.main.registration.common.BackButton
 import com.example.presentation.main.registration.common.RegistrationButton
 import com.example.presentation.main.registration.common.Title
+import com.example.presentation.ui.navigation.HomeScreens
 
 @Composable
-fun GameCostScreen(navController: NavController) {
+fun GameCostScreen(
+    navController: NavController,
+    game: String,
+    tier: String,
+) {
     val (gameCost, setGameCost) = remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = BackgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        BackButton(navController = navController)
+        BackButton { navController.popBackStack() }
         Spacer(Modifier.height(60.dp))
         Title(stringResource(id = R.string.game_cost_title))
         Spacer(Modifier.height(100.dp))
-        GameName(selectedGameName = "리그오브레전드")
+        GameName(selectedGameName = game)
         Spacer(Modifier.height(60.dp))
         CostInput(
             gameCost = gameCost,
             setGameCost = setGameCost,
-            keyboardController = keyboardController
+            keyboardController = keyboardController,
         )
         Box(
             modifier = Modifier
@@ -71,7 +75,15 @@ fun GameCostScreen(navController: NavController) {
                 .padding(bottom = 60.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            RegistrationButton("다음", navController, HomeScreens.AboutProfileScreen.route)
+            RegistrationButton("다음") {
+                navController.navigate(
+                    HomeScreens.AboutProfileScreen.getDestination(
+                        game,
+                        tier,
+                        gameCost.toInt()
+                    )
+                )
+            }
         }
     }
 }
@@ -149,9 +161,11 @@ internal fun CostInput(
                         fontWeight = FontWeight.Bold,
                     )
                 }
-                Divider(modifier = Modifier
-                    .width(200.dp)
-                    .height(3.dp), color = Color.White)
+                Divider(
+                    modifier = Modifier
+                        .width(200.dp)
+                        .height(3.dp), color = Color.White
+                )
             }
         }
     }

@@ -19,6 +19,7 @@ import com.example.presentation.ui.common.LoadingIndicator
 import com.example.presentation.ui.common.UiStatus
 import com.example.presentation.ui.navigation.HomeScreens
 import com.example.presentation.ui.theme.BackgroundColor
+import org.orbitmvi.orbit.viewmodel.observe
 
 @Composable
 fun MainScreen(
@@ -31,7 +32,7 @@ fun MainScreen(
         viewModel.container.sideEffectFlow.collect {
             when (it) {
                 is MainSideEffect.NavigateToRegistration -> {
-                    navController.navigate(HomeScreens.SupportGameRegistrationScreen.route + it.uuid)
+                    navController.navigate(HomeScreens.SupportGameRegistrationScreen.route)
                 }
             }
         }
@@ -66,3 +67,4 @@ fun MainScreen(
     }
 
 }
+

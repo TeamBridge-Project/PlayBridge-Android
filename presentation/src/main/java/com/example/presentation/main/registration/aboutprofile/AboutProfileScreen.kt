@@ -51,14 +51,19 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
-fun AboutProfileScreen(navController: NavController) {
+fun AboutProfileScreen(
+    navController: NavController,
+    game: String,
+    tier: String,
+    gameCost: Int
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = BackgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        BackButton(navController = navController)
+        BackButton { navController.popBackStack() }
         Spacer(Modifier.height(60.dp))
         Title(stringResource(id = R.string.about_profile_title))
         Spacer(Modifier.height(60.dp))
@@ -74,9 +79,9 @@ fun AboutProfileScreen(navController: NavController) {
     ) {
         RegistrationButton(
             text = "등록",
-            navController = navController,
-            route = HomeScreens.PersonalProfileScreen.route
-        )
+        ){
+            navController.navigate(HomeScreens.PersonalProfileScreen.route)
+        }
     }
 }
 
