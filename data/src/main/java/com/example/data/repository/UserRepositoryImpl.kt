@@ -7,10 +7,14 @@ import com.example.data.di.IoDispatcher
 import com.example.data.mapper.toData
 import com.example.data.paging.UserPagingSource
 import com.example.data.service.UserService
+import com.example.domain.model.game.PlayingGameModel
 import com.example.domain.model.user.LoginModel
+import com.example.domain.model.user.ProfileUpdateModel
 import com.example.domain.model.user.SignUpModel
 import com.example.domain.model.user.UserModel
+import com.example.domain.model.user.UserResponse
 import com.example.domain.repository.UserRepository
+import com.skydoves.sandwich.ApiResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -45,4 +49,19 @@ class UserRepositoryImpl @Inject constructor(
             apiService.getProfile(uuid)
         }
 
+    override suspend fun updateProfile(
+        uuid: String,
+        profileUpdateModel: ProfileUpdateModel
+    ) =
+        withContext(defaultDispatcher){
+            apiService.updateProfile(uuid,profileUpdateModel)
+        }
+
+    override suspend fun addPlayingGame(
+        uuid: String,
+        playingGameModel: PlayingGameModel
+    ) =
+        withContext(defaultDispatcher){
+            apiService.addPlayingGames(playingGameModel.toData(uuid))
+        }
 }

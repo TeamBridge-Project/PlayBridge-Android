@@ -3,12 +3,10 @@ package com.example.presentation.main.registration.supportgame
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecase.GetGameUseCase
 import com.example.local.datastore.DataStoreManager
-import com.example.presentation.main.MainSideEffect
 import com.example.presentation.ui.common.UiStatus
+import com.example.presentation.util.gameHashMap
 import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -30,6 +28,9 @@ class SupportGameViewModel @Inject constructor(
 
     private fun getGameList() = intent {
         getGameUseCase().suspendOnSuccess {
+            data.result.forEach{
+                gameHashMap[it.name] = it.name
+            }
             reduce {
                 state.copy(
                     status = UiStatus.Success,

@@ -38,6 +38,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.ui.navigation.HomeScreens
@@ -47,16 +48,24 @@ import com.example.presentation.ui.theme.notosanskr
 import com.example.presentation.main.registration.common.BackButton
 import com.example.presentation.main.registration.common.RegistrationButton
 import com.example.presentation.main.registration.common.Title
+import com.example.presentation.util.gameHashMap
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun AboutProfileScreen(
+    viewModel: AboutProfileViewModel = hiltViewModel(),
     navController: NavController,
     game: String,
     tier: String,
     gameCost: Int
 ) {
+    val (imageUri, setImageUri) = remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val (selfIntroduction, setSelfIntroduction) = remember {
+        mutableStateOf("입력 해주세요")
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,9 +76,9 @@ fun AboutProfileScreen(
         Spacer(Modifier.height(60.dp))
         Title(stringResource(id = R.string.about_profile_title))
         Spacer(Modifier.height(60.dp))
-        ProfileSection()
+        ProfileSection(imageUri, setImageUri)
         Spacer(Modifier.height(55.dp))
-        SelfIntroductionSection()
+        SelfIntroductionSection(selfIntroduction, setSelfIntroduction)
     }
     Box(
         modifier = Modifier
@@ -79,21 +88,23 @@ fun AboutProfileScreen(
     ) {
         RegistrationButton(
             text = "등록",
-        ){
+        ) {
+            viewModel.addPlayingGame(game,tier,gameCost)
+            //viewModel.updateProfile(imageUri,selfIntroduction)
             navController.navigate(HomeScreens.PersonalProfileScreen.route)
         }
     }
 }
 
 @Composable
-internal fun ProfileSection() {
-    var imageUri by remember {
-        mutableStateOf<Uri?>(null)
-    }
+internal fun ProfileSection(
+    imageUri: Uri?,
+    setImageUri: (Uri?) -> Unit
+) {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        imageUri = uri
+        setImageUri(uri)
     }
 
     Row(
@@ -109,7 +120,7 @@ internal fun ProfileSection() {
                     .height(70.dp)
                     .clip(CircleShape)
                     .clickable { launcher.launch("image/*") },
-                imageModel = imageUri?.let { it },
+                imageModel = imageUri,
                 circularReveal = CircularReveal(duration = 250),
                 error = ImageBitmap.imageResource(id = R.drawable.profile_image)
             )
@@ -121,11 +132,10 @@ internal fun ProfileSection() {
 }
 
 @Composable
-internal fun SelfIntroductionSection() {
-    var (selfIntroduction, setSelfIntroduction) = remember {
-        mutableStateOf("입력 해주세요")
-    }
-
+internal fun SelfIntroductionSection(
+    selfIntroduction: String,
+    setSelfIntroduction: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .padding(start = 60.dp)
