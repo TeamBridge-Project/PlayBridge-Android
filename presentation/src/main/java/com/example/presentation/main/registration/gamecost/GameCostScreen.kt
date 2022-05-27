@@ -100,15 +100,13 @@ internal fun GameName(
 }
 
 @Composable
-internal fun CostInput(
-    gameCost: String,
-    setGameCost: (String) -> Unit,
-    keyboardController: SoftwareKeyboardController?
-) {
+internal fun CostInput(keyboardController: SoftwareKeyboardController?) {
+    var gameCost by remember { mutableStateOf(TextFieldValue("")) }
+    val context = LocalContext.current
+    val maxLength = 9
+
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 60.dp),
+        modifier = Modifier.padding(start = 60.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -119,19 +117,28 @@ internal fun CostInput(
             color = Color.White,
         )
 
-        Box {
+        Box(modifier = Modifier.padding(start = 5.dp)) {
             Column {
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     BasicTextField(
                         modifier = Modifier.width(180.dp),
                         value = gameCost,
-                        onValueChange = setGameCost,
+                        onValueChange = {
+                            if (it.text.length <= maxLength) {
+                                gameCost = it
+                            } else {
+                                Toast.makeText(context,"최대 9자리 까지 입력이 가능합니다.", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        },
                         maxLines = 1,
-                        textStyle = TextStyle(
+                        singleLine = true,
+                        textStyle = LocalTextStyle.current.copy(
                             fontFamily = notosanskr,
                             color = Color.White,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.End
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
