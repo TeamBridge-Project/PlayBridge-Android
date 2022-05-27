@@ -1,6 +1,8 @@
 package com.example.data.di
 
+import com.example.data.repository.GameRepositoryImpl
 import com.example.data.repository.UserRepositoryImpl
+import com.example.domain.repository.GameRepository
 import com.example.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -15,4 +17,9 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
+
+    @Binds
+    @Singleton
+    fun bindGameRepository(gameRepositoryImpl: GameRepositoryImpl): GameRepository
+
 }

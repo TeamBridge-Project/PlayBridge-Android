@@ -51,35 +51,44 @@ import com.example.presentation.main.registration.common.RegistrationButton
 import com.example.presentation.main.registration.common.Title
 
 @Composable
-fun GameCostScreen(navController: NavController) {
+fun GameCostScreen(
+    navController: NavController,
+    game: String,
+    tier: String,
+) {
+    val (gameCost, setGameCost) = remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = BackgroundColor),
     ) {
-        BackButton(navController = navController)
-
+        BackButton { navController.popBackStack() }
         Spacer(Modifier.height(60.dp))
-
         Title(stringResource(id = R.string.game_cost_title))
-
         Spacer(Modifier.height(100.dp))
-
-        GameName(selectedGameName = "리그오브레전드")
-
+        GameName(selectedGameName = game)
         Spacer(Modifier.height(60.dp))
-
-        CostInput(keyboardController = keyboardController)
-
-        Spacer(Modifier.height(300.dp))
-
+        CostInput(
+            gameCost = gameCost,
+            setGameCost = setGameCost,
+            keyboardController = keyboardController,
+        )
         Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 60.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
-            RegistrationButton("다음", navController, HomeScreens.AboutProfileScreen.route)
+            RegistrationButton("다음") {
+                navController.navigate(
+                    HomeScreens.AboutProfileScreen.getDestination(
+                        game,
+                        tier,
+                        gameCost.toInt()
+                    )
+                )
+            }
         }
     }
 }
@@ -107,8 +116,11 @@ internal fun GameName(
 }
 
 @Composable
-internal fun CostInput(keyboardController: SoftwareKeyboardController?) {
-    var gameCost by remember { mutableStateOf(TextFieldValue("")) }
+internal fun CostInput(
+    gameCost: String,
+    setGameCost: (String) -> Unit,
+    keyboardController: SoftwareKeyboardController?
+) {
     val context = LocalContext.current
     val maxLength = 9
 
@@ -131,10 +143,10 @@ internal fun CostInput(keyboardController: SoftwareKeyboardController?) {
                         modifier = Modifier.width(180.dp),
                         value = gameCost,
                         onValueChange = {
-                            if (it.text.length <= maxLength) {
-                                gameCost = it
+                            if (it.length <= maxLength) {
+                                setGameCost(it)
                             } else {
-                                Toast.makeText(context,"최대 9자리 까지 입력이 가능합니다.", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, "최대 9자리 까지 입력이 가능합니다.", Toast.LENGTH_SHORT)
                                     .show()
                             }
                         },
@@ -167,7 +179,9 @@ internal fun CostInput(keyboardController: SoftwareKeyboardController?) {
                 }
 
                 Divider(
-                    modifier = Modifier.width(200.dp).height(3.dp),
+                    modifier = Modifier
+                        .width(200.dp)
+                        .height(3.dp),
                     color = Color.White
                 )
             }

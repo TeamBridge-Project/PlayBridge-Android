@@ -19,3 +19,5 @@ fun String.toDate(): Date {
     val formatter = SimpleDateFormat("yyyy-MM-dd")
     return formatter.parse(this)
 }
+
+val gameHashMap = HashMap<String,String>()

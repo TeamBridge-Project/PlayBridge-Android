@@ -1,4 +1,6 @@
-package com.example.domain.model
+package com.example.domain.model.user
+
+import com.example.domain.model.ErrorModel
 
 data class AuthResponse(
     val result: List<AuthModel>,

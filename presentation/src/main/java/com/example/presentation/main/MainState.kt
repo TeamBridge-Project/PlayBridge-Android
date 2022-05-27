@@ -1,12 +1,13 @@
 package com.example.presentation.main
 
 import androidx.paging.PagingData
-import com.example.domain.model.UserModel
+import com.example.domain.model.user.UserModel
+import com.example.presentation.ui.common.UiStatus
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
-sealed class MainState{
-    object Empty : MainState()
-    object Loading : MainState()
-    data class ItemLoaded(val users : Flow<PagingData<UserModel>>) : MainState()
-}
-
+data class MainState(
+    val status: UiStatus? = null,
+    val userPagingData: Flow<PagingData<UserModel>> = emptyFlow(),
+    val profile: UserModel? = null
+)

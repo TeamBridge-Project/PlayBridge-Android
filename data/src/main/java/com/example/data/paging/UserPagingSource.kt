@@ -3,7 +3,7 @@ package com.example.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.service.UserService
-import com.example.domain.model.UserModel
+import com.example.domain.model.user.UserModel
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject

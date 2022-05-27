@@ -1,8 +1,8 @@
 package com.example.data.mapper
 import com.example.data.dto.requestbody.LoginRequestBody
 import com.example.data.dto.requestbody.SignUpRequestBody
-import com.example.domain.model.LoginModel
-import com.example.domain.model.SignUpModel
+import com.example.domain.model.user.LoginModel
+import com.example.domain.model.user.SignUpModel
 
 fun SignUpModel.toData(): SignUpRequestBody = SignUpRequestBody(
     email = email,

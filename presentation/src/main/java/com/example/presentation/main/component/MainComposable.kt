@@ -46,7 +46,11 @@ import com.skydoves.landscapist.coil.CoilImage
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun TopBar(navController: NavController) {
+internal fun TopBar(
+    navController: NavController,
+    nickname: String,
+    credit: String,
+) {
     Row(
         modifier = Modifier
             .padding(start = 40.dp, end = 20.dp),
@@ -69,14 +73,14 @@ internal fun TopBar(navController: NavController) {
             modifier = Modifier.weight(1f),
             horizontalArrangement = Arrangement.Start
         ) {
-            Text(text = "OOO님", color = Color.White)
+            Text(text = nickname, color = Color.White)
         }
         Row(
             Modifier.weight(1f),
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "C  3000", color = Color.White, textAlign = TextAlign.Right)
+            Text(text = "C  ${credit}", color = Color.White, textAlign = TextAlign.Right)
             CoilImage(
                 modifier = Modifier
                     .width(50.dp)
@@ -95,7 +99,6 @@ internal fun TopBar(navController: NavController) {
 
 @Composable
 internal fun FunctionSelectBar(
-    navController: NavController,
     viewModel: MainViewModel
 ) {
     val tabData = listOf(
@@ -140,9 +143,7 @@ internal fun FunctionSelectBar(
             Spacer(Modifier.width(60.dp))
             FloatingActionButton(
                 onClick = {
-                    scope.launch {
-                        navController.navigate(HomeScreens.SupportGameRegistrationScreen.route)
-                    }
+                    viewModel.onRegister()
                 },
                 modifier = Modifier
                     .width(80.dp)

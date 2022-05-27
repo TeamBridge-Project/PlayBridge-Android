@@ -40,10 +40,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.domain.model.UserModel
+import com.example.domain.model.user.UserModel
 import com.example.presentation.R
-import com.example.presentation.main.MainState
 import com.example.presentation.main.MainViewModel
+import com.example.presentation.ui.common.UiStatus
 import com.example.presentation.main.common.DrawDot
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.ConnectingDotColor
@@ -120,9 +120,9 @@ internal fun ProfileBody(viewModel: MainViewModel) {
                 .weight(1f)
                 .fillMaxWidth(),
         ) {
-            when (state) {
-                is MainState.ItemLoaded -> {
-                    val items = (state as MainState.ItemLoaded).users.collectAsLazyPagingItems()
+            when (state.status) {
+                UiStatus.Success -> {
+                    val items = state.userPagingData.collectAsLazyPagingItems()
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         userScrollEnabled = false
@@ -133,7 +133,9 @@ internal fun ProfileBody(viewModel: MainViewModel) {
                     }
                 }
                 else -> {
-                    CircularProgressIndicator()
+                    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+                        CircularProgressIndicator()
+                    }
                 }
             }
         }

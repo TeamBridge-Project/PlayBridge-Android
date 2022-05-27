@@ -1,10 +1,7 @@
-package com.example.presentation.main
+package com.example.presentation.main.personalprofile
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
 import com.example.domain.usecase.GetProfileUseCase
-import com.example.domain.usecase.GetUserUseCase
 import com.example.local.datastore.DataStoreManager
 import com.example.presentation.ui.common.UiStatus
 import com.skydoves.sandwich.suspendOnSuccess
@@ -13,34 +10,21 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val getUserUseCase: GetUserUseCase,
+class PersonalProfileViewModel @Inject constructor(
     private val getProfileUseCase: GetProfileUseCase,
-    private val dataStore: DataStoreManager
-) : ViewModel(), ContainerHost<MainState, MainSideEffect> {
+    private val dataStore: DataStoreManager,
+) : ViewModel(), ContainerHost<PersonalProfileState,PersonalProfileSideEffect> {
 
-    override val container = container<MainState, MainSideEffect>(MainState())
+    override val container = container<PersonalProfileState, PersonalProfileSideEffect>(PersonalProfileState())
 
     init{
         getUserProfile()
-    }
-
-    fun getUserList(page: Int) = intent {
-        reduce { state.copy(status = UiStatus.Loading) }
-        getUserUseCase(page).onSuccess {
-            reduce {
-                state.copy(
-                    status = UiStatus.Success,
-                    userPagingData = it.cachedIn(viewModelScope)
-                )
-            }
-        }
     }
 
     private fun getUserProfile() = intent {
@@ -58,11 +42,4 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun onRegister() = intent{
-        val uuid = runBlocking {
-            dataStore.uuid.first()
-        }
-        postSideEffect(MainSideEffect.NavigateToRegistration(uuid))
-        reduce { state.copy(status = UiStatus.Success) }
-    }
 }

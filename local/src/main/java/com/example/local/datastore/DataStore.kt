@@ -21,6 +21,7 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
 
     private val accessTokenKey = stringPreferencesKey("access_token")
     private val refreshTokenKey = stringPreferencesKey("refresh_token")
+    private val uuidKey = stringPreferencesKey("uuid")
 
     suspend fun setAccessToken(accessToken: String) {
         tokensDataStore.edit { preferences ->
@@ -31,6 +32,12 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
     suspend fun setRefreshToken(refreshToken: String) {
         tokensDataStore.edit { preferences ->
             preferences[refreshTokenKey] = refreshToken
+        }
+    }
+
+    suspend fun setUuid(uuid: String) {
+        tokensDataStore.edit { preferences ->
+            preferences[uuidKey] = uuid
         }
     }
 
@@ -55,5 +62,17 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
         }
         .map { preferences ->
             preferences[refreshTokenKey] ?: ""
+        }
+
+    val uuid = tokensDataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }
+        .map { preferences ->
+            preferences[uuidKey] ?: ""
         }
 }

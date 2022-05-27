@@ -22,19 +22,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.presentation.R
 import com.example.presentation.ui.theme.ProfileEditingColor
 import com.example.presentation.ui.theme.notosanskr
 
 @Composable
-internal fun BackButton(navController: NavController) {
+internal fun BackButton(onBackPressed: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
     ) {
         IconButton(
-            onClick = { navController.popBackStack() },
+            onClick = { onBackPressed() },
             modifier = Modifier.padding(top = 15.dp, start = 15.dp)
         ) {
             Image(
@@ -47,7 +46,10 @@ internal fun BackButton(navController: NavController) {
 
 @Composable
 internal fun Title(text: String) {
-    Row(Modifier.fillMaxWidth().padding(start = 60.dp)) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(start = 60.dp)) {
         Text(
             text = text,
             fontSize = 35.sp,
@@ -61,11 +63,10 @@ internal fun Title(text: String) {
 @Composable
 internal fun RegistrationButton(
     text: String,
-    navController: NavController,
-    route: String
+    movePage: () -> Unit
 ) {
     Button(
-        onClick = { navController.navigate(route = route) },
+        onClick = { movePage() },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = ProfileEditingColor
         ),

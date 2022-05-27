@@ -1,16 +1,11 @@
 package com.example.presentation.start
 
-import android.app.Activity
-import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.common.LoginValidator
-import com.example.domain.model.LoginModel
+import com.example.domain.model.user.LoginModel
 import com.example.domain.usecase.LoginUseCase
 import com.example.local.datastore.DataStoreManager
-import com.example.presentation.main.MainActivity
-import com.example.presentation.signup.SignUpActivity
 import com.example.presentation.util.sha256
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.suspendOnSuccess
@@ -43,9 +38,9 @@ class StartViewModel @Inject constructor(
                     val accessToken = headers["X-Access-Token"]!!
                     val refreshToken = headers["X-Refresh-Token"]!!
                     val uuid = data.result[0].uuid
-                    Log.d("uuid", uuid)
                     dataStore.setAccessToken(accessToken)
                     dataStore.setRefreshToken(refreshToken)
+                    dataStore.setUuid(uuid)
                     _uiState.value = StartState.Success
                 }.onFailure {
                     _uiState.value = StartState.LoginNeeded
