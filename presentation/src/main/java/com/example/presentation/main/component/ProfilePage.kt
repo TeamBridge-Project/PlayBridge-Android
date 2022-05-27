@@ -2,7 +2,6 @@
 
 package com.example.presentation.main.component
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,6 +44,7 @@ import com.example.domain.model.user.UserModel
 import com.example.presentation.R
 import com.example.presentation.main.MainViewModel
 import com.example.presentation.ui.common.UiStatus
+import com.example.presentation.main.common.DrawDot
 import com.example.presentation.ui.theme.ComponentInnerColor
 import com.example.presentation.ui.theme.ConnectingDotColor
 import com.example.presentation.ui.theme.MaleBadgeColor
@@ -239,17 +239,6 @@ internal fun ProfileCard(user: UserModel) {
             }
         }
     }
-}
-
-@Composable
-internal fun DrawDot(dotSize: Int, color: Color) {
-    Canvas(modifier = Modifier.size(dotSize.dp), onDraw = {
-        val size = dotSize.dp.toPx()
-        drawCircle(
-            color = color,
-            radius = size / 2f
-        )
-    })
 }
 
 @Composable
