@@ -1,9 +1,3 @@
-### 🔗Link
-
-**Source**
-
-[TeamBridge-Project](https://github.com/TeamBridge-Project)
-
 ## 📖 상세 내용
 
 ![image](https://user-images.githubusercontent.com/70064912/173281266-f643fe1f-50b0-400c-a937-3fdeb5ca9509.png)
